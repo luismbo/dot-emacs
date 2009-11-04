@@ -1,0 +1,378 @@
+;;;; Dot Emacs, Luís Oliveira <luis@r42.eu>
+
+;;; Figuring out which system we're in.
+;;; We might be running on MacOSX but using X11.
+(defvar darwin-p (string-match "darwin" (symbol-name system-type)))
+(defvar x11-p (eq window-system 'x))
+(defvar mac-p (or (eq window-system 'ns) (eq window-system 'mac)))
+(defvar olpc-p (string-match "olpc" (user-login-name)))
+(defvar siscog-p (string-match "luismbo" (user-login-name)))
+
+(require 'cl)
+
+;;;; Editing Stuff
+
+(setq-default indent-tabs-mode nil) ; DIE TABS!!
+(set-language-environment "UTF-8")
+(global-font-lock-mode t)
+(show-paren-mode t)
+(transient-mark-mode t)
+
+(when mac-p
+  (setq browse-url-browser-function
+        (lambda (url &optional new-window)
+          (message url)
+          (do-applescript (concat "open location \"" url "\"")))))
+
+(defun toggle-show-trailing-whitespace ()
+  (interactive)
+  (setq show-trailing-whitespace
+        (not show-trailing-whitespace)))
+
+;;;; Fonts
+
+(when mac-p
+  ;(setq mac-allow-anti-aliasing nil)
+  (setq mac-option-key-is-meta nil)
+  (setq mac-command-key-is-meta t)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier nil))
+
+(let ((font (cond
+              (mac-p "Menlo-11")
+              (olpc-p "Monospace-7")
+              (siscog-p "Consolas-11")
+              (siscog-p "DejaVu Sans Mono-10")
+              ((> emacs-major-version 22) "Monospace-9")
+              (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*"))))
+  (set-default-font font)
+  (add-to-list 'default-frame-alist (cons 'font font)))
+
+;;;; Load Path
+
+(add-to-list 'load-path "~/.emacs.d/")
+
+;;;; C
+
+(defun my-c-mode ()
+  (c-set-style "K&R")
+  (setq c-basic-offset 4
+        indent-tabs-mode nil))
+
+(add-hook 'c-mode-hook 'my-c-mode)
+(add-hook 'c++-mode-hook 'my-c-mode)
+
+;;;; Java
+
+(add-hook 'java-mode-hook (lambda () (setq c-basic-offset 2)))
+
+;;;; Python
+
+;(add-to-list 'load-path "~/.emacs.d/python-mode/")
+;(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+;(setq interpreter-mode-alist (cons '("python" . python-mode)
+;                             interpreter-mode-alist))
+;(autoload 'python-mode "python-mode" "Python editing mode." t)
+
+;;;; Factor
+
+(unless (or olpc-p siscog-p)
+  (load-file "~/Software/factor/misc/fuel/fu.el"))
+
+;;;; Common Lisp
+
+(unless siscog-p
+  (load "~/.emacs.d/my-slime-config.el"))
+
+(put 'package 'safe-local-variable 'symbolp)
+(put 'Package 'safe-local-variable 'symbolp)
+(put 'syntax 'safe-local-variable 'symbolp)
+(put 'Syntax 'safe-local-variable 'symbolp)
+(put 'Base 'safe-local-variable 'integerp)
+(put 'base 'safe-local-variable 'integerp)
+
+(add-hook 'lisp-mode-hook (lambda () (setq show-trailing-whitespace t)))
+
+;;;; Paredit
+
+(autoload 'paredit-mode "paredit"
+  "Minor mode for pseudo-structurally editing Lisp code."
+  t)
+
+(add-hook 'lisp-mode-hook (lambda () (paredit-mode +1)))
+
+(eval-after-load 'paredit
+  '(progn
+     (define-key paredit-mode-map (kbd "RET") nil)
+     (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)))
+
+;;;; Light-grey Parentheses
+
+(when window-system
+  (require 'parenface))
+
+;;;; Pretty Greek Alphabet
+
+(defun pretty-greek ()
+  (let ((greek '("alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta"
+                 "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron"
+                 "pi" "rho" "sigma_final" "sigma" "tau" "upsilon" "phi"
+                 "chi" "psi" "omega")))
+    (loop for word in greek
+          for code = 97 then (+ 1 code)
+          do  (let ((greek-char (make-char 'greek-iso8859-7 code)))
+                (font-lock-add-keywords
+                 nil
+                 `((,(concat "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[a-zA-Z]")
+                     (0 (progn
+                          (decompose-region (match-beginning 2) (match-end 2))
+                          nil)))))
+                (font-lock-add-keywords
+                 nil
+                 `((,(concat "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[^a-zA-Z]")
+                     (0 (progn
+                          (compose-region (match-beginning 2) (match-end 2)
+                                          ,greek-char)
+                          nil)))))))))
+
+;; (add-hook 'lisp-mode-hook 'pretty-greek)
+
+;;;; Window number mode
+
+(load "~/.emacs.d/wn-mode.el")
+(wn-mode)
+
+;;;; ERC
+
+;;(add-to-list 'load-path "~/.emacs.d/erc-5.0.4/")
+(autoload 'erc-select "erc" "IRC client." t)
+
+(eval-after-load "erc"
+  '(progn
+    (require 'erc-services)
+    (erc-services-mode 1)
+    (setq erc-prompt-for-nickserv-password nil)
+    ;; ~/.emacs.d/ercpass.el contains something like:
+    ;;
+    ;;    (setq erc-nickserv-passwords
+    ;;          '((freenode (("luis" . "pass1")
+    ;;                       ("luis`" . "pass2")))))
+    (load "~/.emacs.d/ercpass.el")
+    (erc-scrolltobottom-enable)
+    (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))))
+
+(defun erc-connect-freenode ()
+  (interactive)
+  (erc-select :server "irc.freenode.net"
+              :full-name "Luis Oliveira"
+              :port 6667
+              :nick "luis"))
+
+;;;; Utilities
+
+(defun max-frame ()
+  (interactive)
+  (set-frame-position (selected-frame) 0 0)
+  (cond (mac-p (set-frame-size (selected-frame) 210 58))
+        ((and darwin-p x11-p) (set-frame-size (selected-frame) 199 69))))
+
+(global-set-key (kbd "C-c m") 'max-frame)
+
+(defun split-frame-in-3 ()
+  (interactive)
+  (split-window-horizontally)
+  (wn-select-nth 1)
+  (split-window-vertically)
+  (enlarge-window 15)
+  (wn-select-nth 2))
+
+(global-set-key (kbd "C-c f") 'split-frame-in-3)
+
+;;;; Look and Feel
+
+(column-number-mode t)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+
+(unless mac-p
+  (menu-bar-mode nil))
+
+(setq default-indicate-empty-lines t)
+
+;(invert-face 'default)
+(setq ring-bell-function 'ignore)
+
+(cond
+  ((or darwin-p siscog-p) (load "~/.emacs.d/color-theme.el"))
+  ((not olpc-p) (require 'color-theme)))
+
+;;(funcall (car (nth 5 color-themes)))
+;;(funcall (car (nth 86 color-themes)))
+;;(funcall (car (nth 4 color-themes)))
+
+(when (and (not olpc-p) window-system)
+  (if (or mac-p siscog-p)
+      (color-theme-dark-laptop)
+      (color-theme-robin-hood)))
+
+;;;; Enable disabled functions
+
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+;;;; Keybindings
+
+(defun lisp-keys ()
+  (interactive)
+  (keyboard-translate ?\( ?\[)
+  (keyboard-translate ?\[ ?\()
+  (keyboard-translate ?\) ?\])
+  (keyboard-translate ?\] ?\)))
+
+(defun normal-keys ()
+  (interactive)
+  (keyboard-translate ?\( ?\()
+  (keyboard-translate ?\[ ?\[)
+  (keyboard-translate ?\) ?\))
+  (keyboard-translate ?\] ?\]))
+
+(global-set-key [mouse-4] 'scroll-down)
+(global-set-key [mouse-5] 'scroll-up)
+
+(global-set-key (kbd "C-c l") 'goto-line)
+(global-set-key (kbd "C-DEL") 'join-line)
+(global-set-key (kbd "C-<backspace>") 'join-line)
+
+(when siscog-p
+  (global-set-key (kbd "M-DEL") 'backward-kill-word))
+
+;;;; Haskell
+
+(when mac-p
+  (add-to-list 'load-path "~/.emacs.d/haskell-mode/"))
+
+(add-hook 'haskell-mode-hook
+          (lambda ()
+            (require 'inf-haskell)
+            (setq haskell-program-name "/opt/local/bin/ghci")))
+
+;;;; Clojure
+
+;(add-to-list 'load-path "~/source/clojure-mode")
+;(require 'clojure-auto)
+;(require 'clojure-paredit)
+
+;(add-to-list 'load-path "~/source/clojure-swank")
+;(setq swank-clojure-binary "~/source/clojure-extra/sh-script/clojure")
+;(require 'swank-clojure-autoload)
+
+;; (defun clojure ()
+;;   (interactive)
+;;   (require 'swank-clojure)
+;;   (add-to-list 'slime-lisp-implementations
+;;                `(clojure ,(swank-clojure-cmd) :init swank-clojure-init) t)
+;;   (add-hook 'slime-indentation-update-hooks 'swank-clojure-update-indentation)
+;;   (add-hook 'slime-repl-mode-hook 'swank-clojure-slime-repl-modify-syntax t)
+;;   (add-hook 'clojure-mode-hook 'swank-clojure-slime-mode-hook t)
+;;   (slime 'clojure))
+
+;;;; Org Mode
+
+(add-to-list 'load-path "~/.emacs.d/org-mode/lisp/")
+(require 'org-install)
+
+(setq org-hide-leading-stars t)
+(setq org-odd-levels-only t)
+
+(eval-after-load 'org-mode
+  '(set-face-foreground 'org-hide "black"))
+
+;(custom-set-faces
+; '(org-hide ((((background dark)) (:foreground "black"))))) ; "#304020"
+
+(setq org-agenda-files
+      (if siscog-p
+          '("w:/org/WORK.org")
+          '("~/Dropbox/Documents/org/LIFE.org")))
+
+;; Add new TODO states: WAITING and CANCELLED.
+;;
+;; C-c C-t followed by the key in parenthesis picks the respective
+;; state.  S-<Right> and S-<Left> cycle through all of these states.
+(setq org-todo-keywords
+      '(;(sequence "TODO(t)" "|" "DONE(d)")
+        (sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")
+        (sequence "|" "CANCELLED(c)")))
+
+;; Give WAITING and CANCELLED some color.
+(setq org-todo-keyword-faces
+      '(("CANCELLED" . shadow)
+        ("WAITING" . (:foreground "orange"))))
+
+;; The default was '(closed clock), show state changes as well.
+(setq org-agenda-log-mode-items '(closed clock state))
+
+(global-set-key (kbd "C-c o a") 'org-agenda-list)
+(global-set-key (kbd "C-c o t") 'org-todo-list)
+
+(defun my-open-first-agenda-file ()
+  (interactive)
+  (find-file (first org-agenda-files)))
+
+(global-set-key (kbd "C-c o o") 'my-open-first-agenda-file)
+
+;; iCal stuff, figure out later.
+(setq org-icalendar-include-todo t)
+(setq org-icalendar-use-scheduled '(todo-due event-if-todo event-if-not-todo))
+(setq org-icalendar-use-deadline '(event-if-not-todo event-if-todo todo-due))
+
+(setq org-icalendar-timezone "Europe/Lisbon")
+
+(when mac-p
+  (defun my-applescript-isync ()
+    (interactive)
+    ;; (do-applescript "run script \"/Users/luis/Documents/sync.scpt\"")
+    (start-process-shell-command "sync" nil "osascript ~/Documents/sync.scpt"))
+
+  (global-set-key (kbd "C-c o s") 'my-applescript-isync))
+
+(defun my-sort-of-utf8-to-ascii (in out)
+  (with-temp-file out
+    (insert-file-contents in)
+    (dolist (pair '(("[ãáâà]" . "a") ("[ẽéêè]" . "e") ("[ĩíîì]" . "i")
+                    ("[õóôì]" . "o") ("[ũúûì]" . "u") ("ç" . "c")
+                    ("ĵ" . "jx") ("ĥ" . "hx") ("ŝ" . "sx") ("ĝ" . "gx")
+                    ("ĉ" . "cx") ("ŭ" . "ux")))
+      (save-excursion (replace-regexp (car pair) (cdr pair))))))
+
+(unless siscog-p
+  (defun my-org-mode-after-save-hook ()
+    (when (and (eq major-mode 'org-mode))
+      (cond
+        ((string-match ".*LIFE.org" (buffer-file-name))
+         (org-export-icalendar-this-file)
+         (my-sort-of-utf8-to-ascii "~/Dropbox/Public/agenda.ics"
+                                   "~/Dropbox/Public/g-agenda.ics"))
+        ((string-match ".*WORK.org" (buffer-file-name))
+         (org-export-icalendar-this-file)
+         (my-sort-of-utf8-to-ascii "~/Dropbox/Public/siscog.ics"
+                                   "~/Dropbox/Public/g-siscog.ics")))))
+
+  (add-hook 'after-save-hook 'my-org-mode-after-save-hook))
+
+;;;; Ledger
+
+(autoload 'ledger-mode "ledger" "Ledger mode." t)
+
+(when mac-p
+  (eval-after-load 'ledger
+    '(setq ledger-binary-path "/opt/local/bin/ledger")))
+
+;;;; The End
+
+(when siscog-p
+  (load "my-siscog-config.el"))
+
+(setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
+
+(random t)
