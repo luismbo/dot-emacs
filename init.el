@@ -211,7 +211,7 @@
 ;;(funcall (car (nth 4 color-themes)))
 
 (when (and (not olpc-p) window-system)
-  (if (or mac-p siscog-p)
+  (if mac-p
       (color-theme-dark-laptop)
       (color-theme-robin-hood)))
 
@@ -368,11 +368,86 @@
   (eval-after-load 'ledger
     '(setq ledger-binary-path "/opt/local/bin/ledger")))
 
+;;;; w3m
+
+(add-to-list 'load-path "~/.emacs.d/emacs-w3m/")
+(require 'w3m-load)
+
+(when siscog-p
+  (add-to-list 'exec-path "d:/cygwin/bin/")
+  (setq w3m-home-page "http://intranet"))
+
+;(setq w3m-use-cookies t)
+
+(global-set-key (kbd "C-c g") 'w3m-search) ; google search
+
+(defun my-dictionary-lookup (word)
+  (interactive "sProcurar palavra no dicionário: ")
+  (w3m-browse-url
+   (concat "http://www.priberam.pt/DLPO/default.aspx?pal="
+           (url-hexify-string word))
+   t))
+
+(global-set-key (kbd "C-c d") 'my-dictionary-lookup)
+
+;;;; jabber.el
+
+(add-to-list 'load-path "~/.emacs.d/emacs-jabber/")
+
+(require 'jabber-autoloads)
+
+(eval-after-load 'jabber
+  '(progn
+    (set-face-foreground 'jabber-chat-prompt-local "OrangeRed4")
+    (set-face-foreground 'jabber-chat-text-local "OrangeRed1")
+    (set-face-foreground 'jabber-chat-prompt-foreign "orange1")
+    (set-face-foreground 'jabber-roster-user-online "LimeGreen")
+    (set-face-foreground 'jabber-roster-user-away "YellowGreen")
+    (set-face-foreground 'jabber-roster-user-dnd "IndianRed")
+    (setq jabber-vcard-avatars-retrieve nil)
+    (setq jabber-chat-local-prompt-format "[%t] Luís> ")
+    (setq jabber-roster-show-title nil)
+    (setq jabber-roster-show-bindings nil)
+    (setq jabber-show-resources nil)
+    (setq jabber-sort-order nil)
+    (setq jabber-default-status "Siscog")
+    (setq jabber-default-show "dnd")
+    (setq jabber-alert-message-hooks '(jabber-message-scroll))
+    (add-hook 'jabber-roster-mode-hook
+              (lambda () (setq truncate-lines t)))))
+
+(defun gtalk ()
+  (interactive)
+  (let ((jabber-account-list
+         '(("luismbo@gmail.com"
+            (:password . nil)
+            (:network-server . "talk.google.com")
+            (:port . 443)
+            (:connection-type . ssl)))))
+    (jabber-connect-all)))
+
+;;;; Input Methods
+
+;; Default setting for C-\
+(setq default-input-method 'portuguese-prefix)
+
+(global-set-key (kbd "C-c k p")
+                (lambda () (interactive) (set-input-method 'portuguese-prefix)))
+
+(global-set-key (kbd "C-c k e")
+                (lambda () (interactive) (set-input-method 'esperanto-postfix)))
+
+(global-set-key (kbd "C-c k l")
+                (lambda () (interactive) (set-input-method 'TeX)))
+
 ;;;; The End
 
 (when siscog-p
-  (load "my-siscog-config.el"))
+  (load "my-siscog-config.el")
+  (display-time))
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
+
+(ido-mode)
 
 (random t)
