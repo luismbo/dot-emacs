@@ -285,10 +285,7 @@
 (setq org-odd-levels-only t)
 
 (eval-after-load 'org-mode
-  '(set-face-foreground 'org-hide "black"))
-
-;(custom-set-faces
-; '(org-hide ((((background dark)) (:foreground "black"))))) ; "#304020"
+  '(set-face-foreground 'org-hide (face-background 'default)))
 
 (setq org-agenda-files
       (if siscog-p
