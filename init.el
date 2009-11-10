@@ -451,6 +451,7 @@
 
 (when siscog-p
   (load "my-siscog-config.el")
+  (setq display-time-format "-%H:%M-")
   (display-time))
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
