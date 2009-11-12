@@ -397,8 +397,13 @@
   `(progn
      ;; Faces
      (set-face-foreground 'jabber-chat-prompt-local "OrangeRed4")
-     (set-face-foreground 'jabber-chat-text-local "OrangeRed1")
-     (set-face-foreground 'jabber-chat-prompt-foreign "orange1")
+     (cond (siscog-p
+            (set-face-foreground 'jabber-chat-text-local "OrangeRed4")
+            (set-face-foreground 'jabber-chat-prompt-foreign "OrangeRed3")
+            (set-face-foreground 'jabber-chat-text-foreign "OrangeRed3"))
+           (t
+            (set-face-foreground 'jabber-chat-text-local "OrangeRed1")
+            (set-face-foreground 'jabber-chat-prompt-foreign "orange1")))
      (set-face-foreground 'jabber-roster-user-online "LimeGreen")
      (set-face-foreground 'jabber-roster-user-away "YellowGreen")
      (set-face-foreground 'jabber-roster-user-dnd "IndianRed")
