@@ -142,3 +142,21 @@ THING can be a symbol, an fspec, or their string representation."
             (hs-hide-all-comments)))
 
 (define-key lisp-mode-shared-map (kbd "<backtab>") 'hs-toggle-hiding)
+
+;;;; Pretty Inner Dots
+
+(defun pretty-inner-dots ()
+  (font-lock-add-keywords
+   nil
+   '(("[a-zA-Z0-9]\\(\\.\\)[ \n\r\t]"
+      (0 (progn
+           (decompose-region (match-beginning 1) (match-end 1))
+           nil)))))
+  (font-lock-add-keywords
+   nil
+   '(("[a-zA-Z0-9]\\(\\.\\)[^ \n\r\t]"
+      (0 (progn
+           (compose-region (match-beginning 1) (match-end 1) ?·)
+           nil))))))
+
+(add-hook 'lisp-mode-hook 'pretty-inner-dots)
