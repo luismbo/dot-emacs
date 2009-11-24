@@ -48,14 +48,15 @@
      (slime-start :program ,lisp ,@(when args (list :program-args args))
                   :coding-system (or ',coding-system 'utf-8-unix))))
 
-(defslime-start allegro "~/Software/bin/alisp")
-(defslime-start clisp "~/Software/bin/clisp" utf-8-unix '("-I" "-K" "full"))
-(defslime-start cmucl "~/Software/bin/lisp" iso-latin-1-unix)
-(defslime-start ccl "~/Software/bin/ccl" iso-latin-1-unix)
-(defslime-start sbcl "~/Software/sbcl.sh")
-(defslime-start ecl "~/Software/bin/ecl" iso-latin-1-unix)
-(defslime-start lw "~/Software/bin/lw")
-(defslime-start abcl "~/sources/abcl/abcl" iso-latin-1-unix)
+(unless siscog-p
+  (defslime-start allegro "~/Software/bin/alisp")
+  (defslime-start clisp "~/Software/bin/clisp" utf-8-unix '("-I" "-K" "full"))
+  (defslime-start cmucl "~/Software/bin/lisp" iso-latin-1-unix)
+  (defslime-start ccl "~/Software/bin/ccl" iso-latin-1-unix)
+  (defslime-start sbcl "~/Software/sbcl.sh")
+  (defslime-start ecl "~/Software/bin/ecl" iso-latin-1-unix)
+  (defslime-start lw "~/Software/bin/lw")
+  (defslime-start abcl "~/sources/abcl/abcl" iso-latin-1-unix))
 
 (defmacro defslime-connect (name host port)
   `(defun ,name ()
