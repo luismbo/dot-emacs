@@ -421,7 +421,10 @@
      ;; Chat Options
      (add-hook 'jabber-roster-mode-hook (lambda () (setq truncate-lines t)))
      (setq jabber-chat-local-prompt-format "[%t] Luís> ")
-     (add-hook 'jabber-chat-mode-hook (lambda () (visual-line-mode t)))
+     (add-hook 'jabber-chat-mode-hook
+               (lambda ()
+                 (visual-line-mode t)
+                 (set-input-method 'portuguese-prefix)))
      ;; Misc Options
      (setq jabber-default-status "Siscog")
      (setq jabber-default-show "dnd")
