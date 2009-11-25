@@ -25,6 +25,9 @@
 
 ;;;; Replacing ELI with SLIME
 
+;;; ELI defines a common-lisp-mode that overrides lisp-mode and many
+;;; of its keybindings. We undo that before loading SLIME.
+
 (load "lisp-mode")
 
 (setq auto-mode-alist
@@ -38,24 +41,6 @@
 (add-to-list 'load-path "z:/src/slime/")
 (load "my-slime-config")
 
-;;;; Siscog Mode (WIP)
-
-(defvar siscog-mode nil)
-
-(defun siscog-mode ()
-  "Show dots as highlighted dashes."
-  (font-lock-add-keywords
-   nil
-   `(("\\(.\\)" ;"[a-zA-Z0-9]\\(.\\)[a-zA-Z0-9]"
-      (0 (progn
-           (decompose-region (match-beginning 1) (match-end 1))
-           nil)))))
-  (font-lock-add-keywords
-   nil
-   `(("\\(.\\)"
-      (0 (progn
-           (compose-region (match-beginning 1) (match-end 1) ?-)
-           nil))))))
 
 ;;;; Org Mode
 
@@ -141,6 +126,7 @@ THING can be a symbol, an fspec, or their string representation."
             (hs-minor-mode t)
             (hs-hide-all-comments)))
 
+;; Shift+TAB toggles block visibility.
 (define-key lisp-mode-shared-map (kbd "<backtab>") 'hs-toggle-hiding)
 
 ;;;; Pretty Inner Dots
