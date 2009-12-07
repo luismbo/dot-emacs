@@ -41,6 +41,11 @@
 (add-to-list 'load-path "z:/src/slime/")
 (load "my-slime-config")
 
+(defun smeliscog ()
+  (interactive)
+  (slime-connect "localhost" 4005))
+
+(global-set-key (kbd "<f12>") 'smeliscog)
 
 ;;;; Org Mode
 
