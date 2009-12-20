@@ -72,6 +72,10 @@
 
 (setq slime-save-buffers nil)
 
+;; Getting rid of the Fontifying *SLIME
+;; Compilation*... (regexps......) message.
+(setq font-lock-verbose nil)
+
 ;(setq slime-net-coding-system 'utf-8-unix)
 
 ;(define-key slime-mode-map (kbd "RET") 'newline-and-indent)
