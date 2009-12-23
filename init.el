@@ -212,7 +212,9 @@
 
 (when (and (not olpc-p) window-system)
   (if mac-p
-      (color-theme-dark-laptop)
+      (progn
+        (color-theme-dark-laptop)
+        (set-face-background 'default "grey10"))
       (color-theme-robin-hood)))
 
 ;;;; Enable disabled functions
