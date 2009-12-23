@@ -3,7 +3,8 @@
 (add-to-list 'load-path "~/clbuild/source/slime/")
 
 (require 'slime)
-(slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner))
+(slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
+               slime-hyperdoc))
 
 ;;(setq inferior-lisp-program "clisp -K full")
 ;;(setq inferior-lisp-program "~/Software/sbcl.sh")
