@@ -359,6 +359,11 @@
 
   (add-hook 'after-save-hook 'my-org-mode-after-save-hook))
 
+;;;; Magit
+
+(add-to-list 'load-path "~/.emacs.d/magit/")
+(autoload 'magit-status "magit" nil t)
+
 ;;;; Ledger
 
 (autoload 'ledger-mode "ledger" "Ledger mode." t)
