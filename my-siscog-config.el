@@ -134,6 +134,16 @@ THING can be a symbol, an fspec, or their string representation."
 ;; Shift+TAB toggles block visibility.
 (define-key lisp-mode-shared-map (kbd "<backtab>") 'hs-toggle-hiding)
 
+(defun hs-toggle-all-comments ()
+  (interactive)
+  (if hs-all-comments-hidden-p
+      (progn
+        (hs-show-all)
+        (setq hs-all-comments-hidden-p nil))
+      (hs-hide-all-comments)))
+
+(define-key lisp-mode-shared-map (kbd "<C-tab>") 'hs-toggle-all-comments)
+
 ;;;; Pretty Inner Dots
 
 (defun pretty-inner-dots ()
