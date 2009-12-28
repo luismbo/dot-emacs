@@ -87,3 +87,21 @@
 (global-set-key (kbd "C-c s") 'slime-selector)
 (global-set-key (kbd "C-c h") 'clhs-lookup)
 (global-set-key (kbd "C-c r") 'slime-pop-find-definition-stack)
+
+(when siscog-p
+  (defun slime-eol-conversion-fixup (n)
+    (if (and (string-equal "allegro" (slime-lisp-implementation-name
+                                      (slime-connection)))
+             (>= (car (read-from-string
+                       (slime-lisp-implementation-version (slime-connection))))
+                 8.1))
+        0
+        (case (coding-system-eol-type buffer-file-coding-system)
+          ((1) 
+             (save-excursion 
+               (do ((pos (+ (point) n))
+                    (count 0 (1+ count)))
+                   ((>= (point) pos) (1- count))
+                 (forward-line)
+                 (decf pos))))
+          (t 0)))))
