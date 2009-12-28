@@ -285,13 +285,15 @@
 
 (setq org-hide-leading-stars t)
 (setq org-odd-levels-only t)
+(setq org-agenda-start-with-log-mode t)
+(setq org-agenda-start-with-clockreport-mode t)
 
 (eval-after-load 'org-mode
   '(set-face-foreground 'org-hide (face-background 'default)))
 
 (setq org-agenda-files
       (if siscog-p
-          '("w:/org/WORK.org")
+          '("z:/org/WORK.org")
           '("~/Dropbox/Documents/org/LIFE.org")))
 
 ;; Add new TODO states: WAITING and CANCELLED.
@@ -301,12 +303,15 @@
 (setq org-todo-keywords
       '(;(sequence "TODO(t)" "|" "DONE(d)")
         (sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")
-        (sequence "|" "CANCELLED(c)")))
+        (sequence "|" "CANCELLED(c)")
+        (sequence "OPEN(o)" "WIP(i)" "SEP(s)" "|" "RESOLVED(r)")))
 
 ;; Give WAITING and CANCELLED some color.
 (setq org-todo-keyword-faces
       '(("CANCELLED" . shadow)
-        ("WAITING" . (:foreground "orange"))))
+        ("WAITING" . (:foreground "orange"))
+        ("WIP" . (:foreground "orange"))
+        ("SEP" . (:foreground "orange"))))
 
 ;; The default was '(closed clock), show state changes as well.
 (setq org-agenda-log-mode-items '(closed clock state))
