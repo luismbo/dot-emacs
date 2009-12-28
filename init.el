@@ -10,6 +10,17 @@
 
 (require 'cl)
 
+;;;; Load Path
+
+(add-to-list 'load-path "~/.emacs.d/")
+
+;;;; Siscog
+
+(when siscog-p
+  (load "~/.emacs.d/my-siscog-config.el")
+  (setq display-time-format "-%H:%M-")
+  (display-time))
+
 ;;;; Editing Stuff
 
 (setq-default indent-tabs-mode nil) ; DIE TABS!!
@@ -47,10 +58,6 @@
               (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*"))))
   (set-default-font font)
   (add-to-list 'default-frame-alist (cons 'font font)))
-
-;;;; Load Path
-
-(add-to-list 'load-path "~/.emacs.d/")
 
 ;;;; C
 
@@ -101,10 +108,10 @@
 
 (add-hook 'lisp-mode-hook (lambda () (paredit-mode +1)))
 
-(eval-after-load 'paredit
-  '(progn
-     (define-key paredit-mode-map (kbd "RET") nil)
-     (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)))
+;(eval-after-load 'paredit
+;  '(progn
+;     (define-key paredit-mode-map (kbd "RET") nil)
+;     (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)))
 
 ;;;; Light-grey Parentheses
 
@@ -468,11 +475,6 @@
                 (lambda () (interactive) (set-input-method 'TeX)))
 
 ;;;; The End
-
-(when siscog-p
-  (load "my-siscog-config.el")
-  (setq display-time-format "-%H:%M-")
-  (display-time))
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
 

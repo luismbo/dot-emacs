@@ -1,4 +1,24 @@
+;;;; -*- coding: utf-8 -*-
+
 ;;;; Siscog Stuff
+
+;(load (format "%s/custom/sc-before.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
+(load "~/.emacs.d/custom/sc-before.el")
+
+;; Tells SC-EMACS to use new SISCOG's ODBC names
+(defvar *new-odbc-names* t)
+
+;; Load SC-EMACS
+(load (format "%s/init.el" (getenv "SISCOG_EMACS_DIR")))
+
+;; Customise SC-EMACS
+;(load (format "%s/custom/sc-user-param.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
+(load "~/.emacs.d/custom/sc-user-param.el")
+
+;; Load other user specific customization.
+;(load (format "%s/custom/sc-after.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
+(load "~/.emacs.d/custom/sc-after.el")
+
 
 (setenv "PATH" (format "d:\\cygwin\\bin;d:\\cygwin\\usr\\bin;%s"
                        (getenv "PATH")))
@@ -93,9 +113,12 @@ THING can be a symbol, an fspec, or their string representation."
 
 ;;;; Hide Comments
 
+(defvar hs-all-comments-hidden-p nil)
+
 (defun hs-hide-all-comments ()
   "Adapted from `hs-hide-all'."
   (interactive)
+  (setq hs-all-comments-hidden-p t)
   (hs-life-goes-on
    (save-excursion
      (unless hs-allow-nesting
