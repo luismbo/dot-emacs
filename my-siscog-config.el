@@ -151,3 +151,7 @@ THING can be a symbol, an fspec, or their string representation."
            nil))))))
 
 (add-hook 'lisp-mode-hook 'pretty-inner-dots)
+
+;; enable tabs for Lisp code, for HR
+(add-hook 'lisp-mode-hook
+          (lambda () (setq indent-tabs-mode t)))
