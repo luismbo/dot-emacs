@@ -476,8 +476,6 @@
 
 ;;;; The End
 
-(setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
-
 (ido-mode)
 
 (random t)
