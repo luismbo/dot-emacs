@@ -187,4 +187,13 @@ THING can be a symbol, an fspec, or their string representation."
 
 ;; enable tabs for Lisp code, for HR
 (add-hook 'lisp-mode-hook
-          (lambda () (setq indent-tabs-mode t)))
+          (lambda ()
+            (setq indent-tabs-mode t)
+            (setq fill-column 80)))
+
+;;;; Hyperspec
+
+(setq common-lisp-hyperspec-root "http://intranet/TechDocs/Lisp/HyperSpec/")
+
+;; override global hyperspec.el
+(load "~/src/slime/hyperspec.el")
