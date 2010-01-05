@@ -8,6 +8,14 @@
 (defvar olpc-p (string-match "olpc" (user-login-name)))
 (defvar siscog-p (string-match "luismbo" (user-login-name)))
 
+;;; emacs ... -T ORG
+(defvar org-only-mode-p
+  (string= "ORG" (frame-parameter (selected-frame) 'title)))
+
+;;; emacs ... -T ROSTER
+(defvar roster-only-mode-p
+  (string= "ROSTER" (frame-parameter (selected-frame) 'title)))
+
 (require 'cl)
 
 ;;;; Load Path
@@ -17,7 +25,8 @@
 ;;;; Siscog
 
 (when siscog-p
-  (load "~/.emacs.d/my-siscog-config.el")
+  (unless (or roster-only-mode-p org-only-mode-p)
+    (load "~/.emacs.d/my-siscog-config.el"))
   (setq display-time-format "-%H:%M-")
   (display-time))
 
@@ -235,11 +244,15 @@
 ;;(funcall (car (nth 4 color-themes)))
 
 (when (and (not olpc-p) window-system)
-  (if mac-p
-      (progn
-        (color-theme-dark-laptop)
-        (set-face-background 'default "grey10"))
-      (color-theme-robin-hood)))
+  (cond (mac-p
+         (color-theme-dark-laptop)
+         (set-face-background 'default "grey10"))
+        (roster-only-mode-p
+         (color-theme-dark-laptop))
+        (org-only-mode-p
+         (set-face-background 'default "grey90"))
+        (t
+         (color-theme-robin-hood))))
 
 ;;;; Enable disabled functions
 
@@ -312,8 +325,7 @@
 (setq org-agenda-start-with-log-mode t)
 (setq org-agenda-start-with-clockreport-mode t)
 
-(eval-after-load 'org-mode
-  '(set-face-foreground 'org-hide (face-background 'default)))
+;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
 
 (setq org-agenda-files
       (if siscog-p
@@ -345,7 +357,8 @@
 
 (defun my-open-first-agenda-file ()
   (interactive)
-  (find-file (first org-agenda-files)))
+  (find-file (first org-agenda-files))
+  (set-face-foreground 'org-hide (face-background 'default)))
 
 (global-set-key (kbd "C-c o o") 'my-open-first-agenda-file)
 
@@ -423,60 +436,6 @@
 
 (global-set-key (kbd "C-c d") 'my-dictionary-lookup)
 
-;;;; jabber.el
-
-(add-to-list 'load-path "~/.emacs.d/emacs-jabber/")
-
-(require 'jabber-autoloads)
-
-(eval-after-load 'jabber
-  `(progn
-     ;; Faces
-     (set-face-foreground 'jabber-chat-prompt-local "OrangeRed4")
-     (cond (siscog-p
-            (set-face-foreground 'jabber-chat-text-local "OrangeRed4")
-            (set-face-foreground 'jabber-chat-prompt-foreign "OrangeRed3")
-            (set-face-foreground 'jabber-chat-text-foreign "OrangeRed3"))
-           (t
-            (set-face-foreground 'jabber-chat-text-local "OrangeRed1")
-            (set-face-foreground 'jabber-chat-prompt-foreign "orange1")))
-     (set-face-foreground 'jabber-roster-user-online "LimeGreen")
-     (set-face-foreground 'jabber-roster-user-away "YellowGreen")
-     (set-face-foreground 'jabber-roster-user-dnd "IndianRed")
-     (set-face-foreground 'jabber-activity-face "yellow4")
-     (set-face-foreground 'jabber-activity-personal-face "yellow4")
-     (set-face-attribute 'jabber-title-medium nil
-                         :width 'unspecified :height 'unspecified)
-     ;; Roster Options
-     (setq jabber-vcard-avatars-retrieve nil)
-     (setq jabber-roster-show-title nil)
-     (setq jabber-roster-show-bindings nil)
-     (setq jabber-show-offline-contacts nil)
-     (setq jabber-show-resources nil)
-     (setq jabber-sort-order nil)
-     ;; Chat Options
-     (add-hook 'jabber-roster-mode-hook (lambda () (setq truncate-lines t)))
-     (setq jabber-chat-local-prompt-format "[%t] Luís> ")
-     (add-hook 'jabber-chat-mode-hook
-               (lambda ()
-                 (visual-line-mode t)
-                 (set-input-method 'portuguese-prefix)))
-     ;; Misc Options
-     (setq jabber-default-status "Siscog")
-     (setq jabber-default-show "dnd")
-     (setq jabber-alert-presence-hooks nil)
-     (setq jabber-alert-message-hooks '(jabber-message-scroll))))
-
-(defun gtalk ()
-  (interactive)
-  (let ((jabber-account-list
-         '(("luismbo@gmail.com"
-            (:password . nil)
-            (:network-server . "talk.google.com")
-            (:port . 443)
-            (:connection-type . ssl)))))
-    (jabber-connect-all)))
-
 ;;;; Input Methods
 
 ;; Default setting for C-\
@@ -493,6 +452,18 @@
 
 ;;;; The End
 
-(ido-mode)
+(setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
+
+(unless org-only-mode-p
+  (ido-mode))
 
 (random t)
+
+(when org-only-mode-p
+  (setq inhibit-startup-message t)
+  (my-open-first-agenda-file))
+
+(when roster-only-mode-p
+  (load "~/.emacs.d/my-jabber-config.el")
+  (setq inhibit-startup-message t)
+  (gtalk))

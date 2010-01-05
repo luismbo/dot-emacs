@@ -4,7 +4,8 @@
 
 (require 'slime)
 (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
-               slime-hyperdoc))
+               ;slime-hyperdoc
+               ))
 
 ;;(setq inferior-lisp-program "clisp -K full")
 ;;(setq inferior-lisp-program "~/Software/sbcl.sh")
