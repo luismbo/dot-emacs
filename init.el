@@ -197,6 +197,21 @@
 
 (global-set-key (kbd "C-c f") 'split-frame-in-3)
 
+;;; http://www.emacswiki.org/emacs/RevertBuffer#toc3
+(defun revert-all-buffers ()
+   "Refreshes all open buffers from their respective files"
+   (interactive)
+   (let* ((list (buffer-list))
+          (buffer (car list)))
+     (while buffer
+       (when (buffer-file-name buffer)
+         (progn
+           (set-buffer buffer)
+           (revert-buffer t t t)))
+       (setq list (cdr list))
+       (setq buffer (car list))))
+  (message "Refreshing open files"))
+
 ;;;; Look and Feel
 
 (column-number-mode t)
