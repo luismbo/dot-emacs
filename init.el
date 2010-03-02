@@ -108,10 +108,11 @@
 
 (add-hook 'lisp-mode-hook (lambda () (paredit-mode +1)))
 
-;(eval-after-load 'paredit
-;  '(progn
-;     (define-key paredit-mode-map (kbd "RET") nil)
-;     (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)))
+;; have RET automatically do indentation
+(eval-after-load 'paredit
+  '(progn
+     (define-key paredit-mode-map (kbd "RET") nil)
+     (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)))
 
 ;;;; Light-grey Parentheses
 
