@@ -157,9 +157,9 @@
 
 (eval-after-load "erc"
   '(progn
-    (require 'erc-services)
-    (erc-services-mode 1)
-    (setq erc-prompt-for-nickserv-password nil)
+    ;; (require 'erc-services)
+    ;; (erc-services-mode 1)
+    ;; (setq erc-prompt-for-nickserv-password nil)
     ;; ~/.emacs.d/ercpass.el contains something like:
     ;;
     ;;    (setq erc-nickserv-passwords
@@ -167,14 +167,15 @@
     ;;                       ("luis`" . "pass2")))))
     (load "~/.emacs.d/ercpass.el")
     (erc-scrolltobottom-enable)
-    (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))))
+    ;; (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))
+    ))
 
 (defun erc-connect-freenode ()
   (interactive)
-  (erc-select :server "irc.freenode.net"
-              :full-name "Luis Oliveira"
-              :port 6667
-              :nick "luis"))
+  (erc :server "nhop.r42.eu"
+       :port 6667
+       :password lbo:nhop-bouncer-password
+       :nick "luis"))
 
 ;;;; Utilities
 
