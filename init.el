@@ -1,4 +1,4 @@
-;;;; Dot Emacs, Luís Oliveira <luis@r42.eu>
+;;;; Dot Emacs, Luís Oliveira <luis@r42.eu>                                    *
 
 ;;; Figuring out which system we're in.
 ;;; We might be running on MacOSX but using X11.
@@ -12,9 +12,9 @@
 (defvar org-only-mode-p
   (string= "ORG" (frame-parameter (selected-frame) 'title)))
 
-;;; emacs ... -T ROSTER
+;;; emacs ... -T JABBER
 (defvar roster-only-mode-p
-  (string= "ROSTER" (frame-parameter (selected-frame) 'title)))
+  (string= "JABBER" (frame-parameter (selected-frame) 'title)))
 
 (require 'cl)
 
@@ -25,15 +25,19 @@
 ;;;; Siscog
 
 (when siscog-p
+  (setq grep-find-use-xargs 'gnu)
   (unless (or roster-only-mode-p org-only-mode-p)
     (load "~/.emacs.d/my-siscog-config.el"))
-  (setq display-time-format "-%H:%M-")
-  (display-time))
+  (unless roster-only-mode-p
+    (load "~/.emacs.d/my-siscog-org-config.el")
+    (setq display-time-format "-%H:%M-")
+    (display-time)))
 
 ;;;; Editing Stuff
 
 (setq-default indent-tabs-mode nil) ; DIE TABS!!
-(set-language-environment "UTF-8")
+(unless (and siscog-p (not org-only-mode-p) (not roster-only-mode-p))
+  (set-language-environment "UTF-8"))
 (global-font-lock-mode t)
 (show-paren-mode t)
 (transient-mark-mode t)
@@ -61,8 +65,7 @@
 (let ((font (cond
               (mac-p "Menlo-11")
               (olpc-p "Monospace-7")
-              (siscog-p "Consolas-11")
-              (siscog-p "DejaVu Sans Mono-10")
+              (siscog-p "Consolas-10")
               ((> emacs-major-version 22) "Monospace-9")
               (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*"))))
   (set-default-font font)
@@ -174,7 +177,7 @@
     ;;    (setq erc-nickserv-passwords
     ;;          '((freenode (("luis" . "pass1")
     ;;                       ("luis`" . "pass2")))))
-    (load "~/.emacs.d/ercpass.el")
+    ;(load "~/.emacs.d/ercpass.el")
     (erc-scrolltobottom-enable)
     ;; (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))
     ))
@@ -244,13 +247,14 @@
 ;;(funcall (car (nth 4 color-themes)))
 
 (when (and (not olpc-p) window-system)
-  (cond (mac-p
-         (color-theme-dark-laptop)
-         (set-face-background 'default "grey10"))
-        (roster-only-mode-p
+  (cond (roster-only-mode-p
          (color-theme-dark-laptop))
         (org-only-mode-p
          (set-face-background 'default "grey90"))
+        ((or mac-p siscog-p)
+         (color-theme-dark-laptop)
+         (set-face-background 'default "grey10")
+         (set-face-background 'tooltip "white"))
         (t
          (color-theme-robin-hood))))
 
@@ -325,6 +329,11 @@
 (setq org-agenda-start-with-log-mode t)
 (setq org-agenda-start-with-clockreport-mode t)
 
+(when siscog-p
+  (add-hook 'org-mode-hook
+            (lambda() (add-hook 'before-save-hook
+                                'org-agenda-to-appt t t))))
+
 ;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
 
 (setq org-agenda-files
@@ -340,7 +349,7 @@
       '(;(sequence "TODO(t)" "|" "DONE(d)")
         (sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")
         (sequence "|" "CANCELLED(c)")
-        (sequence "OPEN(o)" "WIP(i)" "SEP(s)" "|" "RESOLVED(r)")))
+        (sequence "OPEN(o)" "WIP(i)" "|" "SEP(s)" "RESOLVED(r)")))
 
 ;; Give WAITING and CANCELLED some color.
 (setq org-todo-keyword-faces

@@ -25,6 +25,13 @@
 
 ;(setenv "CREWS_VDEV_DIR" "y:/git/crews-vdev")
 
+(defun lbo:sc (db-user data-source data-dir acl-version)
+  "SC settings helper."
+  (setq *old-products-configuration* (eql acl-version :v8-0))
+  (sc-set-acl-version acl-version)
+  (sc-set-db-user db-user data-source)
+  (sc-set-data-dir data-dir))
+
 ;;;; Restore M-> and M-<
 
 (global-set-key (kbd "M-<") 'beginning-of-buffer-nomark)
@@ -123,6 +130,12 @@
 
 (define-key lisp-mode-shared-map (kbd "<C-tab>") 'hs-toggle-all-comments)
 
+;; disable hs-minor-mode for ediff
+(add-hook 'ediff-prepare-buffer-hook
+          (lambda ()
+            (when hs-minor-mode
+              (hs-minor-mode nil))))
+
 ;;;; Pretty Inner Dots
 
 (defun pretty-inner-dots ()
@@ -144,8 +157,11 @@
 ;; enable tabs for Lisp code, for HR
 (add-hook 'lisp-mode-hook
           (lambda ()
+	    (set-face-foreground 'paren-face "gray45")
             (setq indent-tabs-mode t)
             (setq fill-column 80)))
+
+(set-face-background 'trailing-whitespace "gray20")
 
 ;;;; Hyperspec
 
@@ -153,3 +169,62 @@
 
 ;; override global hyperspec.el
 (load "~/src/slime/hyperspec.el")
+
+;;;; update slime-banner with MAPS::BACKGROUND.TITLE
+
+(defun smeliscog-update-repl-header ()
+  (interactive)
+  (setq header-line-format
+        (format "%s  Port: %s  Pid: %s"
+                "CREWS - Short Term - [2009-01-01 2009-01-14] for Drivers at Ant Fom Sun"
+                ;(slime-eval "(maps::background.title)")
+                (slime-connection-port (slime-connection))
+                (slime-pid))))
+
+;;;; Disable the annoying/slow tramp load on, e.g., ido-mode's C-x C-f.
+
+(setq ido-enable-tramp-completion nil)
+
+;;;; gitk integration
+
+;; (server-start)
+
+;; ;; by TW, the following automagically starts ediff on the open files
+(defadvice server-visit-files (after server-visit-files-gitk-ediff
+                                     first
+                                     (files client &optional nowait)
+                                     activate)
+  (let ((filenames (mapcar 'car files)))
+    (when (and (= (length filenames) 2)
+               (some (lambda (filename)
+                       (string-match "\\.gitk-tmp\\.[0-9]+" filename))
+                     filenames))
+      (apply 'ediff-buffers (mapcar 'get-file-buffer filenames)))))
+
+;;;; magit
+
+(setq magit-git-executable "d:/git/cmd/git.cmd")
+
+;;;; modif-mode
+
+(add-to-list 'load-path "z:/siscog/misc/modif-request-mode/")
+(require 'modif-request-mode)
+
+;;;; lol
+
+(defun djcb-opacity-modify (&optional dec)
+  "modify the transparency of the emacs frame; if DEC is t,
+   decrease the transparency, otherwise increase it in 10%-steps"
+  (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
+         (oldalpha (if alpha-or-nil alpha-or-nil 100))
+         (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
+    (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
+      (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
+
+ ;; C-8 will increase opacity (== decrease transparency)
+ ;; C-9 will decrease opacity (== increase transparency
+ ;; C-0 will returns the state to normal
+(global-set-key (kbd "C-8") '(lambda()(interactive)(djcb-opacity-modify)))
+(global-set-key (kbd "C-9") '(lambda()(interactive)(djcb-opacity-modify t)))
+(global-set-key (kbd "C-0") '(lambda()(interactive)
+                               (modify-frame-parameters nil `((alpha . 100)))))

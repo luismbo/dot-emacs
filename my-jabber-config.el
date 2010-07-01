@@ -41,7 +41,7 @@
                  (visual-line-mode t)
                  (set-input-method 'portuguese-prefix)))
      ;; Misc Options
-     (setq jabber-default-status "Siscog")
+     (setq jabber-default-status "SISCOG")
      (setq jabber-default-show "dnd")
      (setq jabber-alert-presence-hooks nil)
      (setq jabber-alert-message-hooks '(jabber-message-scroll))))
@@ -55,3 +55,17 @@
             (:port . 443)
             (:connection-type . ssl)))))
     (jabber-connect-all)))
+
+(when siscog-p
+  (global-set-key (kbd "C-z")
+                  (defun my-minimize-window ()
+                    (interactive)
+                    (switch-to-buffer "*scratch*")
+                    (suspend-frame))))
+
+(defun gtalk-groupchat ()
+  (interactive)
+  (let ((group (apply 'format "private-chat-%x%x%x%x%x%x%x%x-%x%x%x%x-%x%x%x%x-%x%x%x%x-%x%x%x%x%x%x%x%x%x%x%x%x@groupchat.google.com"
+                      (mapcar (lambda (x) (random x)) (make-list 32 15))))
+        (account (jabber-read-account)))
+    (jabber-groupchat-join account group (jabber-muc-read-my-nickname account group) t)))
