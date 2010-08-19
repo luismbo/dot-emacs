@@ -338,7 +338,7 @@
 
 (setq org-agenda-files
       (if siscog-p
-          '("z:/org/WORK.org")
+          '("w:/org/WORK.org")
           '("~/Dropbox/Documents/org/LIFE.org")))
 
 ;; Add new TODO states: WAITING and CANCELLED.
