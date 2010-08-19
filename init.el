@@ -462,6 +462,7 @@
 ;;;; The End
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
+(setq confirm-kill-emacs 'yes-or-no-p)
 
 (unless org-only-mode-p
   (ido-mode))
