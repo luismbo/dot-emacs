@@ -180,13 +180,17 @@
     ;(load "~/.emacs.d/ercpass.el")
     (erc-scrolltobottom-enable)
     ;; (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))
-    ))
+
+    (when siscog-p
+      (setq erc-hide-list '("JOIN" "PART" "QUIT")))))
 
 (defun erc-connect-freenode ()
   (interactive)
   (erc :server "nhop.r42.eu"
        :port 6667
-       :password lbo:nhop-bouncer-password
+       :password (if siscog-p
+                     (read-passwd "ERC password: ")
+                     lbo:nhop-bouncer-password)
        :nick "luis"))
 
 ;;;; Utilities
