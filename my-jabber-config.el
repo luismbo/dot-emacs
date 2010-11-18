@@ -1,4 +1,4 @@
-;;;; jabber.el
+;;;; jabber.el -*- coding: utf-8 -*-
 
 (when siscog-p
   (setenv "PATH" (format "d:\\cygwin\\bin;d:\\cygwin\\usr\\bin;%s"
@@ -49,12 +49,15 @@
 (defun gtalk ()
   (interactive)
   (let ((jabber-account-list
-         '(("luismbo@gmail.com"
+         `(("luismbo@gmail.com"
             (:password . nil)
-            (:network-server . "talk.google.com")
+            (:network-server . ,(if siscog-p
+                                    "localhost"
+                                    "talk.google.com"))
             (:port . 443)
             (:connection-type . ssl)))))
     (jabber-connect-all)))
+
 
 (when siscog-p
   (global-set-key (kbd "C-z")
