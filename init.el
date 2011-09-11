@@ -348,6 +348,9 @@
 (add-to-list 'load-path "~/.emacs.d/magit/")
 (autoload 'magit-status "magit" nil t)
 
+(when mac-p
+  (eval-after-load 'magit
+    (setq magit-git-executable "/usr/local/bin/git")))
 
 ;;;; w3m
 
