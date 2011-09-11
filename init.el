@@ -10,6 +10,11 @@
 
 (require 'cl)
 
+;;;; HACKS
+
+;(when mac-p
+;  (ns-set-resource nil "ApplePressAndHoldEnabled" "NO"))
+
 ;;;; Load Path
 
 (add-to-list 'load-path "~/.emacs.d/")
