@@ -262,6 +262,9 @@
 (when siscog-p
   (global-set-key (kbd "M-DEL") 'backward-kill-word))
 
+(when mac-p
+  (global-set-key "\M-`" 'other-frame))
+
 ;;;; Haskell
 
 (when mac-p
