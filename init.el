@@ -417,7 +417,7 @@
 ;;;; Magit
 
 (add-to-list 'load-path "~/.emacs.d/magit/")
-(autoload 'magit-status "magit" nil t)
+(load "~/.emacs.d/magit/50magit.el")
 
 ;;;; Ledger
 
