@@ -228,3 +228,43 @@
 (global-set-key (kbd "C-9") '(lambda()(interactive)(djcb-opacity-modify t)))
 (global-set-key (kbd "C-0") '(lambda()(interactive)
                                (modify-frame-parameters nil `((alpha . 100)))))
+
+;;;; printing
+
+(setenv "PRINTER" "PDFCreator")
+(setq ps-printer-name "PDFCreator")
+(setq ps-printer-name-option "-d")
+(setq ps-lpr-command "d:/cygwin/bin/lpr.exe")
+
+;;;; SLIME frame title
+
+;;; Show the current lisp's name, if available
+
+;(setq frame-title-format
+;      '(multiple-frames
+;        ("%b" (:eval (if (slime-current-connection)
+;                         (format " - %s" (slime-connection-name))
+;                         "")))
+;        ("" invocation-name "@" system-name
+;         (:eval (if (slime-current-connection)
+;                    (format " - %s" (slime-connection-name))
+;                    "")))))
+
+;(setq frame-title-format
+;      '("" (:eval (if (slime-current-connection)
+;                      (slime-eval '(cl:ignore-errors (maps::background.title)))
+;                      (format "%s@%s" invocation-name system-name)))))
+
+;;;; Shortcuts
+
+(global-set-key [(control f11)]
+                (lambda ()
+                  (interactive)
+                  (let ((*current-x-arg* t))
+                    (edit-mod-source-file))))
+
+(global-set-key [(control f12)]
+                (lambda ()
+                  (interactive)
+                  (let ((*current-x-arg* t))
+                    (ediff-original-source-files))))
