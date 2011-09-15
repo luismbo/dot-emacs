@@ -1,5 +1,7 @@
 ;;;; -*- coding: utf-8 -*-
 
+(defvar *use-slime* t)
+
 ;;;; Siscog Stuff
 
 ;(load (format "%s/custom/sc-before.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
@@ -49,30 +51,6 @@
 
 (global-set-key (kbd "C-c m") 'w32-maximize-frame)
 (global-set-key (kbd "C-c M") 'w32-restore-frame)
-
-;;;; Replacing ELI with SLIME
-
-;;; ELI defines a common-lisp-mode that overrides lisp-mode and many
-;;; of its keybindings. We undo that before loading SLIME.
-
-(load "lisp-mode")
-
-(setq auto-mode-alist
-      (append '(("\.lisp$" . lisp-mode)
-		("\.lsp$" . lisp-mode)
-		("\.cl$" . lisp-mode)
-		("\.asd$" . lisp-mode)
-		("\.system$" . lisp-mode))
-              auto-mode-alist))
-
-(add-to-list 'load-path "z:/src/slime/")
-(load "my-slime-config")
-
-(defun smeliscog ()
-  (interactive)
-  (slime-connect "localhost" 4005))
-
-(global-set-key (kbd "<f12>") 'smeliscog)
 
 ;;;; Hide Comments
 

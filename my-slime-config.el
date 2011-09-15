@@ -1,23 +1,46 @@
 ;;;; SLIME
 
-(add-to-list 'load-path "~/clbuild/source/slime/")
+(add-to-list 'load-path "~/siscog/sc-emacs/slime/")
 
-(require 'slime)
-(slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
-               ;slime-hyperdoc
-               ))
+(unless siscog-p
+  (add-to-list 'load-path "~/clbuild/source/slime/")
 
-;;(setq inferior-lisp-program "clisp -K full")
-;;(setq inferior-lisp-program "~/Software/sbcl.sh")
-(setq inferior-lisp-program "~/clbuild/clbuild lisp")
-;;(setq inferior-lisp-program "/Users/luis/Software/bin/openmcl")
-;;(setq inferior-lisp-program "acl")
+  (require 'slime)
+  (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
+                                        ;slime-hyperdoc
+                 slime-parse))
+
+  ;;(setq inferior-lisp-program "clisp -K full")
+  ;;(setq inferior-lisp-program "~/Software/sbcl.sh")
+  (setq inferior-lisp-program "~/clbuild/clbuild lisp")
+  ;;(setq inferior-lisp-program "/Users/luis/Software/bin/openmcl")
+  ;;(setq inferior-lisp-program "acl")
+  )
 
 (setq lisp-indent-function 'common-lisp-indent-function)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
 
+
+(when siscog-p
+  (defvar browse-url-chm-program "d:/cygwin/opt/bin/KeyHH.exe")
+  (defvar browse-url-chm-program-args '("-emacs"))
+  (defun browse-url-chm (url &rest args)
+    (with-temp-buffer
+      (let ((process (apply 'start-process
+                            "CHMBrowser"
+                            nil
+                            browse-url-chm-program
+                            (append browse-url-chm-program-args (list url)))))
+        (process-kill-without-query process))))
+  (setq browse-url-browser-function
+        '(("\\.chm" . browse-url-chm)
+          ("." . browse-url-default-windows-browser))))
+
 (setq common-lisp-hyperspec-root
-      "file:///Users/luis/Documents/References/HyperSpec-7-0/HyperSpec/")
+      (if siscog-p
+          "z:/doc/clhs.chm::/"
+          ; "http://intranet/TechDocs/Lisp/HyperSpec/"
+          "file:///Users/luis/Documents/References/HyperSpec-7-0/HyperSpec/"))
 
 ;; (setq lisp-simple-loop-indentation 1
 ;;       lisp-loop-keyword-indentation 6
@@ -27,20 +50,20 @@
 ;                        '(("(\\(\\(def\\|with-\\)\\(\\s_\\|\\w\\)*\\)"
 ;                           1 font-lock-keyword-face)))
 
-(defun clhs-lookup (symbol-name)
-  (interactive
-   (list (let ((symbol-at-point (slime-symbol-name-at-point)))
-           (if (and symbol-at-point
-                    (intern-soft (downcase symbol-at-point)
-                                 common-lisp-hyperspec-symbols))
-               symbol-at-point
-             (completing-read
-              "Look up symbol in Common Lisp HyperSpec: "
-              common-lisp-hyperspec-symbols nil
-              t symbol-at-point
-              'common-lisp-hyperspec-history)))))
-  (ignore-errors
-    (info (concat "(~/Software/clhs/ansicl) " symbol-name) "*clhs*")))
+;(defun clhs-lookup (symbol-name)
+;  (interactive
+;   (list (let ((symbol-at-point (slime-symbol-name-at-point)))
+;           (if (and symbol-at-point
+;                    (intern-soft (downcase symbol-at-point)
+;                                 common-lisp-hyperspec-symbols))
+;               symbol-at-point
+;             (completing-read
+;              "Look up symbol in Common Lisp HyperSpec: "
+;              common-lisp-hyperspec-symbols nil
+;              t symbol-at-point
+;              'common-lisp-hyperspec-history)))))
+;  (ignore-errors
+;    (info (concat "(~/Software/clhs/ansicl) " symbol-name) "*clhs*")))
 
 ;;; Various lisps
 
@@ -89,20 +112,11 @@
 (global-set-key (kbd "C-c h") 'clhs-lookup)
 (global-set-key (kbd "C-c r") 'slime-pop-find-definition-stack)
 
-(when siscog-p
-  (defun slime-eol-conversion-fixup (n)
-    (if (and (string-equal "allegro" (slime-lisp-implementation-name
-                                      (slime-connection)))
-             (>= (car (read-from-string
-                       (slime-lisp-implementation-version (slime-connection))))
-                 8.1))
-        0
-        (case (coding-system-eol-type buffer-file-coding-system)
-          ((1) 
-             (save-excursion 
-               (do ((pos (+ (point) n))
-                    (count 0 (1+ count)))
-                   ((>= (point) pos) (1- count))
-                 (forward-line)
-                 (decf pos))))
-          (t 0)))))
+(defun slime-toggle-trace-fdefinition (&optional using-context-p)
+  "Toggle trace."
+  (interactive "P")
+  (let* ((spec (if using-context-p
+                   (slime-extract-context)
+                   (slime-symbol-at-point)))
+         (spec (slime-trace-query spec)))
+    (message "%s" (slime-eval `(swank:swank-toggle-trace ,spec)))))

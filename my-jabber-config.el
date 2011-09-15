@@ -44,7 +44,9 @@
      (setq jabber-default-status "SISCOG")
      (setq jabber-default-show "dnd")
      (setq jabber-alert-presence-hooks nil)
-     (setq jabber-alert-message-hooks '(jabber-message-scroll))))
+     (setq jabber-alert-message-hooks '(jabber-message-scroll))
+
+     (setq jabber-activity-count-in-title t)))
 
 (defun gtalk ()
   (interactive)

@@ -44,20 +44,6 @@ THING can be a symbol, an fspec, or their string representation."
 
 ;;;; Feeds
 
-;; (require 'org-feed)
-
-;; (setq org-feed-alist
-;;       '(("Aniversários"
-;;          "http://www.google.com/calendar/feeds/..."
-;;          "Aniversários"
-;;          "z:/org/FEEDS.org")
-;;         ("Notícias Google"
-;;          "http://news.google.com/news?pz=1&cf=all&ned=pt-PT_pt&hl=pt-PT&output=rss"
-;;          "Notícias"
-;;          "z:/org/FEEDS.org")))
-
-;; (add-to-list 'org-agenda-files "z:/org/FEEDS.org")
-
 (setq org-export-html-style
       "<style type=\"text/css\"> 
  <!--/*--><![CDATA[/
@@ -942,5 +928,5 @@ THING can be a symbol, an fspec, or their string representation."
 /*]]>*/-->
 </style>")
 
-(setq user-mail-address "luismbo@siscog.pt")
+(setq user-mail-address "lbo@siscog.pt")
 (setq user-full-name "Lu�s Borges de Oliveira")

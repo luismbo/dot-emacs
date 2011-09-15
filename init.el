@@ -100,8 +100,7 @@
 
 ;;;; Common Lisp
 
-(unless siscog-p
-  (load "~/.emacs.d/my-slime-config.el"))
+(load "~/.emacs.d/my-slime-config.el")
 
 (put 'package 'safe-local-variable 'symbolp)
 (put 'Package 'safe-local-variable 'symbolp)
@@ -330,8 +329,8 @@
 
 (setq org-hide-leading-stars t)
 (setq org-odd-levels-only t)
-(setq org-agenda-start-with-log-mode t)
-(setq org-agenda-start-with-clockreport-mode t)
+;(setq org-agenda-start-with-log-mode t)
+;(setq org-agenda-start-with-clockreport-mode t)
 
 (when siscog-p
   (add-hook 'org-mode-hook
@@ -353,7 +352,7 @@
       '(;(sequence "TODO(t)" "|" "DONE(d)")
         (sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")
         (sequence "|" "CANCELLED(c)")
-        (sequence "OPEN(o)" "WIP(i)" "|" "SEP(s)" "RESOLVED(r)")))
+        (sequence "OPEN(o)" "WIP(i)" "REVIEW(v)" "|" "SEP(s)" "RESOLVED(r)")))
 
 ;; Give WAITING and CANCELLED some color.
 (setq org-todo-keyword-faces
