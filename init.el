@@ -1,4 +1,5 @@
 ;;;; Dot Emacs, Luís Oliveira <luis@r42.eu>                                    *
+;;;; -*- coding: utf-8 -*-
 
 ;;; Figuring out which system we're in.
 ;;; We might be running on MacOSX but using X11.
@@ -17,6 +18,11 @@
   (string= "JABBER" (frame-parameter (selected-frame) 'title)))
 
 (require 'cl)
+
+;;;; HACKS
+
+;(when mac-p
+;  (ns-set-resource nil "ApplePressAndHoldEnabled" "NO"))
 
 ;;;; Load Path
 
@@ -292,6 +298,9 @@
 (when siscog-p
   (global-set-key (kbd "M-DEL") 'backward-kill-word))
 
+(when mac-p
+  (global-set-key "\M-`" 'other-frame))
+
 ;;;; Haskell
 
 (when mac-p
@@ -329,6 +338,7 @@
 
 (setq org-hide-leading-stars t)
 (setq org-odd-levels-only t)
+;(setq org-startup-indented t) ; interesting alternative
 ;(setq org-agenda-start-with-log-mode t)
 ;(setq org-agenda-start-with-clockreport-mode t)
 
@@ -374,57 +384,14 @@
 
 (global-set-key (kbd "C-c o o") 'my-open-first-agenda-file)
 
-;; iCal stuff, figure out later.
-(setq org-icalendar-include-todo t)
-(setq org-icalendar-use-scheduled '(todo-due event-if-todo event-if-not-todo))
-(setq org-icalendar-use-deadline '(event-if-not-todo event-if-todo todo-due))
-
-(setq org-icalendar-timezone "Europe/Lisbon")
-
-(when mac-p
-  (defun my-applescript-isync ()
-    (interactive)
-    ;; (do-applescript "run script \"/Users/luis/Documents/sync.scpt\"")
-    (start-process-shell-command "sync" nil "osascript ~/Documents/sync.scpt"))
-
-  (global-set-key (kbd "C-c o s") 'my-applescript-isync))
-
-(defun my-sort-of-utf8-to-ascii (in out)
-  (with-temp-file out
-    (insert-file-contents in)
-    (dolist (pair '(("[ãáâà]" . "a") ("[ẽéêè]" . "e") ("[ĩíîì]" . "i")
-                    ("[õóôì]" . "o") ("[ũúûì]" . "u") ("ç" . "c")
-                    ("ĵ" . "jx") ("ĥ" . "hx") ("ŝ" . "sx") ("ĝ" . "gx")
-                    ("ĉ" . "cx") ("ŭ" . "ux")))
-      (save-excursion (replace-regexp (car pair) (cdr pair))))))
-
-(unless siscog-p
-  (defun my-org-mode-after-save-hook ()
-    (when (and (eq major-mode 'org-mode))
-      (cond
-        ((string-match ".*LIFE.org" (buffer-file-name))
-         (org-export-icalendar-this-file)
-         (my-sort-of-utf8-to-ascii "~/Dropbox/Public/agenda.ics"
-                                   "~/Dropbox/Public/g-agenda.ics"))
-        ((string-match ".*WORK.org" (buffer-file-name))
-         (org-export-icalendar-this-file)
-         (my-sort-of-utf8-to-ascii "~/Dropbox/Public/siscog.ics"
-                                   "~/Dropbox/Public/g-siscog.ics")))))
-
-  (add-hook 'after-save-hook 'my-org-mode-after-save-hook))
-
 ;;;; Magit
 
 (add-to-list 'load-path "~/.emacs.d/magit/")
 (load "~/.emacs.d/magit/50magit.el")
 
-;;;; Ledger
-
-(autoload 'ledger-mode "ledger" "Ledger mode." t)
-
 (when mac-p
-  (eval-after-load 'ledger
-    '(setq ledger-binary-path "/opt/local/bin/ledger")))
+  (eval-after-load 'magit
+    (setq magit-git-executable "/usr/local/bin/git")))
 
 ;;;; w3m
 
