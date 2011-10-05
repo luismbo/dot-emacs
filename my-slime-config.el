@@ -1,6 +1,7 @@
 ;;;; SLIME
 
-(add-to-list 'load-path "~/siscog/sc-emacs/slime/")
+(when siscog-p
+  (add-to-list 'load-path "~/siscog/sc-emacs/slime/"))
 
 (unless siscog-p
   (add-to-list 'load-path "~/clbuild/source/slime/")
