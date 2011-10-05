@@ -120,3 +120,5 @@
                    (slime-symbol-at-point)))
          (spec (slime-trace-query spec)))
     (message "%s" (slime-eval `(swank:swank-toggle-trace ,spec)))))
+
+(setq slime-autodoc-use-multiline-p t)
