@@ -233,6 +233,11 @@
        (setq buffer (car list))))
   (message "Refreshing open files"))
 
+;;;; Cycle Buffer
+
+(autoload 'cycle-buffer "cycle-buffer" "Cycle forward." t)
+(global-set-key (kbd "C-c b") 'cycle-buffer)
+
 ;;;; Look and Feel
 
 (column-number-mode t)
