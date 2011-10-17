@@ -189,10 +189,10 @@
     ;;    (setq erc-nickserv-passwords
     ;;          '((freenode (("luis" . "pass1")
     ;;                       ("luis`" . "pass2")))))
-    ;(load "~/.emacs.d/ercpass.el")
+    (unless siscog-p
+      (load "~/.emacs.d/ercpass.el"))
     (erc-scrolltobottom-enable)
     ;; (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))
-
     (when siscog-p
       (setq erc-hide-list '("JOIN" "PART" "QUIT")))))
 
