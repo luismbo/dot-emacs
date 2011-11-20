@@ -1,5 +1,5 @@
 ;;;; -*- coding: utf-8 -*-
-;;;; Dot Emacs, Luís Oliveira <luis@r42.eu>                                    *
+;;;; Dot Emacs, LuÃ­s Oliveira <luis@r42.eu>                                    *
 
 ;;; Figuring out which system we're in.
 ;;; We might be running on MacOSX but using X11.
