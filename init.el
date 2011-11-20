@@ -346,6 +346,22 @@
 ;;   (add-hook 'clojure-mode-hook 'swank-clojure-slime-mode-hook t)
 ;;   (slime 'clojure))
 
+;;;; Ruby (on Rails)
+
+(add-to-list 'load-path "~/.emacs.d/rinari/")
+(require 'rinari)
+
+(load "~/.emacs.d/nxhtml/autostart.el")
+
+(setq nxhtml-global-minor-mode t
+      mumamo-chunk-coloring 'submode-colored
+      nxhtml-skip-welcome t
+      indent-region-mode t
+      rng-nxml-auto-validate-flag nil
+      nxml-degraded t)
+
+(add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo))
+
 ;;;; Org Mode
 
 (add-to-list 'load-path "~/.emacs.d/org-mode/lisp/")
