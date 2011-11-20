@@ -460,6 +460,9 @@
 (unless org-only-mode-p
   (ido-mode))
 
+(autoload 'idomenu "idomenu" nil t)
+(global-set-key (kbd "M-i") 'idomenu)
+
 (random t)
 
 (when org-only-mode-p
