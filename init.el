@@ -277,7 +277,7 @@
          (set-face-background 'default "grey90"))
         ((or mac-p siscog-p)
          (color-theme-dark-laptop)
-         (set-face-background 'default "grey10")
+         (set-face-background 'default "grey12")
          (set-face-background 'tooltip "white"))
         (t
          (color-theme-robin-hood))))
