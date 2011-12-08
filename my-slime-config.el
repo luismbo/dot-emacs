@@ -4,23 +4,21 @@
   (add-to-list 'load-path "~/siscog/sc-emacs/slime/"))
 
 (unless siscog-p
-  (add-to-list 'load-path "~/clbuild/source/slime/")
+  (load (expand-file-name "~/quicklisp/slime-helper.el"))
 
-  (require 'slime)
   (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
                                         ;slime-hyperdoc
                  slime-parse))
 
   ;;(setq inferior-lisp-program "clisp -K full")
   ;;(setq inferior-lisp-program "~/Software/sbcl.sh")
-  (setq inferior-lisp-program "sbcl")
+  (setq inferior-lisp-program "/Users/luis/Software/bin/sbcl")
   ;;(setq inferior-lisp-program "/Users/luis/Software/bin/openmcl")
   ;;(setq inferior-lisp-program "acl")
   )
 
 (setq lisp-indent-function 'common-lisp-indent-function)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
-
 
 (when siscog-p
   (defvar browse-url-chm-program "d:/cygwin/opt/bin/KeyHH.exe")
@@ -43,29 +41,6 @@
           ; "http://intranet/TechDocs/Lisp/HyperSpec/"
           "file:///Users/luis/Documents/References/HyperSpec-7-0/HyperSpec/"))
 
-;; (setq lisp-simple-loop-indentation 1
-;;       lisp-loop-keyword-indentation 6
-;;       lisp-loop-forms-indentation 6)
-
-;(font-lock-add-keywords 'lisp-mode
-;                        '(("(\\(\\(def\\|with-\\)\\(\\s_\\|\\w\\)*\\)"
-;                           1 font-lock-keyword-face)))
-
-;(defun clhs-lookup (symbol-name)
-;  (interactive
-;   (list (let ((symbol-at-point (slime-symbol-name-at-point)))
-;           (if (and symbol-at-point
-;                    (intern-soft (downcase symbol-at-point)
-;                                 common-lisp-hyperspec-symbols))
-;               symbol-at-point
-;             (completing-read
-;              "Look up symbol in Common Lisp HyperSpec: "
-;              common-lisp-hyperspec-symbols nil
-;              t symbol-at-point
-;              'common-lisp-hyperspec-history)))))
-;  (ignore-errors
-;    (info (concat "(~/Software/clhs/ansicl) " symbol-name) "*clhs*")))
-
 ;;; Various lisps
 
 (defmacro defslime-start (name lisp &optional coding-system args)
@@ -79,7 +54,7 @@
   (defslime-start clisp "~/Software/bin/clisp" utf-8-unix '("-I" "-K" "full"))
   (defslime-start cmucl "~/Software/bin/lisp" iso-latin-1-unix)
   (defslime-start ccl "~/Software/bin/ccl" iso-latin-1-unix)
-  (defslime-start sbcl "sbcl" utf-8-unix)
+  (defslime-start sbcl "/Users/luis/Software/bin/sbcl" utf-8-unix)
   (defslime-start ecl "~/Software/bin/ecl" iso-latin-1-unix)
   (defslime-start lw "~/Software/bin/lw")
   (defslime-start abcl "~/sources/abcl/abcl" iso-latin-1-unix))
@@ -101,11 +76,6 @@
 ;; Getting rid of the Fontifying *SLIME
 ;; Compilation*... (regexps......) message.
 (setq font-lock-verbose nil)
-
-;(setq slime-net-coding-system 'utf-8-unix)
-
-;(define-key slime-mode-map (kbd "RET") 'newline-and-indent)
-;(define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
 
 ;;;; Keybindings
 
