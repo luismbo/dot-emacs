@@ -318,13 +318,12 @@
 
 ;;;; Haskell
 
-(when mac-p
-  (add-to-list 'load-path "~/.emacs.d/haskell-mode/"))
+(load "~/.emacs.d/haskell-mode/haskell-site-file.el")
 
-(add-hook 'haskell-mode-hook
-          (lambda ()
-            (require 'inf-haskell)
-            (setq haskell-program-name "/opt/local/bin/ghci")))
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+(setq haskell-program-name "/usr/local/bin/ghci")
 
 ;;;; Clojure
 
