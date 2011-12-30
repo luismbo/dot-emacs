@@ -59,6 +59,13 @@
   (setq show-trailing-whitespace
         (not show-trailing-whitespace)))
 
+;;;; Goto Last Change
+
+(autoload 'goto-last-change "goto-last-change"
+  "Set point to the position of the last change." t)
+ 
+(global-set-key (kbd "C-c \\") 'goto-last-change)
+
 ;;;; Fonts
 
 (when mac-p
