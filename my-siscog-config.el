@@ -22,6 +22,8 @@
 (load "~/.emacs.d/custom/sc-after.el")
 
 
+(setenv "CYGWIN" "nodosfilewarnings")
+
 (setenv "PATH" (format "d:\\cygwin\\bin;d:\\cygwin\\usr\\bin;%s"
                        (getenv "PATH")))
 
