@@ -247,6 +247,9 @@
 
 ;;;; Look and Feel
 
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward)
+
 (column-number-mode t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
