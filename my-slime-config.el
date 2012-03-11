@@ -10,12 +10,14 @@
                                         ;slime-hyperdoc
                  slime-parse))
 
+  ;(slime-require 'swank-listener-hooks)
+
   ;;(setq inferior-lisp-program "clisp -K full")
   ;;(setq inferior-lisp-program "~/Software/sbcl.sh")
-  (setq inferior-lisp-program "/Users/luis/Software/bin/sbcl")
+  (setq inferior-lisp-program "/usr/local/bin/sbcl")
   ;;(setq inferior-lisp-program "/Users/luis/Software/bin/openmcl")
   ;;(setq inferior-lisp-program "acl")
-  )
+  (setq slime-net-coding-system 'utf-8-unix))
 
 (setq lisp-indent-function 'common-lisp-indent-function)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
@@ -51,10 +53,12 @@
 
 (unless siscog-p
   (defslime-start allegro "~/Software/acl/alisp")
+  (defslime-start allegro64 "~/Software/acl82.64/alisp")
   (defslime-start clisp "~/Software/bin/clisp" utf-8-unix '("-I" "-K" "full"))
   (defslime-start cmucl "~/Software/bin/lisp" iso-latin-1-unix)
-  (defslime-start ccl "~/Software/bin/ccl" iso-latin-1-unix)
-  (defslime-start sbcl "/Users/luis/Software/bin/sbcl" utf-8-unix)
+  (defslime-start ccl "~/Software/ccl/scripts/ccl" iso-latin-1-unix)
+  (defslime-start ccl64 "~/Software/ccl/scripts/ccl64" iso-latin-1-unix)
+  (defslime-start sbcl "/usr/local/bin/sbcl" utf-8-unix)
   (defslime-start ecl "~/Software/bin/ecl" iso-latin-1-unix)
   (defslime-start lw "~/Software/bin/lw")
   (defslime-start abcl "~/sources/abcl/abcl" iso-latin-1-unix))
