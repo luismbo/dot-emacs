@@ -79,7 +79,7 @@
               (mac-p "Menlo-11")
               (olpc-p "Monospace-7")
               (siscog-p "Consolas-10")
-              ((> emacs-major-version 22) "Monospace-9")
+              ((> emacs-major-version 22) "Monospace-10")
               (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*"))))
   (set-default-font font)
   (add-to-list 'default-frame-alist (cons 'font font)))
@@ -108,7 +108,7 @@
 
 ;;;; Factor
 
-(unless (or olpc-p siscog-p)
+(when mac-p
   (load-file "~/Software/factor/misc/fuel/fu.el"))
 
 ;;;; Common Lisp
@@ -347,8 +347,8 @@
 
 ;;;; Ruby (on Rails)
 
-(add-to-list 'load-path "~/.emacs.d/rinari/")
-(require 'rinari)
+;(add-to-list 'load-path "~/.emacs.d/rinari/")
+;(require 'rinari)
 
 (load "~/.emacs.d/nxhtml/autostart.el")
 
@@ -424,28 +424,6 @@
 (when mac-p
   (eval-after-load 'magit
     (setq magit-git-executable "/usr/local/bin/git")))
-
-;;;; w3m
-
-(add-to-list 'load-path "~/.emacs.d/emacs-w3m/")
-(require 'w3m-load)
-
-(when siscog-p
-  (add-to-list 'exec-path "d:/cygwin/bin/")
-  (setq w3m-home-page "http://intranet"))
-
-;(setq w3m-use-cookies t)
-
-(global-set-key (kbd "C-c g") 'w3m-search) ; google search
-
-(defun my-dictionary-lookup (word)
-  (interactive "sProcurar palavra no dicionário: ")
-  (w3m-browse-url
-   (concat "http://www.priberam.pt/DLPO/default.aspx?pal="
-           (url-hexify-string word))
-   t))
-
-(global-set-key (kbd "C-c d") 'my-dictionary-lookup)
 
 ;;;; Input Methods
 
