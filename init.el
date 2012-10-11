@@ -425,12 +425,6 @@
   (eval-after-load 'magit
     (setq magit-git-executable "/usr/local/bin/git")))
 
-
-;;;; git-emacs
-
-(add-to-list 'load-path "~/.emacs.d/git-emacs")
-(require 'git-emacs)
-
 ;;;; w3m
 
 (add-to-list 'load-path "~/.emacs.d/emacs-w3m/")
