@@ -290,35 +290,6 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-;;;; Keybindings
-
-(defun lisp-keys ()
-  (interactive)
-  (keyboard-translate ?\( ?\[)
-  (keyboard-translate ?\[ ?\()
-  (keyboard-translate ?\) ?\])
-  (keyboard-translate ?\] ?\)))
-
-(defun normal-keys ()
-  (interactive)
-  (keyboard-translate ?\( ?\()
-  (keyboard-translate ?\[ ?\[)
-  (keyboard-translate ?\) ?\))
-  (keyboard-translate ?\] ?\]))
-
-(global-set-key [mouse-4] 'scroll-down)
-(global-set-key [mouse-5] 'scroll-up)
-
-(global-set-key (kbd "C-c l") 'goto-line)
-(global-set-key (kbd "C-DEL") 'join-line)
-(global-set-key (kbd "C-<backspace>") 'join-line)
-
-(when siscog-p
-  (global-set-key (kbd "M-DEL") 'backward-kill-word))
-
-(when mac-p
-  (global-set-key "\M-`" 'other-frame))
-
 ;;;; Haskell
 
 (load "~/.emacs.d/haskell-mode/haskell-site-file.el")
