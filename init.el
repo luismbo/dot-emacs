@@ -395,7 +395,7 @@
 ;; state.  S-<Right> and S-<Left> cycle through all of these states.
 (setq org-todo-keywords
       '(;(sequence "TODO(t)" "|" "DONE(d)")
-        (sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")
+        (sequence "TODO(t)" "MAYBE(m)" "WAITING(w)" "|" "DONE(d)")
         (sequence "|" "CANCELLED(c)")
         (sequence "OPEN(o)" "WIP(i)" "REVIEW(v)" "|" "SEP(s)" "RESOLVED(r)")))
 
@@ -403,7 +403,8 @@
 (setq org-todo-keyword-faces
       '(("CANCELLED" . shadow)
         ("WAITING" . (:foreground "orange"))
-        ("WIP" . (:foreground "orange"))
+        ("MAYBE" . (:foreground "orange"))
+        ("WIP" . (:foreground "yellow"))
         ("SEP" . (:foreground "orange"))))
 
 ;; The default was '(closed clock), show state changes as well.
