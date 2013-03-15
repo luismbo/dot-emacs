@@ -1,5 +1,4 @@
 ;;;; -*- coding: utf-8 -*-
-;;;; Dot Emacs, LuÃÂ­s Oliveira <luis@r42.eu>                                    *
 
 ;;; Figuring out which system we're in.
 ;;; We might be running on MacOSX but using X11.
@@ -31,6 +30,7 @@
 ;;;; Siscog
 
 (when siscog-p
+  (require 'tramp)
   (setq grep-find-use-xargs 'gnu)
   (unless (or roster-only-mode-p org-only-mode-p)
     (load "~/.emacs.d/my-siscog-config.el"))
@@ -191,6 +191,7 @@
     ;;                       ("luis`" . "pass2")))))
     (unless siscog-p
       (load "~/.emacs.d/ercpass.el"))
+    (require 'erc-truncate)
     (erc-scrolltobottom-enable)
     ;; (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))
     (when siscog-p
