@@ -250,3 +250,15 @@
                   (interactive)
                   (let ((*current-x-arg* t))
                     (ediff-original-source-files))))
+
+(defun alisp ()
+  (interactive)
+  (let ((allegro-common-lisp-image-file
+          (replace-regexp-in-string "allegro-ansi\\.dxl"
+                                    "alisp.dxl"
+                                    allegro-common-lisp-image-file))
+        (allegro-common-lisp-image-name
+          (replace-regexp-in-string "allegro-ansi\\.exe"
+                                    "alisp.exe"
+                                    allegro-common-lisp-image-name)))
+    (allegro)))
