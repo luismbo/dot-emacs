@@ -259,6 +259,8 @@
 
 (setq default-indicate-empty-lines t)
 
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
 
