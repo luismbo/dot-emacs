@@ -13,6 +13,9 @@
 ;; Load SC-EMACS
 (load (format "%s/init.el" (getenv "SISCOG_EMACS_DIR")))
 
+(setq lisp-mode-hook (remove 'set-lisp-paragraph-regexps lisp-mode-hook))
+(setq lisp-mode-hook (remove 'common-lisp-lisp-mode-hook lisp-mode-hook))
+
 ;; Customise SC-EMACS
 ;(load (format "%s/custom/sc-user-param.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
 (load "~/.emacs.d/custom/sc-user-param.el")
@@ -20,7 +23,6 @@
 ;; Load other user specific customization.
 ;(load (format "%s/custom/sc-after.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
 (load "~/.emacs.d/custom/sc-after.el")
-
 
 (setenv "CYGWIN" "nodosfilewarnings")
 
