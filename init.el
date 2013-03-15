@@ -417,6 +417,7 @@
 ;;;; The End
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 (setq confirm-kill-emacs 'yes-or-no-p)
 
 (unless org-only-mode-p
