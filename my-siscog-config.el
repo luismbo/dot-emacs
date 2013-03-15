@@ -93,11 +93,11 @@
    (beginning-of-line)
    (run-hooks 'hs-hide-hook)))
 
-;; hide top-level comment blocks by default
 (add-hook 'lisp-mode-hook
           (lambda ()
             (hs-minor-mode t)
-            (hs-hide-all-comments)))
+            ;; (hs-hide-all-comments)
+            ))
 
 ;; Shift+TAB toggles block visibility.
 (define-key lisp-mode-shared-map (kbd "<backtab>") 'hs-toggle-hiding)
