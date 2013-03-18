@@ -290,6 +290,18 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
+;;;; Editing Keybindings
+
+(global-set-key (kbd "C-c l") 'goto-line)
+(global-set-key (kbd "C-DEL") 'join-line)
+(global-set-key (kbd "C-<backspace>") 'join-line)
+
+(when siscog-p
+  (global-set-key (kbd "M-DEL") 'backward-kill-word))
+
+(when mac-p
+  (global-set-key "\M-`" 'other-frame))
+
 ;;;; Haskell
 
 (load "~/.emacs.d/haskell-mode/haskell-site-file.el")
