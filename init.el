@@ -349,11 +349,6 @@
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-start-with-clockreport-mode t))
 
-(when siscog-p
-  (add-hook 'org-mode-hook
-            (lambda() (add-hook 'before-save-hook
-                                'org-agenda-to-appt t t))))
-
 ;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
 
 (setq org-agenda-files
