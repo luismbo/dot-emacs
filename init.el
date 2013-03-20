@@ -323,7 +323,7 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
-(setq haskell-program-name "/usr/local/bin/ghci")
+(setq haskell-program-name "/usr/local/bin/ghci -fobject-code")
 
 ;;;; Clojure
 
@@ -488,3 +488,6 @@
   (load "~/.emacs.d/my-jabber-config.el")
   (setq inhibit-startup-message t)
   (gtalk))
+
+(eval-after-load 'sml-mode
+  '(setq sml-program-name "/usr/local/Cellar/smlnj/110.75/libexec/bin/sml"))
