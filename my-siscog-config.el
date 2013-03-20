@@ -13,6 +13,9 @@
 ;; Load SC-EMACS
 (load (format "%s/init.el" (getenv "SISCOG_EMACS_DIR")))
 
+(setq lisp-mode-hook (remove 'set-lisp-paragraph-regexps lisp-mode-hook))
+(setq lisp-mode-hook (remove 'common-lisp-lisp-mode-hook lisp-mode-hook))
+
 ;; Customise SC-EMACS
 ;(load (format "%s/custom/sc-user-param.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
 (load "~/.emacs.d/custom/sc-user-param.el")
@@ -20,7 +23,6 @@
 ;; Load other user specific customization.
 ;(load (format "%s/custom/sc-after.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
 (load "~/.emacs.d/custom/sc-after.el")
-
 
 (setenv "CYGWIN" "nodosfilewarnings")
 
@@ -91,11 +93,11 @@
    (beginning-of-line)
    (run-hooks 'hs-hide-hook)))
 
-;; hide top-level comment blocks by default
 (add-hook 'lisp-mode-hook
           (lambda ()
             (hs-minor-mode t)
-            (hs-hide-all-comments)))
+            ;; (hs-hide-all-comments)
+            ))
 
 ;; Shift+TAB toggles block visibility.
 (define-key lisp-mode-shared-map (kbd "<backtab>") 'hs-toggle-hiding)
@@ -248,3 +250,15 @@
                   (interactive)
                   (let ((*current-x-arg* t))
                     (ediff-original-source-files))))
+
+(defun alisp ()
+  (interactive)
+  (let ((allegro-common-lisp-image-file
+          (replace-regexp-in-string "allegro-ansi\\.dxl"
+                                    "alisp.dxl"
+                                    allegro-common-lisp-image-file))
+        (allegro-common-lisp-image-name
+          (replace-regexp-in-string "allegro-ansi\\.exe"
+                                    "alisp.exe"
+                                    allegro-common-lisp-image-name)))
+    (allegro)))

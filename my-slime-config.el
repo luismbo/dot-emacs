@@ -43,6 +43,29 @@
           ; "http://intranet/TechDocs/Lisp/HyperSpec/"
           "file:///Users/luis/Documents/References/HyperSpec-7-0/HyperSpec/"))
 
+;; (setq lisp-simple-loop-indentation 1
+;;       lisp-loop-keyword-indentation 6
+;;       lisp-loop-forms-indentation 6)
+
+(font-lock-add-keywords 'lisp-mode
+                        '(("(\\(\\(def\\|with-\\)\\(\\s_\\|\\w\\)*\\)"
+                           1 font-lock-keyword-face)))
+
+;(defun clhs-lookup (symbol-name)
+;  (interactive
+;   (list (let ((symbol-at-point (slime-symbol-name-at-point)))
+;           (if (and symbol-at-point
+;                    (intern-soft (downcase symbol-at-point)
+;                                 common-lisp-hyperspec-symbols))
+;               symbol-at-point
+;             (completing-read
+;              "Look up symbol in Common Lisp HyperSpec: "
+;              common-lisp-hyperspec-symbols nil
+;              t symbol-at-point
+;              'common-lisp-hyperspec-history)))))
+;  (ignore-errors
+;    (info (concat "(~/Software/clhs/ansicl) " symbol-name) "*clhs*")))
+
 ;;; Various lisps
 
 (defmacro defslime-start (name lisp &optional coding-system args)

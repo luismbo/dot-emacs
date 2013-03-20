@@ -1,5 +1,4 @@
 ;;;; -*- coding: utf-8 -*-
-;;;; Dot Emacs, Luís Oliveira <luis@r42.eu>                                    *
 
 ;;; Figuring out which system we're in.
 ;;; We might be running on MacOSX but using X11.
@@ -31,6 +30,7 @@
 ;;;; Siscog
 
 (when siscog-p
+  (require 'tramp)
   (setq grep-find-use-xargs 'gnu)
   (unless (or roster-only-mode-p org-only-mode-p)
     (load "~/.emacs.d/my-siscog-config.el"))
@@ -79,7 +79,7 @@
               (mac-p "Menlo-11")
               (olpc-p "Monospace-7")
               (siscog-p "Consolas-10")
-              ((> emacs-major-version 22) "Monospace-9")
+              ((> emacs-major-version 22) "Monospace-10")
               (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*"))))
   (set-default-font font)
   (add-to-list 'default-frame-alist (cons 'font font)))
@@ -108,7 +108,7 @@
 
 ;;;; Factor
 
-(unless (or olpc-p siscog-p)
+(when mac-p
   (load-file "~/Software/factor/misc/fuel/fu.el"))
 
 ;;;; Common Lisp
@@ -191,6 +191,7 @@
     ;;                       ("luis`" . "pass2")))))
     (unless siscog-p
       (load "~/.emacs.d/ercpass.el"))
+    (require 'erc-truncate)
     (erc-scrolltobottom-enable)
     ;; (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))
     (when siscog-p
@@ -259,6 +260,8 @@
 
 (setq default-indicate-empty-lines t)
 
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
 
@@ -287,24 +290,7 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-;;;; Keybindings
-
-(defun lisp-keys ()
-  (interactive)
-  (keyboard-translate ?\( ?\[)
-  (keyboard-translate ?\[ ?\()
-  (keyboard-translate ?\) ?\])
-  (keyboard-translate ?\] ?\)))
-
-(defun normal-keys ()
-  (interactive)
-  (keyboard-translate ?\( ?\()
-  (keyboard-translate ?\[ ?\[)
-  (keyboard-translate ?\) ?\))
-  (keyboard-translate ?\] ?\]))
-
-(global-set-key [mouse-4] 'scroll-down)
-(global-set-key [mouse-5] 'scroll-up)
+;;;; Editing Keybindings
 
 (global-set-key (kbd "C-c l") 'goto-line)
 (global-set-key (kbd "C-DEL") 'join-line)
@@ -347,19 +333,20 @@
 
 ;;;; Ruby (on Rails)
 
-(add-to-list 'load-path "~/.emacs.d/rinari/")
-(require 'rinari)
+;(add-to-list 'load-path "~/.emacs.d/rinari/")
+;(require 'rinari)
 
-(load "~/.emacs.d/nxhtml/autostart.el")
+(unless siscog-p
+  (load "~/.emacs.d/nxhtml/autostart.el")
 
-(setq nxhtml-global-minor-mode t
-      mumamo-chunk-coloring 'submode-colored
-      nxhtml-skip-welcome t
-      indent-region-mode t
-      rng-nxml-auto-validate-flag nil
-      nxml-degraded t)
+  (setq nxhtml-global-minor-mode t
+        mumamo-chunk-coloring 'submode-colored
+        nxhtml-skip-welcome t
+        indent-region-mode t
+        rng-nxml-auto-validate-flag nil
+        nxml-degraded t)
 
-(add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo))
+  (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo)))
 
 ;;;; Org Mode
 
@@ -374,11 +361,6 @@
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-start-with-clockreport-mode t))
 
-(when siscog-p
-  (add-hook 'org-mode-hook
-            (lambda() (add-hook 'before-save-hook
-                                'org-agenda-to-appt t t))))
-
 ;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
 
 (setq org-agenda-files
@@ -392,7 +374,7 @@
 ;; state.  S-<Right> and S-<Left> cycle through all of these states.
 (setq org-todo-keywords
       '(;(sequence "TODO(t)" "|" "DONE(d)")
-        (sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")
+        (sequence "TODO(t)" "MAYBE(m)" "WAITING(w)" "|" "DONE(d)")
         (sequence "|" "CANCELLED(c)")
         (sequence "OPEN(o)" "WIP(i)" "REVIEW(v)" "|" "SEP(s)" "RESOLVED(r)")))
 
@@ -400,7 +382,8 @@
 (setq org-todo-keyword-faces
       '(("CANCELLED" . shadow)
         ("WAITING" . (:foreground "orange"))
-        ("WIP" . (:foreground "orange"))
+        ("MAYBE" . (:foreground "orange"))
+        ("WIP" . (:foreground "yellow"))
         ("SEP" . (:foreground "orange"))))
 
 ;; The default was '(closed clock), show state changes as well.
@@ -425,34 +408,6 @@
   (eval-after-load 'magit
     (setq magit-git-executable "/usr/local/bin/git")))
 
-
-;;;; git-emacs
-
-(add-to-list 'load-path "~/.emacs.d/git-emacs")
-(require 'git-emacs)
-
-;;;; w3m
-
-(add-to-list 'load-path "~/.emacs.d/emacs-w3m/")
-(require 'w3m-load)
-
-(when siscog-p
-  (add-to-list 'exec-path "d:/cygwin/bin/")
-  (setq w3m-home-page "http://intranet"))
-
-;(setq w3m-use-cookies t)
-
-(global-set-key (kbd "C-c g") 'w3m-search) ; google search
-
-(defun my-dictionary-lookup (word)
-  (interactive "sProcurar palavra no dicionário: ")
-  (w3m-browse-url
-   (concat "http://www.priberam.pt/DLPO/default.aspx?pal="
-           (url-hexify-string word))
-   t))
-
-(global-set-key (kbd "C-c d") 'my-dictionary-lookup)
-
 ;;;; Input Methods
 
 ;; Default setting for C-\
@@ -470,6 +425,7 @@
 ;;;; The End
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 (setq confirm-kill-emacs 'yes-or-no-p)
 
 (unless org-only-mode-p

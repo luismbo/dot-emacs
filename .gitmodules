@@ -1,12 +1,12 @@
 [submodule "magit"]
 	path = magit
 	url = git://github.com/magit/magit.git
-[submodule "git-emacs"]
-	path = git-emacs
-	url = git://github.com/tsgates/git-emacs.git
 [submodule "rinari"]
 	path = rinari
 	url = git://github.com/eschulte/rinari.git
 [submodule "lib/redshank"]
 	path = lib/redshank
 	url = http://www.foldr.org/~michaelw/projects/redshank.git
+[submodule "org-mode"]
+	path = org-mode
+	url = git://orgmode.org/org-mode.git

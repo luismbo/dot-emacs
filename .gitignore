@@ -2,10 +2,10 @@
 *.elc
 .org-id-locations
 ercpass.el
-org-mode
 emacs-w3m
 emacs-jabber
 auto-save-list
 custom/
 sc-emacs/
 server/
+nxhtml/etc/schema/xhtml-loader.rnc
