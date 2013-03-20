@@ -54,7 +54,7 @@
 (unless siscog-p
   (defslime-start allegro "~/Software/acl/alisp")
   (defslime-start allegro64 "~/Software/acl82.64/alisp")
-  (defslime-start clisp "~/Software/bin/clisp" utf-8-unix '("-I" "-K" "full"))
+  (defslime-start clisp "/usr/local/bin/clisp" utf-8-unix '("-I"))
   (defslime-start cmucl "~/Software/bin/lisp" iso-latin-1-unix)
   (defslime-start ccl "~/Software/ccl/scripts/ccl" iso-latin-1-unix)
   (defslime-start ccl64 "~/Software/ccl/scripts/ccl64" iso-latin-1-unix)
