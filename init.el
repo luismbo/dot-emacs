@@ -269,19 +269,17 @@
   ((or darwin-p siscog-p) (load "~/.emacs.d/color-theme.el"))
   ((not olpc-p) (require 'color-theme)))
 
-;;(funcall (car (nth 5 color-themes)))
-;;(funcall (car (nth 86 color-themes)))
-;;(funcall (car (nth 4 color-themes)))
-
 (when (and (not olpc-p) window-system)
   (cond (roster-only-mode-p
          (color-theme-dark-laptop))
         (org-only-mode-p
          (set-face-background 'default "grey90"))
         ((or mac-p siscog-p)
-         (color-theme-dark-laptop)
-         (set-face-background 'default "grey12")
-         (set-face-background 'tooltip "white"))
+         (load "~/.emacs.d/zenburn-emacs/zenburn-theme.el")
+         ;; (color-theme-dark-laptop)
+         ;; (set-face-background 'default "grey12")
+         ;; (set-face-background 'tooltip "white")
+         )
         (t
          (color-theme-robin-hood))))
 

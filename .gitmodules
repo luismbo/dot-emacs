@@ -10,3 +10,6 @@
 [submodule "org-mode"]
 	path = org-mode
 	url = git://orgmode.org/org-mode.git
+[submodule "zenburn-emacs"]
+	path = zenburn-emacs
+	url = https://github.com/bbatsov/zenburn-emacs
