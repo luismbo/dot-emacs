@@ -402,7 +402,7 @@
 ;;;; Magit
 
 (add-to-list 'load-path "~/.emacs.d/magit/")
-(load "~/.emacs.d/magit/50magit.el")
+(load "~/.emacs.d/magit/magit.el")
 
 (when mac-p
   (eval-after-load 'magit
