@@ -273,3 +273,28 @@
 
 (add-to-list 'load-path "~/siscog/sc-patches/")
 (require 'sc-patches)
+
+
+;;;; Browsers
+
+(defvar browse-url-chm-program "d:/cygwin/opt/bin/KeyHH.exe")
+
+(defvar browse-url-chm-program-args '("-emacs"))
+
+(defun browse-url-chm (url &rest args)
+  (with-temp-buffer
+      (let ((process (apply 'start-process
+                            "CHMBrowser"
+                            nil
+                            browse-url-chm-program
+                            (append browse-url-chm-program-args (list url)))))
+        (process-kill-without-query process))))
+
+(defun lbo:browse-url-internet-explorer (url &rest ignore)
+  (interactive "sURL: ")
+  (shell-command (concat "explorer " (shell-quote-argument url))))
+
+(setq browse-url-browser-function
+      '(("\\.chm" . browse-url-chm)
+        ("pms.siscog.com" . lbo:browse-url-internet-explorer)
+        ("." . browse-url-default-windows-browser)))

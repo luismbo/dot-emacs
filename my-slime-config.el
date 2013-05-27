@@ -22,21 +22,6 @@
 (setq lisp-indent-function 'common-lisp-indent-function)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
 
-(when siscog-p
-  (defvar browse-url-chm-program "d:/cygwin/opt/bin/KeyHH.exe")
-  (defvar browse-url-chm-program-args '("-emacs"))
-  (defun browse-url-chm (url &rest args)
-    (with-temp-buffer
-      (let ((process (apply 'start-process
-                            "CHMBrowser"
-                            nil
-                            browse-url-chm-program
-                            (append browse-url-chm-program-args (list url)))))
-        (process-kill-without-query process))))
-  (setq browse-url-browser-function
-        '(("\\.chm" . browse-url-chm)
-          ("." . browse-url-default-windows-browser))))
-
 (setq common-lisp-hyperspec-root
       (if siscog-p
           "z:/doc/clhs.chm::/"
