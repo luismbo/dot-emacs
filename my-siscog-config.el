@@ -24,7 +24,7 @@
 ;(load (format "%s/custom/sc-after.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
 (load "~/.emacs.d/custom/sc-after.el")
 
-(setenv "CYGWIN" "nodosfilewarnings")
+(setenv "CYGWIN" "nodosfilewarning")
 
 (setenv "PATH" (format "d:\\cygwin\\bin;d:\\cygwin\\usr\\bin;%s"
                        (getenv "PATH")))
