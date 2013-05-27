@@ -40,8 +40,16 @@
 
 ;;;; Restore M-> and M-<
 
-(global-set-key (kbd "M-<") 'beginning-of-buffer-nomark)
-(global-set-key (kbd "M->") 'end-of-buffer-nomark)
+(defun lbo:end-of-buffer-nomark ()
+  (interactive)
+  (goto-char (point-max)))
+
+(defun lbo:beginning-of-buffer-nomark ()
+  (interactive)
+  (goto-char (point-min)))
+
+(global-set-key (kbd "M-<") 'lbo:beginning-of-buffer-nomark)
+(global-set-key (kbd "M->") 'lbo:end-of-buffer-nomark)
 
 ;;;; Windows stuff
 

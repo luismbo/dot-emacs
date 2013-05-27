@@ -256,7 +256,7 @@
 (tool-bar-mode -1)
 
 (unless mac-p
-  (menu-bar-mode nil))
+  (menu-bar-mode 0))
 
 (setq default-indicate-empty-lines t)
 
