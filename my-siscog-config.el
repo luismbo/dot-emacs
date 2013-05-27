@@ -270,3 +270,6 @@
                                     "alisp.exe"
                                     allegro-common-lisp-image-name)))
     (allegro)))
+
+(add-to-list 'load-path "~/siscog/sc-patches/")
+(require 'sc-patches)
