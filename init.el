@@ -406,6 +406,13 @@
   (eval-after-load 'magit
     (setq magit-git-executable "/usr/local/bin/git")))
 
+;;;; ELPA FTW
+
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
+
 ;;;; Input Methods
 
 ;; Default setting for C-\
