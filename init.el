@@ -455,8 +455,9 @@
   (setq inhibit-startup-message t)
   (my-open-first-agenda-file))
 
+
+(load "~/.emacs.d/my-jabber-config.el")
 (when roster-only-mode-p
-  (load "~/.emacs.d/my-jabber-config.el")
   (setq inhibit-startup-message t)
   (gtalk))
 

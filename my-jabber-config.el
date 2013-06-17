@@ -48,11 +48,16 @@
 
      (setq jabber-activity-count-in-title t)))
 
+(defun lbo:read-file (path)
+  (with-temp-buffer
+    (insert-file-contents path)
+    (buffer-string)))
+
 (defun gtalk ()
   (interactive)
   (let ((jabber-account-list
          `(("luismbo@gmail.com"
-            (:password . nil)
+            (:password . ,(when siscog-p (lbo:read-file "w:/.jabber-password")))
             (:network-server . ,(if siscog-p
                                     "localhost"
                                     "talk.google.com"))
