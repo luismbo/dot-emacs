@@ -265,17 +265,17 @@
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
 
-(cond
-  ((or darwin-p siscog-p) (load "~/.emacs.d/color-theme.el"))
-  ((not olpc-p) (require 'color-theme)))
-
-(when (and (not olpc-p) window-system)
+(when window-system
   (cond (roster-only-mode-p
          (color-theme-dark-laptop))
         (org-only-mode-p
          (set-face-background 'default "grey90"))
         ((or mac-p siscog-p)
-         (load "~/.emacs.d/zenburn-emacs/zenburn-theme.el")
+         (add-to-list 'custom-theme-load-path
+                      "~/.emacs.d/lib/emacs-color-theme-solarized/")
+         (load-theme 'solarized-dark t)
+         ;; (load-theme 'solarized-light t)
+         ;; (load "~/.emacs.d/zenburn-emacs/zenburn-theme.el")
          ;; (color-theme-dark-laptop)
          ;; (set-face-background 'default "grey12")
          ;; (set-face-background 'tooltip "white")

@@ -13,3 +13,6 @@
 [submodule "zenburn-emacs"]
 	path = zenburn-emacs
 	url = https://github.com/bbatsov/zenburn-emacs
+[submodule "lib/emacs-color-theme-solarized"]
+	path = lib/emacs-color-theme-solarized
+	url = https://github.com/sellout/emacs-color-theme-solarized
