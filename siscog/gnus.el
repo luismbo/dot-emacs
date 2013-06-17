@@ -39,10 +39,8 @@
       '(("gmane.*" ("From" "Luís Oliveira <luismbo@gmail.com>"))
         ("comp.*" ("From" "Luís Oliveira <luis.oliveira@deadspam.com>"))))
 
-;(setq gnus-invalid-group-regexp "[:`'\"]\\|^$")
-
-;; don't remember why I use these two settings.
-(setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)%l %O\n")
+;; (setq gnus-invalid-group-regexp "[:`'\"]\\|^$")
+;; (setq gnus-group-line-format "%M%S%p%P%5y:%B%(%G%)%l %O\n")
 
 ;; for collecting folders/groups per account. (Not automatic, have to
 ;; create topics and move groups there.)
@@ -54,10 +52,25 @@
 (setq gnus-treat-display-face nil)
 
 (add-hook 'message-mode-hook
-          (lambda () 
+          (lambda ()
+            (set-input-method 'portuguese-prefix)
             (auto-fill-mode 1)
             (setq fill-column 72)))
 
 ;; for when I can't get Emacs to load libxml2.dll
 ;; also, it displays less colours, which is actually nice.
 (setq mm-text-html-renderer 'gnus-w3m)
+
+;;;; Keybindings
+
+(define-key gnus-summary-mode-map (kbd "<delete>")
+  'lbo:gnus-move-to-trash)
+
+(defun lbo:gnus-move-to-trash ()
+  (interactive) (gnus-summary-move-article nil "imap-mail/Trash" nil 'move))
+
+(define-key gnus-summary-mode-map (kbd "a")
+  'lbo:gnus-archive)
+
+(defun lbo:gnus-archive ()
+  (interactive) (gnus-summary-move-article nil "imap-mail/Archives" nil 'move))
