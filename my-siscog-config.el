@@ -193,7 +193,10 @@
 
 ;;;; magit
 
-(setq magit-git-executable "d:/git/cmd/git.cmd")
+;; pointing magit and vc to git.exe rather than git.cmd is
+;; significantly faster for magit-status.
+(setq magit-git-executable "d:/git/bin/git.exe")
+(setq vc-git-program "d:/git/bin/git.exe")
 
 ;;;; modif-mode
 
