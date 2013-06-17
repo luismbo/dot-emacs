@@ -334,6 +334,10 @@
 ;(add-to-list 'load-path "~/.emacs.d/rinari/")
 ;(require 'rinari)
 
+(add-hook 'ruby-mode-hook 'robe-mode)
+
+;;;; NXHTML
+
 (unless siscog-p
   (load "~/.emacs.d/nxhtml/autostart.el")
 
