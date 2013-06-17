@@ -265,14 +265,18 @@
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
 
+(add-to-list 'custom-theme-load-path
+             "~/.emacs.d/lib/emacs-color-theme-solarized/")
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn-emacs/")
+
 (when window-system
   (cond (roster-only-mode-p
          (color-theme-dark-laptop))
         (org-only-mode-p
-         (set-face-background 'default "grey90"))
+         ;; (set-face-background 'default "grey90")
+         (load-theme 'solarized-light t))
         ((or mac-p siscog-p)
-         (add-to-list 'custom-theme-load-path
-                      "~/.emacs.d/lib/emacs-color-theme-solarized/")
          (load-theme 'solarized-dark t)
          ;; (load-theme 'solarized-light t)
          ;; (load "~/.emacs.d/zenburn-emacs/zenburn-theme.el")
@@ -280,6 +284,8 @@
          ;; (set-face-background 'default "grey12")
          ;; (set-face-background 'tooltip "white")
          )
+        (siscog-p
+         (load-theme 'zenburn t))
         (t
          (color-theme-robin-hood))))
 
@@ -385,7 +391,7 @@
       '(("CANCELLED" . shadow)
         ("WAITING" . (:foreground "orange"))
         ("MAYBE" . (:foreground "orange"))
-        ("WIP" . (:foreground "yellow"))
+        ("WIP" . (:foreground "orange"))
         ("SEP" . (:foreground "orange"))))
 
 ;; The default was '(closed clock), show state changes as well.
