@@ -1,14 +1,10 @@
 ;;;; SLIME
 
-(when siscog-p
-  (add-to-list 'load-path "~/siscog/sc-emacs/slime/"))
-
 (unless siscog-p
-  (load (expand-file-name "~/quicklisp/slime-helper.el"))
-
-  (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
-                                        ;slime-hyperdoc
-                 slime-parse))
+  ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  (add-to-list 'load-path "~/src/lisp/slime/")
+  (require 'slime-autoloads)
+  (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner))
 
   ;(slime-require 'swank-listener-hooks)
 
@@ -60,7 +56,7 @@
                   :coding-system (or ',coding-system 'utf-8-unix))))
 
 (unless siscog-p
-  (defslime-start allegro "~/Software/acl/alisp")
+  (defslime-start allegro "/Applications/AllegroCLexpress.app/Contents/Resources/alisp")
   (defslime-start allegro64 "~/Software/acl82.64/alisp")
   (defslime-start clisp "/usr/local/bin/clisp" utf-8-unix '("-I"))
   (defslime-start cmucl "~/Software/bin/lisp" iso-latin-1-unix)
@@ -69,7 +65,8 @@
   (defslime-start sbcl "/usr/local/bin/sbcl" utf-8-unix)
   (defslime-start ecl "~/Software/bin/ecl" iso-latin-1-unix)
   (defslime-start lw "~/Software/bin/lw")
-  (defslime-start abcl "~/sources/abcl/abcl" iso-latin-1-unix))
+  (defslime-start abcl "java" utf-8-unix
+    '("-jar" "/Users/luis/Software/abcl-bin/abcl.jar")))
 
 (defmacro defslime-connect (name host port)
   `(defun ,name ()
@@ -94,14 +91,5 @@
 (global-set-key (kbd "C-c s") 'slime-selector)
 (global-set-key (kbd "C-c h") 'clhs-lookup)
 (global-set-key (kbd "C-c r") 'slime-pop-find-definition-stack)
-
-(defun slime-toggle-trace-fdefinition (&optional using-context-p)
-  "Toggle trace."
-  (interactive "P")
-  (let* ((spec (if using-context-p
-                   (slime-extract-context)
-                   (slime-symbol-at-point)))
-         (spec (slime-trace-query spec)))
-    (message "%s" (slime-eval `(swank:swank-toggle-trace ,spec)))))
 
 (setq slime-autodoc-use-multiline-p t)
