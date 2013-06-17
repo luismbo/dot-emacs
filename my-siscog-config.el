@@ -178,18 +178,17 @@
 ;;;; gitk integration
 
 ;; (server-start)
-
 ;; ;; by TW, the following automagically starts ediff on the open files
-(defadvice server-visit-files (after server-visit-files-gitk-ediff
-                                     first
-                                     (files client &optional nowait)
-                                     activate)
-  (let ((filenames (mapcar 'car files)))
-    (when (and (= (length filenames) 2)
-               (some (lambda (filename)
-                       (string-match "\\.gitk-tmp\\.[0-9]+" filename))
-                     filenames))
-      (apply 'ediff-buffers (mapcar 'get-file-buffer filenames)))))
+;;(defadvice server-visit-files (after server-visit-files-gitk-ediff
+;;                                     first
+;;                                     (files client &optional nowait)
+;;                                     activate)
+;;  (let ((filenames (mapcar 'car files)))
+;;    (when (and (= (length filenames) 2)
+;;               (some (lambda (filename)
+;;                       (string-match "\\.gitk-tmp\\.[0-9]+" filename))
+;;                     filenames))
+;;      (apply 'ediff-buffers (mapcar 'get-file-buffer filenames)))))
 
 ;;;; magit
 
@@ -217,10 +216,11 @@
  ;; C-8 will increase opacity (== decrease transparency)
  ;; C-9 will decrease opacity (== increase transparency
  ;; C-0 will returns the state to normal
-(global-set-key (kbd "C-8") '(lambda()(interactive)(djcb-opacity-modify)))
-(global-set-key (kbd "C-9") '(lambda()(interactive)(djcb-opacity-modify t)))
-(global-set-key (kbd "C-0") '(lambda()(interactive)
-                               (modify-frame-parameters nil `((alpha . 100)))))
+(global-set-key (kbd "C-8") (lambda () (interactive) (djcb-opacity-modify)))
+(global-set-key (kbd "C-9") (lambda () (interactive) (djcb-opacity-modify t)))
+(global-set-key (kbd "C-0") (lambda ()
+                              (interactive)
+                              (modify-frame-parameters nil '((alpha . 100)))))
 
 ;;;; printing
 
