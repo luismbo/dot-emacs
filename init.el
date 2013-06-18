@@ -193,6 +193,7 @@
       (load "~/.emacs.d/ercpass.el"))
     (require 'erc-truncate)
     (erc-scrolltobottom-enable)
+    (setq erc-input-line-position -1)
     ;; (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))
     (when siscog-p
       (setq erc-hide-list '("JOIN" "PART" "QUIT")))))
