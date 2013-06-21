@@ -304,7 +304,7 @@
         (org-only-mode-p
          ;; (set-face-background 'default "grey90")
          (load-theme 'solarized-light t))
-        ((or mac-p siscog-p)
+        (mac-p
          (load-theme 'solarized-dark t)
          ;; (load-theme 'solarized-light t)
          ;; (load "~/.emacs.d/zenburn-emacs/zenburn-theme.el")
