@@ -491,3 +491,5 @@
 
 (eval-after-load 'sml-mode
   '(setq sml-program-name "/usr/local/Cellar/smlnj/110.75/libexec/bin/sml"))
+
+(eldoc-mode 1)
