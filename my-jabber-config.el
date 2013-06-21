@@ -65,6 +65,7 @@
             (:connection-type . ssl)))))
     (jabber-connect-all)))
 
+(global-set-key (kbd "C-x C-j C-c") 'gtalk)
 
 (when siscog-p
   (global-set-key (kbd "C-z")
