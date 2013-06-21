@@ -242,7 +242,7 @@
   (cond (mac-p (set-frame-size (selected-frame) 210 58))
         ((and darwin-p x11-p) (set-frame-size (selected-frame) 199 69))))
 
-(global-set-key (kbd "C-c m") 'max-frame)
+;; (global-set-key (kbd "C-c m") 'max-frame)
 
 (defun split-frame-in-3 ()
   (interactive)
