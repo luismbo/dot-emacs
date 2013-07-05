@@ -35,6 +35,15 @@
              ;; the nntp backend doesn't seem to look at auth-sources
              '(nntp "news.sunsite.dk" (nntp-authinfo-file "w:/.authinfo")))
 
+;; (add-to-list 'gnus-secondary-select-methods
+;;              '(nnimap "Gmail"
+;;                (nnimap-address "imap.gmail.com")
+;;                (nnimap-server-port 993)
+;;                (nnimap-stream ssl)))
+
+;; Make Gnus NOT ignore [Gmail] mailboxes
+;; (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
+
 (setq gnus-posting-styles
       '(("gmane.*" ("From" "Luís Oliveira <luismbo@gmail.com>"))
         ("comp.*" ("From" "Luís Oliveira <luis.oliveira@deadspam.com>"))))
@@ -74,3 +83,9 @@
 
 (defun lbo:gnus-archive ()
   (interactive) (gnus-summary-move-article nil "imap-mail/Archives" nil 'move))
+
+;;;; Sending Mail
+
+(setq smtpmail-default-smtp-server "modifs.siscog.com")
+(setq smtpmail-local-domain nil)
+(setq message-send-mail-function 'smtpmail-send-it)
