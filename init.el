@@ -16,6 +16,9 @@
 (defvar roster-only-mode-p
   (string= "JABBER" (frame-parameter (selected-frame) 'title)))
 
+(defvar gnus-only-mode-p
+  (string= "GNUS" (frame-parameter (selected-frame) 'title)))
+
 (require 'cl)
 
 ;;;; HACKS
@@ -32,9 +35,9 @@
 (when siscog-p
   (require 'tramp)
   (setq grep-find-use-xargs 'gnu)
-  (unless (or roster-only-mode-p org-only-mode-p)
+  (unless (or roster-only-mode-p org-only-mode-p gnus-only-mode-p)
     (load "~/.emacs.d/my-siscog-config.el"))
-  (unless roster-only-mode-p
+  (unless (or gnus-only-mode-p roster-only-mode-p)
     (load "~/.emacs.d/my-siscog-org-config.el")
     (setq display-time-format "-%H:%M-")
     (display-time)))
@@ -42,7 +45,7 @@
 ;;;; Editing Stuff
 
 (setq-default indent-tabs-mode nil) ; DIE TABS!!
-(unless (and siscog-p (not org-only-mode-p) (not roster-only-mode-p))
+(unless (and siscog-p (not org-only-mode-p) (not roster-only-mode-p) (not gnus-only-mode-p))
   (set-language-environment "UTF-8"))
 (global-font-lock-mode t)
 (show-paren-mode t)
@@ -304,6 +307,8 @@
         (org-only-mode-p
          ;; (set-face-background 'default "grey90")
          (load-theme 'solarized-light t))
+        (gnus-only-mode-p
+         (load-theme 'wombat t))
         (mac-p
          (load-theme 'solarized-dark t)
          ;; (load-theme 'solarized-light t)
@@ -483,8 +488,13 @@
   (setq inhibit-startup-message t)
   (my-open-first-agenda-file))
 
-
 (load "~/.emacs.d/my-jabber-config.el")
+
+(when gnus-only-mode-p
+  (load "~/.emacs.d/siscog/gnus-config.el")
+  (setq inhibit-startup-message t)
+  (gnus))
+
 (when roster-only-mode-p
   (setq inhibit-startup-message t)
   (gtalk))
