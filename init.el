@@ -493,9 +493,3 @@
   '(setq sml-program-name "/usr/local/Cellar/smlnj/110.75/libexec/bin/sml"))
 
 (eldoc-mode 1)
-
-(substitute-key-definition 'dabbrev-expand 'hippie-expand (current-global-map))
-
-(setq hippie-expand-try-functions-list
-      (set-difference hippie-expand-try-functions-list
-                      '(try-expand-list try-expand-line)))
