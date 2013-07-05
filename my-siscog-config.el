@@ -67,6 +67,7 @@
 ;; restore some keybindings that sc-emacs foolishly changes
 (global-set-key (kbd "M-;") 'comment-dwim)
 (global-set-key (kbd "M-:") 'eval-expression)
+(global-set-key (kbd "C-M-s") 'isearch-forward-regexp)
 
 ;;;; Hide Comments
 
