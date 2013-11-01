@@ -29,6 +29,10 @@
 (setenv "PATH" (format "d:\\cygwin\\bin;d:\\cygwin\\usr\\bin;%s"
                        (getenv "PATH")))
 
+(setq ediff-diff-program "d:/Git/bin/diff.exe")
+(setq diff-command "d:/Git/bin/diff.exe")
+(setq ediff-diff3-program "D:/KDiff3/bin/diff3.exe")
+
 ;(setenv "CREWS_VDEV_DIR" "y:/git/crews-vdev")
 
 (defun lbo:sc (db-user data-source data-dir acl-version)
