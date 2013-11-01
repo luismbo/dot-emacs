@@ -15,7 +15,12 @@
         (nnimap-address "lximaps01.siscog.com")
         (nnimap-list-pattern "INBOX" "imap-mail/*")
         (nnimap-expunge-on-close never) ; not sure what this does
-        (nnir-search-engine imap)))
+        ;; this means we need to load everything using (kbd "A C")
+        ;; before being able to save the attachment.
+        (nnimap-fetch-partial-articles "text/")
+        (nnir-search-engine imap)
+        (nnimap-server-port 993)
+        (nnimap-stream ssl)))
 
 ;; Always show some groups, whether they have new messages or not.
 ;;
@@ -28,6 +33,7 @@
 ;; save sent mails in the IMAP "Sent" folder.
 (setq gnus-message-archive-method '(nnimap "SISCOG"))
 (setq gnus-message-archive-group "imap-mail/Sent")
+(setq gnus-gcc-mark-as-read t) ; mark them as read
 
 (add-to-list 'gnus-secondary-select-methods '(nntp "news.gmane.org"))
 
@@ -68,7 +74,12 @@
 
 ;; for when I can't get Emacs to load libxml2.dll
 ;; also, it displays less colours, which is actually nice.
-(setq mm-text-html-renderer 'gnus-w3m)
+;; It is one of defined renderer types, or a rendering function.
+(setq mm-text-html-renderer 'shr)
+;; (setq mm-text-html-renderer 'gnus-w3m)
+(setq mm-inline-large-images t)
+(setq mm-inline-text-html-with-images t)
+;; (setq mm-inline-text-html-with-w3m-keymap nil)
 
 ;;;; Keybindings
 
