@@ -16,3 +16,6 @@
 [submodule "lib/emacs-color-theme-solarized"]
 	path = lib/emacs-color-theme-solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized
+[submodule "lib/efire"]
+	path = lib/efire
+	url = https://github.com/capitaomorte/efire
