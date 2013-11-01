@@ -35,6 +35,7 @@
 (when siscog-p
   (require 'tramp)
   (setq grep-find-use-xargs 'gnu)
+  (load "~/.emacs.d/siscog/site.el")
   (unless (or roster-only-mode-p org-only-mode-p gnus-only-mode-p)
     (load "~/.emacs.d/my-siscog-config.el"))
   (unless (or gnus-only-mode-p roster-only-mode-p)
