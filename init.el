@@ -104,14 +104,15 @@
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier nil))
 
-(let ((font (cond
-              (mac-p "Menlo-11")
-              (olpc-p "Monospace-7")
-              (siscog-p "Consolas-10")
-              ((> emacs-major-version 22) "Monospace-10")
-              (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*"))))
-  (set-default-font font)
-  (add-to-list 'default-frame-alist (cons 'font font)))
+(setq *default-font*
+      (cond
+        (mac-p "Menlo-11")
+        (olpc-p "Monospace-7")
+        (siscog-p "Consolas-10")
+        ((> emacs-major-version 22) "Monospace-10")
+        (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*")))
+
+(set-frame-font *default-font* t t)
 
 ;;;; C
 
@@ -309,7 +310,8 @@
          ;; (set-face-background 'default "grey90")
          (load-theme 'solarized-light t))
         (gnus-only-mode-p
-         (load-theme 'wombat t))
+         ;; (load-theme 'wombat t)
+         )
         (mac-p
          (load-theme 'solarized-dark t)
          ;; (load-theme 'solarized-light t)
@@ -443,18 +445,19 @@
 
 ;;;; Magit
 
-(add-to-list 'load-path "~/.emacs.d/magit/")
-(load "~/.emacs.d/magit/magit.el")
+;; (add-to-list 'load-path "~/.emacs.d/magit/")
+;; (load "~/.emacs.d/magit/magit.el")
 
-(when mac-p
-  (eval-after-load 'magit
-    (setq magit-git-executable "/usr/local/bin/git")))
+;; (when mac-p
+;;   (eval-after-load 'magit
+;;     (setq magit-git-executable "/usr/local/bin/git")))
+
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;;;; ELPA FTW
 
 (require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 ;;;; Input Methods
@@ -491,7 +494,7 @@
 
 (load "~/.emacs.d/my-jabber-config.el")
 
-(when gnus-only-mode-p
+(when (or org-only-mode-p gnus-only-mode-p)
   (load "~/.emacs.d/siscog/gnus-config.el")
   (setq inhibit-startup-message t)
   (gnus))
@@ -502,5 +505,11 @@
 
 (eval-after-load 'sml-mode
   '(setq sml-program-name "/usr/local/Cellar/smlnj/110.75/libexec/bin/sml"))
+
+(eval-after-load 'circe
+  '(progn
+    (circe-set-display-handler "JOIN" (lambda (&rest ignored) nil))
+    (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
+    (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))))
 
 (eldoc-mode 1)
