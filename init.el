@@ -406,12 +406,21 @@
 
 ;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
 
-(setq org-agenda-files
+(setq org-directory
       (if siscog-p
-          '("w:/org/WORK.org" "w:/org/EFFORT.org")
-          '("~/Dropbox/Documents/org/LIFE.org")))
+          "w:/org"
+          "~/Dropbox/Documents/org"))
 
-;; Add new TODO states: WAITING and CANCELLED.
+(setq org-agenda-files (list org-directory))
+
+(setq org-default-notes-file (concat org-directory "/WORK.org"))
+(define-key global-map (kbd "C-c o c") 'org-capture)
+
+(setq org-capture-templates
+      `(("t" "Todo" entry (file+olp ,(concat org-directory "/WORK.org") "CAPTURE")
+             "* MAYBE %?\n  %i\n  %a")))
+
+;; Add new TODO states
 ;;
 ;; C-c C-t followed by the key in parenthesis picks the respective
 ;; state.  S-<Right> and S-<Left> cycle through all of these states.
@@ -419,14 +428,14 @@
       '(;(sequence "TODO(t)" "|" "DONE(d)")
         (sequence "TODO(t)" "MAYBE(m)" "WAITING(w)" "|" "DONE(d)")
         (sequence "|" "CANCELLED(c)")
-        (sequence "OPEN(o)" "WIP(i)" "REVIEW(v)" "|" "SEP(s)" "RESOLVED(r)")))
+        (sequence "OPEN(o)" "STARTED(s)" "REVIEW(v)" "|" "DELEGATED(d)" "RESOLVED(r)")))
 
-;; Give WAITING and CANCELLED some color.
 (setq org-todo-keyword-faces
       '(("CANCELLED" . shadow)
         ("WAITING" . (:foreground "orange"))
         ("MAYBE" . (:foreground "orange"))
         ("WIP" . (:foreground "orange"))
+        ("STARTED" . (:foreground "orange"))
         ("SEP" . (:foreground "orange"))))
 
 ;; The default was '(closed clock), show state changes as well.
@@ -435,12 +444,16 @@
 (global-set-key (kbd "C-c o a") 'org-agenda-list)
 (global-set-key (kbd "C-c o t") 'org-todo-list)
 
-(defun my-open-first-agenda-file ()
+(defun my-open-main-org-file ()
   (interactive)
-  (find-file (first org-agenda-files))
+  (find-file (concat org-directory (if siscog-p "/WORK.org" "/LIFE.org")))
   (set-face-foreground 'org-hide (face-background 'default)))
 
-(global-set-key (kbd "C-c o o") 'my-open-first-agenda-file)
+(global-set-key (kbd "C-c o o") 'my-open-main-org-file)
+
+(when siscog-p
+  (global-set-key (kbd "C-c o e")
+                  '(lambda () (interactive) (find-file (concat org-directory "/EFFORT.org")))))
 
 ;;;; Magit
 
