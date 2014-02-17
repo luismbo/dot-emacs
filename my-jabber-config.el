@@ -4,9 +4,10 @@
   (setenv "PATH" (format "d:\\cygwin\\bin;d:\\cygwin\\usr\\bin;%s"
                          (getenv "PATH"))))
 
-(add-to-list 'load-path "~/.emacs.d/emacs-jabber/")
-
-(require 'jabber-autoloads)
+(let ((emacs-jabber-dir "~/.emacs.d/emacs-jabber/"))
+  (when (file-exists-p emacs-jabber-dir) 
+    (add-to-list 'load-path emacs-jabber-dir)
+    (require 'jabber-autoloads)))
 
 (eval-after-load 'jabber
   `(progn

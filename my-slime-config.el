@@ -1,6 +1,6 @@
 ;;;; SLIME
 
-(unless siscog-p
+(when (and (not siscog-p) (file-exists-p "~/src/lisp/slime"))
   ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (add-to-list 'load-path "~/src/lisp/slime/")
   (require 'slime-autoloads)
