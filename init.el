@@ -169,6 +169,8 @@
      (define-key paredit-mode-map (kbd "RET") nil)
      (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)))
 
+(add-hook 'emacs-lisp-mode-hook (lambda () (eldoc-mode 1)))
+
 ;;;; Light-grey Parentheses
 
 (when window-system
@@ -524,4 +526,3 @@
     (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
     (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))))
 
-(eldoc-mode 1)
