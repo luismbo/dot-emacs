@@ -321,10 +321,8 @@
          ;; (set-face-background 'default "grey12")
          ;; (set-face-background 'tooltip "white")
          )
-        (siscog-p
-         (load-theme 'zenburn t))
         (t
-         (color-theme-robin-hood))))
+         (load-theme 'zenburn t))))
 
 ;;;; Enable disabled functions
 
