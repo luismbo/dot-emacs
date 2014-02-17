@@ -457,6 +457,24 @@
   (global-set-key (kbd "C-c o e")
                   '(lambda () (interactive) (find-file (concat org-directory "/EFFORT.org")))))
 
+;;;; ELPA FTW
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+(defvar *auto-refreshed-packages* nil
+  "True if `package-require' has already refreshed the package
+  list in the current session")
+
+(defun package-require (name)
+  (unless (package-installed-p name)
+    (unless *auto-refreshed-packages*
+      (package-refresh-contents)
+      (setq *auto-refreshed-packages* t))
+    (package-install name))
+  (require name))
+
 ;;;; Magit
 
 ;; (add-to-list 'load-path "~/.emacs.d/magit/")
@@ -466,13 +484,9 @@
 ;;   (eval-after-load 'magit
 ;;     (setq magit-git-executable "/usr/local/bin/git")))
 
+(package-require 'magit)
+
 (global-set-key (kbd "C-x g") 'magit-status)
-
-;;;; ELPA FTW
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(package-initialize)
 
 ;;;; Input Methods
 
