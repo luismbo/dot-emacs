@@ -10,7 +10,10 @@
 
   ;;(setq inferior-lisp-program "clisp -K full")
   ;;(setq inferior-lisp-program "~/Software/sbcl.sh")
-  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+  (setq inferior-lisp-program (let ((it "/usr/local/bin/sbcl"))
+                                (if (file-exists-p it)
+                                    it
+                                    "sbcl")))
   ;;(setq inferior-lisp-program "/Users/luis/Software/bin/openmcl")
   ;;(setq inferior-lisp-program "acl")
   (setq slime-net-coding-system 'utf-8-unix))
