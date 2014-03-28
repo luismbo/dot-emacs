@@ -80,7 +80,7 @@
 
   (setq browse-url-browser-function
         '(("\\.chm" . browse-url-chm)
-          ("pms.siscog.com" . lbo:browse-url-internet-explorer)
+          ("pms.siscog" . lbo:browse-url-internet-explorer)
           ("." . browse-url-default-windows-browser))))
 
 (defun toggle-show-trailing-whitespace ()
