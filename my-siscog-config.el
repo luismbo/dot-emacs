@@ -1,5 +1,12 @@
 ;;;; -*- coding: utf-8 -*-
 
+(add-to-list 'load-path "z:/siscog/org-pms")
+(require 'org-pms)
+
+(setq pms-effort-file "w:/org/EFFORT.org")
+(setq pms-username "luismbo")
+(setq pms-visible-name "Luís B. Oliveira")
+
 (defvar *use-slime* t)
 
 ;;;; Siscog Stuff
