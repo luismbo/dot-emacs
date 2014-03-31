@@ -351,3 +351,6 @@
   (other-window 1)
   (paredit-forward)
   (set-definition-moved))
+
+(grep-apply-setting 'grep-find-command
+                    "find . ! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 -e grep -nH -e ")
