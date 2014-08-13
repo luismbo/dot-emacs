@@ -29,8 +29,9 @@
 ;;;; Load Path
 
 (add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/lib")
 
-;;;; Siscog
+;;;; SISCOG
 
 (when siscog-p
   (require 'tramp)
@@ -338,8 +339,7 @@
 (when siscog-p
   (global-set-key (kbd "M-DEL") 'backward-kill-word))
 
-(when mac-p
-  (global-set-key "\M-`" 'other-frame))
+(global-set-key "\M-`" 'other-frame)
 
 ;;;; Haskell
 
@@ -428,7 +428,8 @@
       '(;(sequence "TODO(t)" "|" "DONE(d)")
         (sequence "TODO(t)" "MAYBE(m)" "WAITING(w)" "|" "DONE(d)")
         (sequence "|" "CANCELLED(c)")
-        (sequence "OPEN(o)" "STARTED(s)" "REVIEW(v)" "|" "DELEGATED(d)" "RESOLVED(r)")))
+        (sequence "OPEN(o)" "STARTED(s)" "VERIFICATION(v)" "|" "DELEGATED(l)" "RESOLVED(r)")
+        (sequence "REVIEW(R)" "|" "REVIEWED(D)")))
 
 (setq org-todo-keyword-faces
       '(("CANCELLED" . shadow)
@@ -454,6 +455,17 @@
 (when siscog-p
   (global-set-key (kbd "C-c o e")
                   '(lambda () (interactive) (find-file (concat org-directory "/EFFORT.org")))))
+
+;;; Pomodoro + org clock
+
+(setq org-timer-default-timer 25)
+
+(add-hook 'org-clock-in-hook (lambda ()
+                               (unless org-timer-current-timer
+                                 (org-timer-set-timer '(16)))))
+
+(setq org-agenda-span 'day)
+;; org-timer-clock-sound
 
 ;;;; ELPA FTW
 
@@ -500,6 +512,13 @@
 (global-set-key (kbd "C-c k l")
                 (lambda () (interactive) (set-input-method 'TeX)))
 
+;;;; AMPL
+
+(autoload 'ampl-mode "ampl-mode" "Ampl editing mode." t)
+
+(add-to-list 'auto-mode-alist '("\\.mod$" . ampl-mode))
+(add-to-list 'auto-mode-alist '("\\.ampl$" . ampl-mode))
+
 ;;;; The End
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
@@ -538,3 +557,4 @@
     (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
     (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))))
 
+(setq dired-listing-switches "-alh")

@@ -33,12 +33,12 @@
 
 (setenv "CYGWIN" "nodosfilewarning")
 
-(setenv "PATH" (format "d:\\cygwin\\bin;d:\\cygwin\\usr\\bin;%s"
+(setenv "PATH" (format "d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
                        (getenv "PATH")))
 
-(setq ediff-diff-program "d:/Git/bin/diff.exe")
-(setq diff-command "d:/Git/bin/diff.exe")
-(setq ediff-diff3-program "D:/KDiff3/bin/diff3.exe")
+(setq ediff-diff-program "c:/siscog-dev-tools/Git/bin/diff.exe")
+(setq diff-command ediff-diff-program)
+(setq ediff-diff3-program "d:/opt/KDiff3/bin/diff3.exe")
 
 ;(setenv "CREWS_VDEV_DIR" "y:/git/crews-vdev")
 
@@ -210,8 +210,8 @@
 
 ;; pointing magit and vc to git.exe rather than git.cmd is
 ;; significantly faster for magit-status.
-(setq magit-git-executable "d:/git/bin/git.exe")
-(setq vc-git-program "d:/git/bin/git.exe")
+(setq magit-git-executable "c:/siscog-dev-tools/Git/bin/git.exe")
+(setq vc-git-program magit-git-executable)
 
 ;;;; modif-mode
 
@@ -223,9 +223,10 @@
 (defun djcb-opacity-modify (&optional dec)
   "modify the transparency of the emacs frame; if DEC is t,
    decrease the transparency, otherwise increase it in 10%-steps"
-  (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
+  (let* ((step 5)
+         (alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
          (oldalpha (if alpha-or-nil alpha-or-nil 100))
-         (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
+         (newalpha (if dec (- oldalpha step) (+ oldalpha step))))
     (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
       (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
 
@@ -352,5 +353,20 @@
   (paredit-forward)
   (set-definition-moved))
 
-(grep-apply-setting 'grep-find-command
-                    "find . ! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 -e grep -nH -e ")
+(eval-after-load 'grep
+  '(grep-apply-setting 'grep-find-command
+                       "find . ! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 -e grep -nHi -e "))
+
+;;; AucTeX
+
+(setq LaTeX-command "d:/opt/miktex/miktex/bin/latex.exe")
+(setq LaTeX-command-style '(("" "%(latex) %S%(PDFout)"))) ; era: '(("" "%(PDF)%(latex) %S%(PDFout)"))
+(eval-after-load 'tex '(TeX-global-PDF-mode t))
+
+(add-hook 'lisp-mode-hook ; desperate hack...
+          (lambda ()
+            (global-set-key (kbd "C-DEL") 'join-line)
+            (global-set-key (kbd "C-<backspace>") 'join-line)
+            (global-set-key (kbd "M-DEL") 'backward-kill-word)))
+
+(server-start)

@@ -1,3 +1,5 @@
+(require 'org-thunderlink)
+
 (setq org-export-html-style
       "<style type=\"text/css\"> 
  <!--/*--><![CDATA[/
