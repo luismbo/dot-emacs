@@ -40,6 +40,7 @@
 ;;;; Load Path
 
 (add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/lib")
 
 ;;;; package.el
 
@@ -300,8 +301,7 @@
 (when siscog-p
   (global-set-key (kbd "M-DEL") 'backward-kill-word))
 
-(when mac-p
-  (global-set-key "\M-`" 'other-frame))
+(global-set-key "\M-`" 'other-frame)
 
 ;;;; Haskell
 
@@ -391,7 +391,8 @@
       '(;(sequence "TODO(t)" "|" "DONE(d)")
         (sequence "TODO(t)" "MAYBE(m)" "WAITING(w)" "|" "DONE(d)")
         (sequence "|" "CANCELLED(c)")
-        (sequence "OPEN(o)" "STARTED(s)" "REVIEW(v)" "|" "DELEGATED(d)" "RESOLVED(r)")))
+        (sequence "OPEN(o)" "STARTED(s)" "VERIFICATION(v)" "|" "DELEGATED(l)" "RESOLVED(r)")
+        (sequence "REVIEW(R)" "|" "REVIEWED(D)")))
 
 (setq org-todo-keyword-faces
       '(("CANCELLED" . shadow)
@@ -418,7 +419,9 @@
   (global-set-key (kbd "C-c o e")
                   '(lambda () (interactive) (find-file (concat org-directory "/EFFORT.org")))))
 
-;;;; Scala
+(setq org-agenda-span 'day)
+
+;;;; ELPA FTW
 
 ;; (lbo:package-require 'scala-mode2)
 
@@ -465,6 +468,13 @@
 
 (lbo:ensure-package 'ace-jump-mode)
 (global-set-key (kbd "C-S-j") 'ace-jump-mode)
+
+;;;; AMPL
+
+(autoload 'ampl-mode "ampl-mode" "Ampl editing mode." t)
+
+(add-to-list 'auto-mode-alist '("\\.mod$" . ampl-mode))
+(add-to-list 'auto-mode-alist '("\\.ampl$" . ampl-mode))
 
 ;;;; The End
 
@@ -518,3 +528,7 @@
     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+
+;;;; dired
+
+(setq dired-listing-switches "-alh")

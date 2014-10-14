@@ -1,48 +1,4 @@
-;;;; POAs
-
-;; Add extra tweaks when org-mode is started
-(defvar org-extra-installed-p nil)
-(add-hook 'org-mode-hook 'org-extra-install)
-
-(defun org-extra-install ()
-  "Add customisations to Org mode. This function is designed to be
-added the mode hook, `org-mode-hook'"
-  ;; Extras that need installing for every org-mode buffer
-  ;; ... none at the moment
-  ;;
-  ;; One-off extras
-  (unless org-extra-installed-p
-    ;; Link handlers for PMS
-    ;; eg [[POA:12345]] will create a clickable link to POA 12345.0
-    (setq org-link-abbrev-alist
-          `(("TASK" . org-extra-link-abbrev-task)
-            ("POA" . org-extra-link-abbrev-poa)
-            ,@org-link-abbrev-alist))
-    ;; Jump to lisp definition
-    (org-add-link-type "def" 'org-extra-link-def)
-    (setq org-extra-installed-p t)))
-
-(defun org-extra-split-poa (poa)
-  (multiple-value-bind (poa life)
-      (split-string poa "\\.")
-    (list poa (or life 0))))
-
-(defun org-extra-link-abbrev-poa (poa)
-  "Returns a link to a POA"
-  (apply 'format
-         "http://pms.siscog.com:8080/main_frame_link.asp?module=defects&category=poa&id=%s&life=%s"
-         (org-extra-split-poa poa)))
-
-(defun org-extra-link-abbrev-task (task)
-  "Returns a link to a task"
-  (format "http://pms.siscog.com:8080/main_frame_link.asp?module=tasks&category=defect&id=%s" task))
-
-(defun org-extra-link-def (thing)
-  "Look up THING using in Allegro and go to its definition.
-THING can be a symbol, an fspec, or their string representation."
-  (fi::lisp-find-definition-common thing :other-window))
-
-;;;; Feeds
+(require 'org-thunderlink)
 
 (setq org-export-html-style
       "<style type=\"text/css\"> 
