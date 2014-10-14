@@ -4,7 +4,8 @@
   ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (add-to-list 'load-path "~/src/lisp/slime/")
   (require 'slime-autoloads)
-  (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner))
+  (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
+                 slime-tramp))
 
   ;(slime-require 'swank-listener-hooks)
 

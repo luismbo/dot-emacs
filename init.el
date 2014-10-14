@@ -8,6 +8,12 @@
 (defvar olpc-p (string-match "olpc" (user-login-name)))
 (defvar siscog-p (string-match "luismbo" (user-login-name)))
 
+(defun lbo:imenu-elisp-sections ()
+  (setq imenu-prev-index-position-function nil)
+  (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
+
+(add-hook 'emacs-lisp-mode-hook 'lbo:imenu-elisp-sections)
+
 ;;; emacs ... -T ORG
 (defvar org-only-mode-p
   (string= "ORG" (frame-parameter (selected-frame) 'title)))
@@ -26,15 +32,36 @@
 ;(when mac-p
 ;  (ns-set-resource nil "ApplePressAndHoldEnabled" "NO"))
 
+;;;; Exec Path
+
+(when mac-p
+  (add-to-list 'exec-path "/usr/local/bin"))
+
 ;;;; Load Path
 
 (add-to-list 'load-path "~/.emacs.d/")
 
-;;;; Siscog
+;;;; package.el
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+(defvar lbo:*auto-refreshed-packages* nil
+  "True if `lbo:ensure-package' has already refreshed the package
+  list in the current session")
+
+(defun lbo:ensure-package (name)
+  (unless (package-installed-p name)
+    (unless lbo:*auto-refreshed-packages*
+      (package-refresh-contents)
+      (setq lbo:*auto-refreshed-packages* t))
+    (package-install name)))
+
+;;;; SISCOG
 
 (when siscog-p
-  (require 'tramp)
-  (setq grep-find-use-xargs 'gnu)
   (load "~/.emacs.d/siscog/site.el")
   (unless (or roster-only-mode-p org-only-mode-p gnus-only-mode-p)
     (load "~/.emacs.d/my-siscog-config.el"))
@@ -48,6 +75,7 @@
 (setq-default indent-tabs-mode nil) ; DIE TABS!!
 (unless (and siscog-p (not org-only-mode-p) (not roster-only-mode-p) (not gnus-only-mode-p))
   (set-language-environment "UTF-8"))
+
 (global-font-lock-mode t)
 (show-paren-mode t)
 (transient-mark-mode t)
@@ -58,31 +86,6 @@
           (message url)
           (do-applescript (concat "open location \"" url "\"")))))
 
-;;;; Browsers
-
-(when siscog-p
-  (defvar browse-url-chm-program "d:/cygwin/opt/bin/KeyHH.exe")
-
-  (defvar browse-url-chm-program-args '("-emacs"))
-
-  (defun browse-url-chm (url &rest args)
-    (with-temp-buffer
-      (let ((process (apply 'start-process
-                            "CHMBrowser"
-                            nil
-                            browse-url-chm-program
-                            (append browse-url-chm-program-args (list url)))))
-        (process-kill-without-query process))))
-
-  (defun lbo:browse-url-internet-explorer (url &rest ignore)
-    (interactive "sURL: ")
-    (shell-command (concat "explorer " (shell-quote-argument url))))
-
-  (setq browse-url-browser-function
-        '(("\\.chm" . browse-url-chm)
-          ("pms.siscog.com" . lbo:browse-url-internet-explorer)
-          ("." . browse-url-default-windows-browser))))
-
 (defun toggle-show-trailing-whitespace ()
   (interactive)
   (setq show-trailing-whitespace
@@ -90,9 +93,7 @@
 
 ;;;; Goto Last Change
 
-(autoload 'goto-last-change "goto-last-change"
-  "Set point to the position of the last change." t)
- 
+(lbo:ensure-package 'goto-last-change)
 (global-set-key (kbd "C-c \\") 'goto-last-change)
 
 ;;;; Fonts
@@ -156,10 +157,7 @@
 
 ;;;; Paredit
 
-(autoload 'paredit-mode "paredit"
-  "Minor mode for pseudo-structurally editing Lisp code."
-  t)
-
+(lbo:ensure-package 'paredit)
 (add-hook 'lisp-mode-hook (lambda () (paredit-mode 1)))
 (add-hook 'emacs-lisp-mode-hook (lambda () (paredit-mode 1)))
 
@@ -169,11 +167,14 @@
      (define-key paredit-mode-map (kbd "RET") nil)
      (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)))
 
+;;; Elisp
+
 (add-hook 'emacs-lisp-mode-hook (lambda () (eldoc-mode 1)))
 
 ;;;; Light-grey Parentheses
 
 (when window-system
+  (lbo:ensure-package 'parenface)
   (require 'parenface))
 
 ;;;; Pretty Greek Alphabet
@@ -206,39 +207,6 @@
 
 (load "~/.emacs.d/wn-mode.el")
 (wn-mode)
-
-;;;; ERC
-
-;;(add-to-list 'load-path "~/.emacs.d/erc-5.0.4/")
-(autoload 'erc-select "erc" "IRC client." t)
-
-(eval-after-load "erc"
-  '(progn
-    ;; (require 'erc-services)
-    ;; (erc-services-mode 1)
-    ;; (setq erc-prompt-for-nickserv-password nil)
-    ;; ~/.emacs.d/ercpass.el contains something like:
-    ;;
-    ;;    (setq erc-nickserv-passwords
-    ;;          '((freenode (("luis" . "pass1")
-    ;;                       ("luis`" . "pass2")))))
-    (unless siscog-p
-      (load "~/.emacs.d/ercpass.el"))
-    (require 'erc-truncate)
-    (erc-scrolltobottom-enable)
-    (setq erc-input-line-position -1)
-    ;; (setq erc-autojoin-channels-alist '(("freenode.net" "#lisp" "#lisp-pt")))
-    (when siscog-p
-      (setq erc-hide-list '("JOIN" "PART" "QUIT")))))
-
-(defun erc-connect-freenode ()
-  (interactive)
-  (erc :server "nhop.r42.eu"
-       :port 6667
-       :password (if siscog-p
-                     (read-passwd "ERC password: ")
-                     lbo:nhop-bouncer-password)
-       :nick "luis"))
 
 ;;;; Utilities
 
@@ -275,11 +243,6 @@
        (setq buffer (car list))))
   (message "Refreshing open files"))
 
-;;;; Cycle Buffer
-
-(autoload 'cycle-buffer "cycle-buffer" "Cycle forward." t)
-(global-set-key (kbd "C-c b") 'cycle-buffer)
-
 ;;;; Look and Feel
 
 (require 'uniquify)
@@ -293,7 +256,6 @@
   (menu-bar-mode 0))
 
 (setq default-indicate-empty-lines t)
-
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;(invert-face 'default)
@@ -313,14 +275,14 @@
         (gnus-only-mode-p
          ;; (load-theme 'wombat t)
          )
-        (mac-p
-         (load-theme 'solarized-dark t)
-         ;; (load-theme 'solarized-light t)
-         ;; (load "~/.emacs.d/zenburn-emacs/zenburn-theme.el")
-         ;; (color-theme-dark-laptop)
-         ;; (set-face-background 'default "grey12")
-         ;; (set-face-background 'tooltip "white")
-         )
+        ;; (mac-p
+        ;;  ;; (load-theme 'solarized-dark t)
+        ;;  ;; (load-theme 'solarized-light t)
+        ;;  ;; (load "~/.emacs.d/zenburn-emacs/zenburn-theme.el")
+        ;;  ;; (color-theme-dark-laptop)
+        ;;  ;; (set-face-background 'default "grey12")
+        ;;  ;; (set-face-background 'tooltip "white")
+        ;;  )
         (t
          (load-theme 'zenburn t))))
 
@@ -393,7 +355,8 @@
 
 ;;;; Org Mode
 
-(add-to-list 'load-path "~/.emacs.d/org-mode/lisp/")
+;; (add-to-list 'load-path "~/.emacs.d/org-mode/lisp/")
+(lbo:ensure-package 'org)
 (require 'org-install)
 
 (setq org-hide-leading-stars t)
@@ -455,35 +418,19 @@
   (global-set-key (kbd "C-c o e")
                   '(lambda () (interactive) (find-file (concat org-directory "/EFFORT.org")))))
 
-;;;; ELPA FTW
+;;;; Scala
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(package-initialize)
+;; (lbo:package-require 'scala-mode2)
 
-(defvar *auto-refreshed-packages* nil
-  "True if `package-require' has already refreshed the package
-  list in the current session")
-
-(defun package-require (name)
-  (unless (package-installed-p name)
-    (unless *auto-refreshed-packages*
-      (package-refresh-contents)
-      (setq *auto-refreshed-packages* t))
-    (package-install name))
-  (require name))
+;; (let ((ensime-dir "~/src/scala/ensime/src/main/elisp"))
+;;   (when (file-exists-p ensime-dir)
+;;     (add-to-list 'load-path ensime-dir)
+;;     (require 'ensime)
+;;     (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)))
 
 ;;;; Magit
 
-;; (add-to-list 'load-path "~/.emacs.d/magit/")
-;; (load "~/.emacs.d/magit/magit.el")
-
-;; (when mac-p
-;;   (eval-after-load 'magit
-;;     (setq magit-git-executable "/usr/local/bin/git")))
-
-(package-require 'magit)
-
+(lbo:ensure-package 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;;;; Input Methods
@@ -500,6 +447,25 @@
 (global-set-key (kbd "C-c k l")
                 (lambda () (interactive) (set-input-method 'TeX)))
 
+;;;; expand-region
+
+(lbo:ensure-package 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)
+
+;;;; multiple-cursors
+
+(lbo:ensure-package 'multiple-cursors)
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+;;;; ace-jump-mode
+
+(lbo:ensure-package 'ace-jump-mode)
+(global-set-key (kbd "C-S-j") 'ace-jump-mode)
+
 ;;;; The End
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
@@ -514,7 +480,7 @@
 
 (random t)
 
-(when org-only-mode-p
+(when org-only-mode-p   
   (setq inhibit-startup-message t)
   (my-open-first-agenda-file))
 
@@ -532,9 +498,23 @@
 (eval-after-load 'sml-mode
   '(setq sml-program-name "/usr/local/Cellar/smlnj/110.75/libexec/bin/sml"))
 
+(lbo:ensure-package 'circe)
+
 (eval-after-load 'circe
   '(progn
     (circe-set-display-handler "JOIN" (lambda (&rest ignored) nil))
     (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
     (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))))
 
+(lbo:ensure-package 'helm-gtags)
+
+(eval-after-load 'helm-gtags
+  '(progn
+    (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+    (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+    (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+    (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+    (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+    (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+    (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+    (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
