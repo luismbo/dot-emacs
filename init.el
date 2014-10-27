@@ -174,9 +174,16 @@
 
 ;;;; Light-grey Parentheses
 
+;; (when window-system
+;;   (lbo:ensure-package 'parenface)
+;;   (require 'parenface))
+
+;; (when window-system
+;;   (lbo:ensure-package 'paren-face)
+;;   (global-paren-face-mode))
+
 (when window-system
-  (lbo:ensure-package 'parenface)
-  (require 'parenface))
+  (load "~/.emacs.d/lib/parenface.el"))
 
 ;;;; Pretty Greek Alphabet
 
