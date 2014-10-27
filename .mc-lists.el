@@ -5,7 +5,9 @@
       '(
         indent-for-tab-command
         indent-pp-sexp
+        kill-sexp
         paredit-backward
+        paredit-backward-kill-word
         ))
 
 (setq mc/cmds-to-run-once
