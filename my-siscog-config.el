@@ -33,8 +33,13 @@
 
 (setenv "CYGWIN" "nodosfilewarning")
 
-(setenv "PATH" (format "d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
+(setenv "PATH" (format "d:\\opt\\global\\bin;d:\\mingw\\bin\\;d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
                        (getenv "PATH")))
+
+(add-to-list 'exec-path "d:\\opt\\global\\bin")
+
+;; for mingw pkgconfig
+(setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig")
 
 (setq ediff-diff-program "c:/siscog-dev-tools/Git/bin/diff.exe")
 (setq diff-command ediff-diff-program)
