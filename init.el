@@ -272,7 +272,7 @@
 (add-to-list 'custom-theme-load-path
              "~/.emacs.d/lib/emacs-color-theme-solarized/")
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/zenburn-emacs/")
+(lbo:ensure-package 'zenburn-theme)
 
 (when window-system
   (cond (roster-only-mode-p
