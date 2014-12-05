@@ -8,6 +8,10 @@
         kill-sexp
         paredit-backward
         paredit-backward-kill-word
+        paredit-forward
+        paredit-forward-delete
+        paredit-kill
+        paredit-splice-sexp
         ))
 
 (setq mc/cmds-to-run-once
