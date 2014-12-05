@@ -239,6 +239,12 @@
 
 (global-set-key (kbd "C-c f") 'split-frame-in-3)
 
+(defun eshell/clear ()
+  "Clear the eshell buffer."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)))
+
 ;;; http://www.emacswiki.org/emacs/RevertBuffer#toc3
 (defun revert-all-buffers ()
    "Refreshes all open buffers from their respective files"
