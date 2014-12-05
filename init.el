@@ -39,7 +39,6 @@
 
 ;;;; Load Path
 
-(add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/lib")
 
 ;;;; package.el
@@ -215,7 +214,7 @@
 
 ;;;; Window number mode
 
-(load "~/.emacs.d/wn-mode.el")
+(load "~/.emacs.d/lib/wn-mode.el")
 (wn-mode)
 
 ;;;; Utilities
