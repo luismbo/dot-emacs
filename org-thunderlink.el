@@ -1,6 +1,6 @@
 (require 'org)
 
-(defvar org-thunderlink-thunderbird-path "c:/Program Files/Mozilla Thunderbird/thunderbird.exe")
+(setq org-thunderlink-thunderbird-path "c:/Program Files (x86)/Mozilla Thunderbird/thunderbird.exe")
 
 (org-add-link-type "thunderlink" 'org-thunderlink-open)
 
