@@ -371,7 +371,7 @@
 
 ;;;; Org Mode
 
-;; (add-to-list 'load-path "~/.emacs.d/org-mode/lisp/")
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (lbo:ensure-package 'org)
 (require 'org-install)
 
