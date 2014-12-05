@@ -116,6 +116,9 @@
 
 (set-frame-font *default-font* t t)
 
+(global-set-key [C-wheel-up] 'text-scale-increase)
+(global-set-key [C-wheel-down] 'text-scale-decrease)
+
 ;;;; C
 
 (defun my-c-mode ()
