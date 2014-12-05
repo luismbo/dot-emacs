@@ -514,10 +514,11 @@
 
 (load "~/.emacs.d/my-jabber-config.el")
 
-(when (or org-only-mode-p gnus-only-mode-p)
+(when siscog-p
   (load "~/.emacs.d/siscog/gnus-config.el")
-  (setq inhibit-startup-message t)
-  (gnus))
+  (when gnus-only-mode-p
+    (setq inhibit-startup-message t)
+    (gnus)))
 
 (when roster-only-mode-p
   (setq inhibit-startup-message t)
