@@ -74,8 +74,7 @@
 ;;;; Editing Stuff
 
 (setq-default indent-tabs-mode nil) ; DIE TABS!!
-(unless (and siscog-p (not org-only-mode-p) (not roster-only-mode-p) (not gnus-only-mode-p))
-  (set-language-environment "UTF-8"))
+(set-language-environment "UTF-8")
 
 (global-font-lock-mode t)
 (show-paren-mode t)
