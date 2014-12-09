@@ -214,7 +214,7 @@
 
 ;;;; Window number mode
 
-(load "~/.emacs.d/lib/wn-mode.el")
+(lbo:ensure-package 'wn-mode)
 (wn-mode)
 
 ;;;; Utilities
