@@ -50,7 +50,7 @@
 (defun lbo:sc (db-user data-source data-dir acl-version)
   "SC settings helper."
   (setq *old-products-configuration* (eql acl-version :v8-0))
-  (sc-set-acl-version acl-version)
+  (sc-set-acl-version acl-version t)
   (sc-set-db-user db-user data-source)
   (sc-set-data-dir data-dir))
 
@@ -179,7 +179,7 @@
 (setq common-lisp-hyperspec-root "http://intranet/TechDocs/Lisp/HyperSpec/")
 
 ;; override global hyperspec.el
-(load "~/src/slime/hyperspec.el")
+;; (load "~/src/slime/hyperspec.el")
 
 ;;;; update slime-banner with MAPS::BACKGROUND.TITLE
 
