@@ -486,6 +486,23 @@
 (add-to-list 'auto-mode-alist '("\\.mod$" . ampl-mode))
 (add-to-list 'auto-mode-alist '("\\.ampl$" . ampl-mode))
 
+;;;; htmlize
+
+(defun lbo:export-buffer-to-html ()
+  (interactive)
+  (let ((themes custom-enabled-themes))
+    (mapc #'disable-theme themes)
+    (unwind-protect
+         (with-current-buffer (htmlize-buffer)
+           (let ((file (make-temp-file "htmlized-buffer-" nil ".html")))
+             (write-file file)
+             (browse-url file))
+           (kill-buffer))
+      (mapc #'enable-theme themes))
+    ;; XXX: no idea why I need this...
+    (global-set-key (kbd "C-DEL") 'join-line)
+    (global-set-key (kbd "C-<backspace>") 'join-line)))
+
 ;;;; The End
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
