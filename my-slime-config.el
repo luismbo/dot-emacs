@@ -5,7 +5,7 @@
   (add-to-list 'load-path "~/src/lisp/slime/")
   (require 'slime-autoloads)
   (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
-                 slime-tramp))
+                 slime-tramp slime-mdot-fu))
 
   ;(slime-require 'swank-listener-hooks)
 
