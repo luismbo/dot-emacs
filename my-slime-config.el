@@ -73,6 +73,9 @@
   (defslime-start abcl "java" utf-8-unix
     '("-jar" "/Users/luis/Software/abcl-bin/abcl.jar")))
 
+(when siscog-p
+  (defslime-start ccl64 "d:/opt/ccl/wx86cl64"))
+
 (defmacro defslime-connect (name host port)
   `(defun ,name ()
      (interactive)
