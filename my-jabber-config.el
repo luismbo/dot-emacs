@@ -42,6 +42,7 @@
                  (visual-line-mode t)
                  (set-input-method 'portuguese-prefix)))
      ;; Misc Options
+     (setq jabber-auto-reconnect t)
      (setq jabber-default-status "SISCOG")
      (setq jabber-default-show "dnd")
      (setq jabber-alert-presence-hooks nil)
@@ -59,9 +60,7 @@
   (let ((jabber-account-list
          `(("luismbo@gmail.com"
             (:password . ,(when siscog-p (lbo:read-file "w:/.jabber-password")))
-            (:network-server . ,(if siscog-p
-                                    "localhost"
-                                    "talk.google.com"))
+            (:network-server . "talk.google.com")
             (:port . 443)
             (:connection-type . ssl)))))
     (jabber-connect-all)))
