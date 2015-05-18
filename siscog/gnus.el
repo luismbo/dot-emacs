@@ -12,7 +12,7 @@
 ;; main SISCOG account.
 (setq gnus-select-method
       '(nnimap "SISCOG"
-        (nnimap-address "lximaps01.siscog.com")
+        (nnimap-address "imaps.lisboa.siscog")
         (nnimap-list-pattern "INBOX" "imap-mail/*")
         (nnimap-expunge-on-close never) ; not sure what this does
         ;; this means we need to load everything using (kbd "A C")
@@ -97,6 +97,6 @@
 
 ;;;; Sending Mail
 
-(setq smtpmail-default-smtp-server "modifs.siscog.com")
+(setq smtpmail-default-smtp-server "modifs.siscog")
 (setq smtpmail-local-domain nil)
 (setq message-send-mail-function 'smtpmail-send-it)
