@@ -369,6 +369,7 @@
 (setq org-hide-leading-stars t)
 (setq org-odd-levels-only t)
 ;(setq org-startup-indented t) ; interesting alternative
+(setq org-src-fontify-natively t)
 
 (when siscog-p
   (setq org-agenda-start-with-log-mode t)
