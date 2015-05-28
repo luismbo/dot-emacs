@@ -375,6 +375,11 @@
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-start-with-clockreport-mode t))
 
+(setq org-agenda-custom-commands
+      '(("n" "Agenda and NEXT tasks"
+         ((agenda "")
+          (tags-todo "next")))))
+
 ;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
 
 (setq org-directory
@@ -413,7 +418,8 @@
 ;; The default was '(closed clock), show state changes as well.
 (setq org-agenda-log-mode-items '(closed clock state))
 
-(global-set-key (kbd "C-c o a") 'org-agenda-list)
+(global-set-key (kbd "C-c o a")
+                (lambda () (interactive) (org-agenda nil "n")))
 (global-set-key (kbd "C-c o t") 'org-todo-list)
 
 (defun my-open-main-org-file ()
