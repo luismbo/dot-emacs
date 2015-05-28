@@ -220,8 +220,8 @@
 
 ;;;; modif-mode
 
-(add-to-list 'load-path "z:/siscog/misc/modif-request-mode/")
-(require 'modif-request-mode)
+;; (add-to-list 'load-path "z:/siscog/misc/modif-request-mode/")
+;; (require 'modif-request-mode)
 
 ;;;; lol
 
