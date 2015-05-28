@@ -6,6 +6,8 @@
         indent-for-tab-command
         indent-pp-sexp
         kill-sexp
+        org-delete-char
+        org-self-insert-command
         paredit-backward
         paredit-backward-kill-word
         paredit-forward
