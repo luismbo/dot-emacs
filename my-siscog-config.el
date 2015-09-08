@@ -41,9 +41,22 @@
 ;; for mingw pkgconfig
 (setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig")
 
-(setq ediff-diff-program "c:/siscog-dev-tools/Git/bin/diff.exe")
+(setq lbo:git-root
+      (cl-find-if #'file-exists-p '("d:/opt/PortableGit-2.5.0" "c:/siscog-dev-tools/Git")))
+
+(setq ediff-diff-program (cl-find-if #'file-exists-p
+                                     (list (concat lbo:git-root "/usr/bin/diff.exe")
+                                           (concat lbo:git-root "/bin/diff.exe"))))
 (setq diff-command ediff-diff-program)
-(setq ediff-diff3-program "d:/opt/KDiff3/bin/diff3.exe")
+(setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
+
+;;;; magit
+
+;; pointing magit and vc to git.exe rather than git.cmd is
+;; significantly faster for magit-status.
+(setq magit-git-executable (concat lbo:git-root "/bin/git.exe"))
+
+(setq vc-git-program magit-git-executable)
 
 ;(setenv "CREWS_VDEV_DIR" "y:/git/crews-vdev")
 
@@ -210,13 +223,6 @@
 ;;                       (string-match "\\.gitk-tmp\\.[0-9]+" filename))
 ;;                     filenames))
 ;;      (apply 'ediff-buffers (mapcar 'get-file-buffer filenames)))))
-
-;;;; magit
-
-;; pointing magit and vc to git.exe rather than git.cmd is
-;; significantly faster for magit-status.
-(setq magit-git-executable "c:/siscog-dev-tools/Git/bin/git.exe")
-(setq vc-git-program magit-git-executable)
 
 ;;;; modif-mode
 
