@@ -451,9 +451,6 @@
 (lbo:ensure-package 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
-(lbo:ensure-package 'gitconfig-mode)
-(lbo:ensure-package 'gitignore-mode)
-
 ;;;; Input Methods
 
 ;; Default setting for C-\
