@@ -3,17 +3,30 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        forward-sexp
         indent-for-tab-command
         indent-pp-sexp
+        kill-region
         kill-sexp
+        org-beginning-of-line
+        org-ctrl-c-ctrl-c
+        org-cycle
         org-delete-char
+        org-end-of-line
         org-self-insert-command
+        org-yank
         paredit-backward
         paredit-backward-kill-word
+        paredit-doublequote
         paredit-forward
         paredit-forward-delete
         paredit-kill
+        paredit-open-round
+        paredit-reindent-defun
         paredit-splice-sexp
+        paredit-wrap-round
+        slime-autodoc-space
+        slime-compile-defun
         ))
 
 (setq mc/cmds-to-run-once
