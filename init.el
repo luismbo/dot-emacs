@@ -373,13 +373,13 @@
 (setq org-src-fontify-natively t)
 
 (when siscog-p
-  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-start-with-log-mode nil)
   (setq org-agenda-start-with-clockreport-mode t))
 
 (setq org-agenda-custom-commands
       '(("n" "Agenda and NEXT tasks"
-         ((agenda "")
-          (tags-todo "next")))))
+         ((tags-todo "next")
+          (agenda "")))))
 
 ;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
 
