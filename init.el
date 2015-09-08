@@ -265,6 +265,7 @@
 
 (setq default-indicate-empty-lines t)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
 
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
