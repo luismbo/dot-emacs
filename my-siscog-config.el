@@ -11,6 +11,7 @@
 
 ;;;; Siscog Stuff
 
+(setq sc-legacy-mode nil)
 ;(load (format "%s/custom/sc-before.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
 (load "~/.emacs.d/custom/sc-before.el")
 
@@ -66,37 +67,6 @@
   (sc-set-acl-version acl-version t)
   (sc-set-db-user db-user data-source)
   (sc-set-data-dir data-dir))
-
-;;;; Restore M-> and M-<
-
-(defun lbo:end-of-buffer-nomark ()
-  (interactive)
-  (goto-char (point-max)))
-
-(defun lbo:beginning-of-buffer-nomark ()
-  (interactive)
-  (goto-char (point-min)))
-
-(global-set-key (kbd "M-<") 'lbo:beginning-of-buffer-nomark)
-(global-set-key (kbd "M->") 'lbo:end-of-buffer-nomark)
-
-;;;; Windows stuff
-
-;;(defun w32-maximize-frame ()
-;;  (interactive)
-;;  (w32-send-sys-command 61488))
-
-;;(defun w32-restore-frame ()
-;;  (interactive)
-;;  (w32-send-sys-command 61728))
-
-;;(global-set-key (kbd "C-c m") 'w32-maximize-frame)
-;;(global-set-key (kbd "C-c M") 'w32-restore-frame)
-
-;; restore some keybindings that sc-emacs foolishly changes
-(global-set-key (kbd "M-;") 'comment-dwim)
-(global-set-key (kbd "M-:") 'eval-expression)
-(global-set-key (kbd "C-M-s") 'isearch-forward-regexp)
 
 ;;;; Hide Comments
 
@@ -209,26 +179,6 @@
 
 (setq ido-enable-tramp-completion nil)
 
-;;;; gitk integration
-
-;; (server-start)
-;; ;; by TW, the following automagically starts ediff on the open files
-;;(defadvice server-visit-files (after server-visit-files-gitk-ediff
-;;                                     first
-;;                                     (files client &optional nowait)
-;;                                     activate)
-;;  (let ((filenames (mapcar 'car files)))
-;;    (when (and (= (length filenames) 2)
-;;               (some (lambda (filename)
-;;                       (string-match "\\.gitk-tmp\\.[0-9]+" filename))
-;;                     filenames))
-;;      (apply 'ediff-buffers (mapcar 'get-file-buffer filenames)))))
-
-;;;; modif-mode
-
-;; (add-to-list 'load-path "z:/siscog/misc/modif-request-mode/")
-;; (require 'modif-request-mode)
-
 ;;;; lol
 
 (defun djcb-opacity-modify (&optional dec)
@@ -278,6 +228,9 @@
 
 ;;;; Shortcuts
 
+(define-key global-map [f11]
+  (lambda () (interactive) (ediff-file-with-original)))
+
 (global-set-key [(control f11)]
                 (lambda ()
                   (interactive)
@@ -302,8 +255,8 @@
                                     allegro-common-lisp-image-name)))
     (allegro)))
 
-(add-to-list 'load-path "~/siscog/sc-patches/")
-(require 'sc-patches)
+(add-to-list 'load-path "~/siscog/sc-extra")
+(require 'sc-extra-autoloads)
 
 ;;;; CRM Keybindings
 
@@ -366,18 +319,12 @@
 
 (eval-after-load 'grep
   '(grep-apply-setting 'grep-find-command
-                       "find . ! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 -e grep -nHi -e "))
+                       "find . ! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 -e grep --color=always -nHi -e "))
 
 ;;; AucTeX
 
 (setq LaTeX-command "d:/opt/miktex/miktex/bin/latex.exe")
 (setq LaTeX-command-style '(("" "%(latex) %S%(PDFout)"))) ; era: '(("" "%(PDF)%(latex) %S%(PDFout)"))
 (eval-after-load 'tex '(TeX-global-PDF-mode t))
-
-(add-hook 'lisp-mode-hook ; desperate hack...
-          (lambda ()
-            (global-set-key (kbd "C-DEL") 'join-line)
-            (global-set-key (kbd "C-<backspace>") 'join-line)
-            (global-set-key (kbd "M-DEL") 'backward-kill-word)))
 
 (server-start)

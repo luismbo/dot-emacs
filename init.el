@@ -27,11 +27,6 @@
 
 (require 'cl)
 
-;;;; HACKS
-
-;(when mac-p
-;  (ns-set-resource nil "ApplePressAndHoldEnabled" "NO"))
-
 ;;;; Exec Path
 
 (when mac-p
@@ -95,6 +90,13 @@
 (lbo:ensure-package 'goto-last-change)
 (global-set-key (kbd "C-c \\") 'goto-last-change)
 
+;;;; Non-marking M-> and M-<
+
+(defun lbo:end-of-buffer-nomark () (interactive) (goto-char (point-max)))
+(defun lbo:beginning-of-buffer-nomark () (interactive) (goto-char (point-min)))
+(global-set-key (kbd "M-<") 'lbo:beginning-of-buffer-nomark)
+(global-set-key (kbd "M->") 'lbo:end-of-buffer-nomark)
+
 ;;;; Fonts
 
 (when mac-p
@@ -114,8 +116,8 @@
 
 (set-frame-font *default-font* t t)
 
-(global-set-key [C-wheel-up] 'text-scale-increase)
-(global-set-key [C-wheel-down] 'text-scale-decrease)
+(global-set-key [C-M-wheel-up] 'text-scale-increase)
+(global-set-key [C-M-wheel-down] 'text-scale-decrease)
 
 ;;;; C
 
@@ -256,7 +258,7 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
 
-(column-number-mode t)
+(column-number-mode 1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
@@ -270,29 +272,14 @@
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
 
-(add-to-list 'custom-theme-load-path
-             "~/.emacs.d/lib/emacs-color-theme-solarized/")
-
-(lbo:ensure-package 'zenburn-theme)
-
 (when window-system
   (cond (roster-only-mode-p
          (color-theme-dark-laptop))
         (org-only-mode-p
-         ;; (set-face-background 'default "grey90")
+         (lbo:ensure-package 'solarized-theme)
          (load-theme 'solarized-light t))
-        (gnus-only-mode-p
-         ;; (load-theme 'wombat t)
-         )
-        ;; (mac-p
-        ;;  ;; (load-theme 'solarized-dark t)
-        ;;  ;; (load-theme 'solarized-light t)
-        ;;  ;; (load "~/.emacs.d/zenburn-emacs/zenburn-theme.el")
-        ;;  ;; (color-theme-dark-laptop)
-        ;;  ;; (set-face-background 'default "grey12")
-        ;;  ;; (set-face-background 'tooltip "white")
-        ;;  )
         (t
+         (lbo:ensure-package 'zenburn-theme)
          (load-theme 'zenburn t))))
 
 ;;;; Enable disabled functions
@@ -305,9 +292,6 @@
 (global-set-key (kbd "C-c l") 'goto-line)
 (global-set-key (kbd "C-DEL") 'join-line)
 (global-set-key (kbd "C-<backspace>") 'join-line)
-
-(when siscog-p
-  (global-set-key (kbd "M-DEL") 'backward-kill-word))
 
 (global-set-key "\M-`" 'other-frame)
 
@@ -503,10 +487,7 @@
              (write-file file)
              (browse-url file))
            (kill-buffer))
-      (mapc #'enable-theme themes))
-    ;; XXX: no idea why I need this...
-    (global-set-key (kbd "C-DEL") 'join-line)
-    (global-set-key (kbd "C-<backspace>") 'join-line)))
+      (mapc #'enable-theme themes))))
 
 ;;;; The End
 
