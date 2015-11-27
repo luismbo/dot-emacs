@@ -97,6 +97,6 @@
 
 ;;;; Sending Mail
 
-(setq smtpmail-default-smtp-server "modifs.siscog")
+(setq smtpmail-default-smtp-server "smtps.lisboa.siscog")
 (setq smtpmail-local-domain nil)
 (setq message-send-mail-function 'smtpmail-send-it)
