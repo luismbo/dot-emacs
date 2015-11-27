@@ -1,5 +1,7 @@
 *~
 *.elc
+/url
+/bookmarks
 /.org-id-locations
 /ercpass.el
 /emacs-w3m
