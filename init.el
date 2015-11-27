@@ -294,6 +294,7 @@
 (global-set-key (kbd "C-<backspace>") 'join-line)
 
 (global-set-key "\M-`" 'other-frame)
+(global-unset-key (kbd "C-z"))
 
 ;;;; Haskell
 
