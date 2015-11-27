@@ -490,6 +490,22 @@
            (kill-buffer))
       (mapc #'enable-theme themes))))
 
+(defun lbo:export-region-to-html ()
+  (interactive)
+  (let ((themes custom-enabled-themes)
+        (transient-mark-mode-enabled transient-mark-mode))
+    (mapc #'disable-theme themes)
+    (transient-mark-mode -1)
+    (redisplay)
+    (unwind-protect
+         (with-current-buffer (htmlize-region (region-beginning) (region-end))
+           (let ((file (make-temp-file "htmlized-region-" nil ".html")))
+             (write-file file)
+             (browse-url file))
+           (kill-buffer))
+      (transient-mark-mode (if transient-mark-mode-enabled 1 -1))
+      (mapc #'enable-theme themes))))
+
 ;;;; The End
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
@@ -497,7 +513,11 @@
 (setq confirm-kill-emacs 'yes-or-no-p)
 
 (unless org-only-mode-p
-  (ido-mode))
+  (ido-mode)
+  ;; don't search for files outside the current directory in
+  ;; `ido-find-file'.
+  (setq ido-auto-merge-work-directories-length -1))
+
 
 (autoload 'idomenu "idomenu" nil t)
 (global-set-key (kbd "M-i") 'idomenu)
