@@ -8,6 +8,7 @@
         indent-pp-sexp
         kill-region
         kill-sexp
+        mark-sexp
         org-beginning-of-line
         org-ctrl-c-ctrl-c
         org-cycle
@@ -24,6 +25,7 @@
         paredit-kill
         paredit-open-round
         paredit-reindent-defun
+        paredit-semicolon
         paredit-splice-sexp
         paredit-wrap-round
         slime-autodoc-space
