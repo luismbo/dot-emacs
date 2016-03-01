@@ -467,7 +467,7 @@
 ;;;; ace-jump-mode
 
 (lbo:ensure-package 'avy)
-(global-set-key (kbd "C-S-j") 'avy-goto-char)
+(global-set-key (kbd "C-:") 'avy-goto-char)
 
 ;;;; AMPL
 
