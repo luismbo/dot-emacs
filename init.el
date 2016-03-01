@@ -549,7 +549,12 @@
   '(progn
     (circe-set-display-handler "JOIN" (lambda (&rest ignored) nil))
     (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
-    (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))))
+    (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))
+    (setq circe-network-options '(("kerno"
+                                   :tls t
+                                   :nick "luis"
+                                   :host "kerno.org"
+                                   :port 6697)))))
 
 (lbo:ensure-package 'helm-gtags)
 
