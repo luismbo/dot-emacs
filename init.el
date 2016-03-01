@@ -600,3 +600,27 @@
 ;; (ad-activate 'ls-lisp-format t)
 
 
+;;;; hunspell
+
+;; http://sourceforge.net/projects/ezwinports/files/?source=navbar
+;; http://natura.di.uminho.pt/download/sources/Dictionaries/hunspell/LATEST/hunspell-pt_PT-latest.tar.gz
+;;
+;; M-x ispell-change-dictionary
+;; M-x ispell-region
+;; M-x ispell-buffer
+(when siscog-p
+  (eval-after-load 'ispell
+                   `(progn
+                      (add-to-list 'exec-path "d:/opt/hunspell/bin")
+                      (setq ispell-program-name "hunspell")
+                      (setq ispell-library-directory "d:/opt/hunspell/share/hunspell")
+                      (setq ispell-local-dictionary-alist
+                            '(("british" "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_GB") nil iso-8859-1)
+                              ("portugues" "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "pt_PT") nil iso-8859-1))))))
+
+;;;; grammar checker
+
+(when siscog-p
+  (eval-after-load 'langtool
+                   `(progn
+                      (setq langtool-language-tool-jar "d:/opt/LanguageTool/languagetool-commandline.jar"))))
