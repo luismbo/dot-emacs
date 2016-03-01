@@ -325,9 +325,14 @@
   (paredit-forward)
   (set-definition-moved))
 
+;; (eval-after-load 'grep
+;;   '(let ((cmd "find . -name .git -prune -o ! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 -e grep --color=always -nHi -e \"^[^;]*\\(\\)\""))
+;;     (grep-apply-setting 'grep-find-command
+;;      (cons cmd (length cmd)))))
+
 (eval-after-load 'grep
   '(grep-apply-setting 'grep-find-command
-                       "find . ! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 -e grep --color=always -nHi -e "))
+    "find . -name .git -prune -o ! -name \"*~\" ! -name \"#*#\" -type f -print0 | xargs -0 -e grep --color=always -nHi -e "))
 
 ;;; AucTeX
 
