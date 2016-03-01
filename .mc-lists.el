@@ -23,15 +23,20 @@
         paredit-forward
         paredit-forward-delete
         paredit-kill
+        paredit-meta-doublequote
+        paredit-newline
         paredit-open-round
         paredit-reindent-defun
         paredit-semicolon
         paredit-splice-sexp
         paredit-wrap-round
+        query-replace
         slime-autodoc-space
         slime-compile-defun
+        transpose-sexps
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        mouse-drag-mode-line
         ))
