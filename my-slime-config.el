@@ -5,23 +5,16 @@
   (add-to-list 'load-path "~/src/lisp/slime/")
   (require 'slime-autoloads)
   (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
-                 slime-tramp slime-mdot-fu))
-
-  ;(slime-require 'swank-listener-hooks)
-
-  ;;(setq inferior-lisp-program "clisp -K full")
-  ;;(setq inferior-lisp-program "~/Software/sbcl.sh")
+                 slime-tramp slime-mdot-fu slime-quicklisp))
   (setq inferior-lisp-program (let ((it "/usr/local/bin/sbcl"))
                                 (if (file-exists-p it)
                                     it
-                                    "sbcl")))
-  ;;(setq inferior-lisp-program "/Users/luis/Software/bin/openmcl")
-  ;;(setq inferior-lisp-program "acl")
-  (setq slime-net-coding-system 'utf-8-unix))
+                                    "sbcl"))))
 
 (setq lisp-indent-function 'common-lisp-indent-function)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
-;(setq slime-complete-symbol-function 'slime-simple-complete-symbol)
+(setq slime-complete-symbol-function 'slime-complete-symbol*)
+;;(setq slime-complete-symbol-function 'slime-simple-complete-symbol)
 
 (setq common-lisp-hyperspec-root
       (if siscog-p
@@ -62,7 +55,7 @@
 
 (unless siscog-p
   (defslime-start allegro "/Applications/AllegroCLexpress.app/Contents/Resources/alisp")
-  (defslime-start allegro64 "~/Software/acl82.64/alisp")
+  (defslime-start allegro64 "/Applications/AllegroCL64.app/Contents/Resources/alisp")
   (defslime-start clisp "/usr/local/bin/clisp" utf-8-unix '("-I"))
   (defslime-start cmucl "~/Software/bin/lisp" iso-latin-1-unix)
   (defslime-start ccl "~/Software/ccl/scripts/ccl" iso-latin-1-unix)

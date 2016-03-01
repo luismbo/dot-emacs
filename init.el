@@ -8,6 +8,8 @@
 (defvar olpc-p (string-match "olpc" (user-login-name)))
 (defvar siscog-p (string-match "luismbo" (user-login-name)))
 
+(setq user-mail-address (rot13 "ybyvirven@pbzzba-yvfc.arg"))
+
 (defun lbo:imenu-elisp-sections ()
   (setq imenu-prev-index-position-function nil)
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
