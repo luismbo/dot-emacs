@@ -300,53 +300,10 @@
 
 ;;;; Haskell
 
-(load "~/.emacs.d/haskell-mode/haskell-site-file.el")
-
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 (setq haskell-program-name "/usr/local/bin/ghci -fobject-code")
-
-;;;; Clojure
-
-;(add-to-list 'load-path "~/source/clojure-mode")
-;(require 'clojure-auto)
-;(require 'clojure-paredit)
-
-;(add-to-list 'load-path "~/source/clojure-swank")
-;(setq swank-clojure-binary "~/source/clojure-extra/sh-script/clojure")
-;(require 'swank-clojure-autoload)
-
-;; (defun clojure ()
-;;   (interactive)
-;;   (require 'swank-clojure)
-;;   (add-to-list 'slime-lisp-implementations
-;;                `(clojure ,(swank-clojure-cmd) :init swank-clojure-init) t)
-;;   (add-hook 'slime-indentation-update-hooks 'swank-clojure-update-indentation)
-;;   (add-hook 'slime-repl-mode-hook 'swank-clojure-slime-repl-modify-syntax t)
-;;   (add-hook 'clojure-mode-hook 'swank-clojure-slime-mode-hook t)
-;;   (slime 'clojure))
-
-;;;; Ruby (on Rails)
-
-;(add-to-list 'load-path "~/.emacs.d/rinari/")
-;(require 'rinari)
-
-(add-hook 'ruby-mode-hook 'robe-mode)
-
-;;;; NXHTML
-
-;; (unless siscog-p
-;;   (load "~/.emacs.d/nxhtml/autostart.el")
-
-;;   (setq nxhtml-global-minor-mode t
-;;         mumamo-chunk-coloring 'submode-colored
-;;         nxhtml-skip-welcome t
-;;         indent-region-mode t
-;;         rng-nxml-auto-validate-flag nil
-;;         nxml-degraded t)
-
-;;   (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo)))
 
 ;;;; Org Mode
 
