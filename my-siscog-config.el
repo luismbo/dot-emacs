@@ -111,6 +111,14 @@
             ;; (hs-hide-all-comments)
             ))
 
+(add-hook 'fi:common-lisp-mode-hook
+          (lambda ()
+            (hs-minor-mode t)
+            (hs-hide-all-comments)
+            (local-set-key (kbd "<backtab>") 'hs-toggle-hiding)
+            (local-set-key (kbd "<C-tab>") 'hs-toggle-all-comments)))
+
+
 ;; Shift+TAB toggles block visibility.
 (define-key lisp-mode-shared-map (kbd "<backtab>") 'hs-toggle-hiding)
 
