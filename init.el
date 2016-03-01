@@ -445,7 +445,7 @@
          (with-current-buffer (htmlize-buffer)
            (let ((file (make-temp-file "htmlized-buffer-" nil ".html")))
              (write-file file)
-             (browse-url file))
+             (browse-url (concat "file://" file)))
            (kill-buffer))
       (mapc #'enable-theme themes))))
 
@@ -460,7 +460,7 @@
          (with-current-buffer (htmlize-region (region-beginning) (region-end))
            (let ((file (make-temp-file "htmlized-region-" nil ".html")))
              (write-file file)
-             (browse-url file))
+             (browse-url (concat "file://" file)))
            (kill-buffer))
       (transient-mark-mode (if transient-mark-mode-enabled 1 -1))
       (mapc #'enable-theme themes))))
