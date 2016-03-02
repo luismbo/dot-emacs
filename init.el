@@ -56,6 +56,13 @@
       (setq lbo:*auto-refreshed-packages* t))
     (package-install name)))
 
+;;;; use-package
+
+(lbo:ensure-package 'use-package)
+(eval-when-compile
+  (require 'use-package)
+  (setq use-package-always-ensure t))
+
 ;;;; SISCOG
 
 (when siscog-p
@@ -89,8 +96,8 @@
 
 ;;;; Goto Last Change
 
-(lbo:ensure-package 'goto-last-change)
-(global-set-key (kbd "C-c \\") 'goto-last-change)
+(use-package goto-last-change
+  :bind (("C-c \\" . goto-last-change)))
 
 ;;;; Non-marking M-> and M-<
 
@@ -179,9 +186,9 @@
 
 ;;;; Light-grey Parentheses
 
-(when window-system
-  (lbo:ensure-package 'paren-face)
-  (global-paren-face-mode))
+(use-package paren-face
+  :if window-system
+  :config (global-paren-face-mode))
 
 ;;;; Pretty Greek Alphabet
 
@@ -425,45 +432,49 @@
 
 ;;;; ace-jump-mode
 
-(lbo:ensure-package 'avy)
-(global-set-key (kbd "C-:") 'avy-goto-char)
+(use-package avy
+  :bind ("C-:" . avy-goto-char))
 
 ;;;; AMPL
 
-(autoload 'ampl-mode "ampl-mode" "Ampl editing mode." t)
-
-(add-to-list 'auto-mode-alist '("\\.mod$" . ampl-mode))
-(add-to-list 'auto-mode-alist '("\\.ampl$" . ampl-mode))
+(use-package ampl-mode
+  :mode ("\\.mod$" "\\.ampl$"))
 
 ;;;; htmlize
 
-(defun lbo:export-buffer-to-html ()
-  (interactive)
-  (let ((themes custom-enabled-themes))
-    (mapc #'disable-theme themes)
-    (unwind-protect
-         (with-current-buffer (htmlize-buffer)
-           (let ((file (make-temp-file "htmlized-buffer-" nil ".html")))
-             (write-file file)
-             (browse-url (concat "file://" file)))
-           (kill-buffer))
-      (mapc #'enable-theme themes))))
+(use-package htmlize
+  :commands (lbo:export-buffer-to-html
+             lbo:export-region-to-html)
+  :config
+  (defmacro lbo:with-disabled-themes (&rest body)
+    (let ((themes (gensym)))
+      `(let ((,themes custom-enabled-themes))
+         (mapc #'disable-theme ,themes)
+         (unwind-protect (progn ,@body)
+           (mapc #'enable-theme ,themes)))))
 
-(defun lbo:export-region-to-html ()
-  (interactive)
-  (let ((themes custom-enabled-themes)
-        (transient-mark-mode-enabled transient-mark-mode))
-    (mapc #'disable-theme themes)
-    (transient-mark-mode -1)
-    (redisplay)
-    (unwind-protect
-         (with-current-buffer (htmlize-region (region-beginning) (region-end))
-           (let ((file (make-temp-file "htmlized-region-" nil ".html")))
-             (write-file file)
-             (browse-url (concat "file://" file)))
-           (kill-buffer))
-      (transient-mark-mode (if transient-mark-mode-enabled 1 -1))
-      (mapc #'enable-theme themes))))
+  (defun lbo:browse-htmlized-buffer (prefix buffer)
+    (with-current-buffer buffer
+      (let ((file (make-temp-file prefix nil ".html")))
+        (write-file file)
+        (browse-url (concat "file://" file)))
+      (kill-buffer)))
+
+  (defun lbo:export-buffer-to-html ()
+    (interactive)
+    (lbo:with-disabled-themes
+      (lbo:browse-htmlized-buffer "htmlized-buffer-" (htmlize-buffer))))
+
+  (defun lbo:export-region-to-html ()
+    (interactive)
+    (let (transient-mark-mode-enabled transient-mark-mode)
+      (lbo:with-disabled-themes
+        (transient-mark-mode -1)
+        (redisplay)
+        (lbo:browse-htmlized-buffer "htmlized-region-"
+                                    (htmlize-region (region-beginning)
+                                                    (region-end)))
+        (transient-mark-mode (if transient-mark-mode-enabled 1 -1))))))
 
 ;;;; The End
 
@@ -558,6 +569,9 @@
 ;;            (substring ad-return-value 10))))) ; 13
 ;; (ad-activate 'ls-lisp-format t)
 
+(use-package dired-narrow
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow)))
 
 ;;;; hunspell
 
