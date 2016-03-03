@@ -438,6 +438,7 @@
 ;;;; AMPL
 
 (use-package ampl-mode
+  :ensure nil
   :mode ("\\.mod$" "\\.ampl$"))
 
 ;;;; htmlize
