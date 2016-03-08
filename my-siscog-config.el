@@ -43,7 +43,7 @@
 (setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig")
 
 (setq lbo:git-root
-      (cl-find-if #'file-exists-p '("d:/opt/PortableGit-2.5.0" "c:/siscog-dev-tools/Git")))
+      (cl-find-if #'file-exists-p '("d:/opt/PortableGit" "c:/siscog-dev-tools/Git")))
 
 (setq ediff-diff-program (cl-find-if #'file-exists-p
                                      (list (concat lbo:git-root "/usr/bin/diff.exe")
