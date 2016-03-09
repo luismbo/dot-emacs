@@ -571,8 +571,10 @@
 ;; (ad-activate 'ls-lisp-format t)
 
 (use-package dired-narrow
-  :bind (:map dired-mode-map
-              ("/" . dired-narrow)))
+  :bind (:map dired-mode-map ("/" . dired-narrow)))
+
+(use-package peep-dired
+  :bind (:map dired-mode-map ("P" . peep-dired)))
 
 ;;;; hunspell
 
