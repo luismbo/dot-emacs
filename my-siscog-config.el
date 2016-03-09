@@ -341,3 +341,42 @@
 (eval-after-load 'tex '(TeX-global-PDF-mode t))
 
 (server-start)
+
+(require 'grep)
+
+(defun grep-process-setup ()
+  "Setup compilation variables and buffer for `grep'.
+Set up `compilation-exit-message-function' and run `grep-setup-hook'."
+  (when (eq grep-highlight-matches 'auto-detect)
+    (grep-compute-defaults))
+  (unless (or (eq grep-highlight-matches 'auto-detect)
+	      (null grep-highlight-matches)
+	      ;; Don't output color escapes if they can't be
+	      ;; highlighted with `font-lock-face' by `grep-filter'.
+	      (null font-lock-mode))
+    ;; `setenv' modifies `process-environment' let-bound in `compilation-start'
+    ;; Any TERM except "dumb" allows GNU grep to use `--color=auto'
+    (setenv "TERM" "emacs-grep")
+    ;; --LBO 11-09-2015
+    ;; (setenv "GREP_OPTIONS"
+    ;;         (concat (getenv "GREP_OPTIONS")
+    ;;     	    " --color=" (if (eq grep-highlight-matches 'always)
+    ;;     			    "always" "auto")))
+    ;; GREP_COLOR is used in GNU grep 2.5.1, but deprecated in later versions
+    (setenv "GREP_COLOR" "01;31")
+    ;; GREP_COLORS is used in GNU grep 2.5.2 and later versions
+    (setenv "GREP_COLORS" "mt=01;31:fn=:ln=:bn=:se=:sl=:cx=:ne"))
+  (set (make-local-variable 'compilation-exit-message-function)
+       (lambda (status code msg)
+	 (if (eq status 'exit)
+	     ;; This relies on the fact that `compilation-start'
+	     ;; sets buffer-modified to nil before running the command,
+	     ;; so the buffer is still unmodified if there is no output.
+	     (cond ((and (zerop code) (buffer-modified-p))
+		    '("finished (matches found)\n" . "matched"))
+		   ((not (buffer-modified-p))
+		    '("finished with no matches found\n" . "no match"))
+		   (t
+		    (cons msg code)))
+	   (cons msg code))))
+  (run-hooks 'grep-setup-hook))
