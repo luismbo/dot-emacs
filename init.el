@@ -400,7 +400,7 @@
 ;;;; Magit
 
 (use-package magit
-  :bind (("C-x g" . magit-status)))
+  :bind ("C-x g" . magit-status))
 
 ;;;; Input Methods
 
@@ -418,17 +418,16 @@
 
 ;;;; expand-region
 
-(lbo:ensure-package 'expand-region)
-(global-set-key (kbd "C-@") 'er/expand-region)
+(use-package expand-region
+  :bind ("C-@" . er/expand-region))
 
 ;;;; multiple-cursors
 
-(lbo:ensure-package 'multiple-cursors)
-
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(use-package multiple-cursors
+  :bind (("C-S-c C-S-c" . mc/edit-lines)
+         ("C->"         . mc/mark-next-like-this)
+         ("C-<"         . mc/mark-previous-like-this)
+         ("C-c C-<"     . mc/mark-all-like-this)))
 
 ;;;; ace-jump-mode
 
