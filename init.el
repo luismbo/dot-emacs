@@ -539,6 +539,34 @@
     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
 
+;;;; Helm
+
+(use-package helm-config
+  :ensure helm
+  :demand t
+  :bind (("C-c C-/" . helm-occur)
+         ("C-c i"   . helm-imenu)
+         ("C-x f"   . helm-multi-files)
+         ("C-c C-f" . helm-find-files)
+         ("M-H"     . helm-resume)
+         ("M-x"     . helm-M-x))
+  :config
+  (require 'helm-files)
+  (require 'helm-buffers)
+  (use-package helm-mode
+    :ensure nil
+    :diminish helm-mode
+    :init
+    (helm-mode 1))
+
+  (require 'helm-multi-match)
+
+  (helm-autoresize-mode 1)
+
+  (bind-key "<tab>" #'helm-execute-persistent-action helm-map)
+  (bind-key "C-i" #'helm-execute-persistent-action helm-map)
+  (bind-key "C-z" #'helm-select-action helm-map))
+
 ;;;; dired
 
 (setq-default dired-listing-switches "-alh")
