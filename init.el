@@ -184,6 +184,10 @@
 
 (add-hook 'emacs-lisp-mode-hook (lambda () (eldoc-mode 1)))
 
+(use-package find-func
+  :ensure nil
+  :bind (:map emacs-lisp-mode-map ("M-." . find-function-at-point)))
+
 ;;;; Light-grey Parentheses
 
 (use-package paren-face
