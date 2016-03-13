@@ -34,6 +34,7 @@
         slime-autodoc-space
         slime-compile-defun
         transpose-sexps
+        upcase-region
         ))
 
 (setq mc/cmds-to-run-once
