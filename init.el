@@ -133,7 +133,8 @@
 (defun my-c-mode ()
   (c-set-style "K&R")
   (setq c-basic-offset 4
-        indent-tabs-mode nil))
+        indent-tabs-mode nil)
+  (helm-gtags-mode))
 
 (add-hook 'c-mode-hook 'my-c-mode)
 (add-hook 'c++-mode-hook 'my-c-mode)
