@@ -640,6 +640,13 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 
+;;;; weather
+
+(use-package wttrin
+  :commands (wttrin)
+  :init
+  (setq wttrin-default-cities '("Lisbon")))
+
 ;;;; custom
 
 (custom-set-variables
