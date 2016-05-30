@@ -156,10 +156,10 @@
 
 (add-hook 'lisp-mode-hook 'pretty-inner-dots)
 
-;; enable tabs for Lisp code, for HR
-(add-hook 'lisp-mode-hook
+;; enable tabs for code, for HR
+(add-hook 'prog-mode-hook
           (lambda ()
-	    ;; (set-face-foreground 'parenface-paren-face "gray45")
+            ;; (set-face-foreground 'parenface-paren-face "gray45")
             (setq indent-tabs-mode t)
             (setq fill-column 80)))
 

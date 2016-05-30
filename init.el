@@ -76,7 +76,7 @@
 
 ;;;; Editing Stuff
 
-(setq-default indent-tabs-mode nil) ; DIE TABS!!
+(setq-default indent-tabs-mode (and siscog-p t))
 (set-language-environment "UTF-8")
 
 (global-font-lock-mode t)
@@ -89,10 +89,16 @@
           (message url)
           (do-applescript (concat "open location \"" url "\"")))))
 
-(defun toggle-show-trailing-whitespace ()
-  (interactive)
-  (setq show-trailing-whitespace
-        (not show-trailing-whitespace)))
+;;; ethan-wspace
+
+(use-package ethan-wspace
+  :config
+  (setq mode-require-final-newline nil)
+  (add-hook 'ethan-wspace-mode-hook
+            (lambda ()
+              (when indent-tabs-mode
+                (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))))
+  (add-hook 'prog-mode-hook 'ethan-wspace-mode))
 
 ;;;; Goto Last Change
 
@@ -166,8 +172,6 @@
 (put 'Syntax 'safe-local-variable 'symbolp)
 (put 'Base 'safe-local-variable 'integerp)
 (put 'base 'safe-local-variable 'integerp)
-
-(add-hook 'lisp-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 ;;;; Paredit
 
