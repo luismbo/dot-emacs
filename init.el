@@ -503,7 +503,7 @@
 
 (random t)
 
-(when org-only-mode-p   
+(when org-only-mode-p
   (setq inhibit-startup-message t)
   (my-open-first-agenda-file))
 
@@ -589,19 +589,19 @@
 ;; (setq ls-lisp-use-insert-directory-program t)
 ;; (setq ls-list-verbosity nil)
 
-;; (defadvice ls-lisp-format (around my-ls-lisp-format 
+;; (defadvice ls-lisp-format (around my-ls-lisp-format
 ;;   (file-name file-attr file-size switches time-index))
 ;;   "Advice definition which removes unnecessary information
-;; during file listing in dired. For such purposes 
-;; `ls-lisp-verbosity' customized variable can be used, but 
-;; even if it is equal to nil dired will display file 
-;; permissions field like \"drwxrwxrwx\".\. So here we just 
-;; get full control to what dired shows and leave only those 
+;; during file listing in dired. For such purposes
+;; `ls-lisp-verbosity' customized variable can be used, but
+;; even if it is equal to nil dired will display file
+;; permissions field like \"drwxrwxrwx\".\. So here we just
+;; get full control to what dired shows and leave only those
 ;; fields which we need."
 ;;   (progn
 ;;     ad-do-it
 ;;     (setq ad-return-value
-;;           (concat 
+;;           (concat
 ;;            ;; (substring ad-return-value 0 1)
 ;;            (substring ad-return-value 10))))) ; 13
 ;; (ad-activate 'ls-lisp-format t)
