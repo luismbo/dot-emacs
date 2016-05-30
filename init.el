@@ -698,16 +698,9 @@
  '(pos-tip-foreground-color "#586e75")
  '(safe-local-variable-values
    (quote
-<<<<<<< variant A
-    ((intent-tabs-mode)
->>>>>>> variant B
     ((c-style . "K&R")
      (intent-tabs-mode)
-======= end
      (c-style . K&R)
-<<<<<<< variant A
-     (org-clock-into-drawer)))))
->>>>>>> variant B
      (encoding . latin-1-dos)
      (org-clock-into-drawer))))
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
@@ -742,7 +735,6 @@
    ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"])
  '(xterm-color-names-bright
    ["#fdf6e3" "#cb4b16" "#93a1a1" "#839496" "#657b83" "#6c71c4" "#586e75" "#002b36"]))
-======= end
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
