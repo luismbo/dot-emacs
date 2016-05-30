@@ -3,6 +3,11 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        ampl-insert-parens
+        ampl-insert-sqbrackets
+        backward-sexp
+        c-electric-semi&comma
+        dabbrev-expand
         forward-sexp
         indent-for-tab-command
         indent-pp-sexp
@@ -39,5 +44,6 @@
 
 (setq mc/cmds-to-run-once
       '(
+        helm-M-x
         mouse-drag-mode-line
         ))
