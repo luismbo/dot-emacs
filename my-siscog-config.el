@@ -49,7 +49,10 @@
                                      (list (concat lbo:git-root "/usr/bin/diff.exe")
                                            (concat lbo:git-root "/bin/diff.exe"))))
 (setq diff-command ediff-diff-program)
-(setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
+
+;(setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
+;(setq ediff-diff3-program "d:/opt/PortableGit-2.7.0/usr/bin/diff3.exe")
+(setq ediff-diff3-program "d:/cygwin64/bin/diff3.exe")
 
 ;;;; magit
 
