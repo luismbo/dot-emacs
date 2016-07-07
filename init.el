@@ -705,7 +705,10 @@
  '(pos-tip-foreground-color "#586e75")
  '(safe-local-variable-values
    (quote
-    ((c-style . "K&R")
+    ((eval font-lock-add-keywords nil
+      (quote
+       (("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face))))
+     (c-style . "K&R")
      (intent-tabs-mode)
      (c-style . K&R)
      (encoding . latin-1-dos)
