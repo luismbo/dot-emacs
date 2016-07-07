@@ -89,6 +89,13 @@
           (message url)
           (do-applescript (concat "open location \"" url "\"")))))
 
+;;;; Highlight FIXMEs et cetera
+
+(add-hook 'prog-mode-hook
+	  (lambda ()
+	    (font-lock-add-keywords nil '(("\\<\\(FIXME\\|TODO\\|CAUTION\\|XXX\\)"
+					   1 font-lock-warning-face prepend)))))
+
 ;;; ethan-wspace
 
 (use-package ethan-wspace
