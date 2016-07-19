@@ -416,7 +416,8 @@
 ;;;; Magit
 
 (use-package magit
-  :bind ("C-x g" . magit-status))
+  :bind ("C-x g" . magit-status)
+  :config (global-magit-file-mode))
 
 ;;;; Input Methods
 
