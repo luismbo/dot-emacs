@@ -417,6 +417,7 @@
 
 (use-package magit
   :bind ("C-x g" . magit-status)
+  :init (require 'vc-git) ; for magit-grep
   :config (global-magit-file-mode))
 
 ;;;; Input Methods
