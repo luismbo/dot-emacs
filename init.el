@@ -470,6 +470,14 @@ else return nil."
 (global-set-key (kbd "C-c k l")
                 (lambda () (interactive) (set-input-method 'TeX)))
 
+;;;; bm
+
+(use-package bm
+  :bind (("<left-fringe> <wheel-up>" . bm-next-mouse)
+	 ("<left-fringe> <wheel-down>" . bm-previous-mouse)
+	 ("<left-fringe> <mouse-1>" . bm-toggle-mouse)
+	 ("<left-fringe> <mouse-3>" . bm-show-all)))
+
 ;;;; expand-region
 
 (use-package expand-region
