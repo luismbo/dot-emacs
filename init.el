@@ -420,6 +420,42 @@
   :init (require 'vc-git) ; for magit-grep
   :config (global-magit-file-mode))
 
+;;;; Git grep
+
+;; from https://gist.github.com/scottjacobsen/4693356
+(defun lbo:git-root ()
+  "Return GIT_ROOT if this file is a part of a git repo,
+else return nil."
+  (let ((curdir default-directory)
+        (max 10)
+        (found nil))
+    (while (and (not found) (> max 0))
+      (progn
+        (if (file-directory-p (concat curdir ".git"))
+            (progn
+              (setq found t))
+	    (progn
+	      (setq curdir (concat curdir "../"))
+	      (setq max (- max 1))))))
+    (if found (expand-file-name curdir))))
+
+(defun lbo:git-grep (regexp)
+  (interactive (progn
+		 (grep-compute-defaults)
+		 (list (grep-read-regexp))))
+  (vc-git-grep regexp "*" (lbo:git-root)))
+
+(global-set-key (kbd "C-c g") 'lbo:git-grep)
+
+;; C-c i toggle ignore case
+;; C-! suspends auto update
+;; C-x C-s moves results to a grep-mode buffer
+;; (use-package helm-git-grep
+;;   :bind ("C-c g" . lbo:helm-git-grep-at-point)
+;;   :config (defun lbo:helm-git-grep-at-point ()
+;; 	    (interactive)
+;; 	    (helm-git-grep-at-point)))
+
 ;;;; Input Methods
 
 ;; Default setting for C-\
