@@ -476,7 +476,8 @@ else return nil."
   :bind (("<left-fringe> <wheel-up>" . bm-next-mouse)
 	 ("<left-fringe> <wheel-down>" . bm-previous-mouse)
 	 ("<left-fringe> <mouse-1>" . bm-toggle-mouse)
-	 ("<left-fringe> <mouse-3>" . bm-show-all)))
+	 ("<left-fringe> <mouse-3>" . bm-show-all))
+  :config (setq bm-cycle-all-buffers t))
 
 ;;;; expand-region
 
