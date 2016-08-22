@@ -1,4 +1,4 @@
-;;;; -*- coding: utf-8 -*-
+;;;; -*- coding: utf-8; lexical-binding: t -*-
 
 ;;; Figuring out which system we're in.
 ;;; We might be running on MacOSX but using X11.
@@ -151,6 +151,55 @@
 
 (add-hook 'c-mode-hook 'my-c-mode)
 (add-hook 'c++-mode-hook 'my-c-mode)
+
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (define-key c-mode-base-map (kbd "C-c C-c") 'compile)))
+
+(when siscog-p
+  (defun lbo:inject-mingw64-path (wrapped-function &rest args)
+    (let ((exec-path (cl-list* "d:/msys64/mingw64/bin/"
+			       "d:/msys64/usr/bin/"
+			       exec-path))
+	  (restore (getenv "PATH")))
+      (unwind-protect
+	   (progn
+	     (setenv "PATH" (mapconcat #'identity exec-path ";"))
+	     (apply wrapped-function args))
+	(setenv "PATH" restore))))
+
+  (advice-add 'gdb :around 'lbo:inject-mingw64-path)
+
+  (advice-add 'compile :around 'lbo:inject-mingw64-path)
+  (advice-add 'recompile :around 'lbo:inject-mingw64-path)
+
+  (advice-add 'compile :around
+	      (lambda (wrapped &rest args)
+		"Use a sane value for `default-directory'."
+		(let* ((default-directory (locate-dominating-file default-directory ".git")))
+		  (apply wrapped args)))
+	      '((name . lbo:default-directory-from-first-dot-git)
+		(depth . 0)))
+
+  (defun lbo:dont-ask-about-saving-outside-project-dir (wrapped &rest args)
+    "Use a sane value for `default-directory'."
+    (let* ((my-default-directory default-directory)
+	   (compilation-save-buffers-predicate
+	     (lambda () (string-prefix-p
+			 my-default-directory
+			 (file-truename (buffer-file-name))))))
+      (apply wrapped args)))
+
+  (advice-add 'compile :around
+	      'lbo:dont-ask-about-saving-outside-project-dir
+	      '((depth . 50)))
+
+  (advice-add 'recompile :around 'lbo:dont-ask-about-saving-outside-project-dir))
+
+(defun lbo:remove-all-advice (symbol)
+  (advice-mapc (lambda (ad props)
+		 (advice-remove symbol ad))
+	       symbol))
 
 ;;;; Java
 
