@@ -857,7 +857,9 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
  '(pos-tip-foreground-color "#586e75")
  '(safe-local-variable-values
    (quote
-    ((eval font-lock-add-keywords nil
+    ((c-style . "stroustrup")
+     (org-clock-continuously . t)
+     (eval font-lock-add-keywords nil
       (quote
        (("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face))))
      (c-style . "K&R")
