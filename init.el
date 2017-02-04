@@ -133,7 +133,7 @@
         (mac-p "Menlo-11")
         (olpc-p "Monospace-7")
         (siscog-p "Consolas-10")
-        ((> emacs-major-version 22) "Monospace-10")
+        ((> emacs-major-version 22) "Ubuntu Mono 12")
         (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*")))
 
 (set-frame-font *default-font* t t)
