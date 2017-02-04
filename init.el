@@ -853,6 +853,9 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
+ '(package-selected-packages
+   (quote
+    (wttrin peep-dired dired-narrow helm-gtags circe htmlize avy multiple-cursors expand-region bm magit zenburn-theme wn-mode paren-face paredit goto-last-change ethan-wspace use-package)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(safe-local-variable-values
