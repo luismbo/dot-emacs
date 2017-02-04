@@ -4,8 +4,9 @@
   ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
   (add-to-list 'load-path "~/src/lisp/slime/")
   (require 'slime-autoloads)
-  (slime-setup '(slime-fancy slime-asdf slime-indentation slime-banner
-                 slime-tramp slime-mdot-fu slime-quicklisp))
+  (setq slime-contribs
+        '(slime-fancy slime-asdf slime-indentation slime-banner
+          slime-tramp slime-mdot-fu slime-quicklisp))
   (setq inferior-lisp-program (let ((it "/usr/local/bin/sbcl"))
                                 (if (file-exists-p it)
                                     it
