@@ -67,6 +67,16 @@
 
 (global-set-key (kbd "C-x C-j C-c") 'gtalk)
 
+(defun sc-jabber ()
+  (interactive)
+  (let ((jabber-account-list
+         `(("luismbo"
+            (:password . ,sc-pass)
+            (:network-server . "SRVCUPS-Pub.siscog")
+            (:port . 5222)
+            (:connection-type . ssl)))))
+    (jabber-connect-all)))
+
 (when siscog-p
   (global-set-key (kbd "C-z")
                   (defun my-minimize-window ()
