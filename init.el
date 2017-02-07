@@ -90,6 +90,9 @@
           (message url)
           (do-applescript (concat "open location \"" url "\"")))))
 
+(use-package crux
+  :bind (("C-a" . crux-move-beginning-of-line)))
+
 ;;;; Highlight FIXMEs et cetera
 
 (add-hook 'prog-mode-hook
