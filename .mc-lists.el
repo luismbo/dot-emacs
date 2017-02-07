@@ -7,6 +7,7 @@
 	ampl-insert-sqbrackets
 	backward-sexp
 	c-electric-semi&comma
+	crux-move-beginning-of-line
 	dabbrev-expand
 	forward-sexp
 	indent-for-tab-command
@@ -26,6 +27,7 @@
 	paredit-backward
 	paredit-backward-kill-word
 	paredit-backward-up
+	paredit-comment-dwim
 	paredit-doublequote
 	paredit-forward
 	paredit-forward-delete
