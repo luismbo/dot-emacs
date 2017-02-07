@@ -698,6 +698,20 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
                                    :host "kerno.org"
                                    :port 6697)))))
 
+;; (use-package slack
+;;   :commands (slack-start)
+;;   :init
+;;   (setq slack-buffer-emojify t)
+;;   (setq slack-prefer-current-team t)
+;;   :config
+;;   (slack-register-team
+;;    :name "siscog"
+;;    :default t
+;;    :client-id ""
+;;    :client-secret ""
+;;    :token ""
+;;    :subscribed-channels '()))
+
 (lbo:ensure-package 'helm-gtags)
 
 (eval-after-load 'helm-gtags
