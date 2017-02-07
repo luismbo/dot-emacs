@@ -72,7 +72,8 @@
   (unless (or gnus-only-mode-p roster-only-mode-p)
     (load "~/.emacs.d/my-siscog-org-config.el")
     (setq display-time-format "-%H:%M-")
-    (display-time)))
+    ;; (display-time)
+    ))
 
 ;;;; Editing Stuff
 
