@@ -23,6 +23,7 @@
 	org-end-of-line
 	org-kill-line
 	org-self-insert-command
+	org-todo
 	org-yank
 	paredit-backward
 	paredit-backward-kill-word
@@ -35,6 +36,7 @@
 	paredit-meta-doublequote
 	paredit-newline
 	paredit-open-round
+	paredit-raise-sexp
 	paredit-reindent-defun
 	paredit-semicolon
 	paredit-splice-sexp

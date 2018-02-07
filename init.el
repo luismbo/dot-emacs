@@ -38,6 +38,9 @@
 
 (add-to-list 'load-path "~/.emacs.d/lib")
 
+(when siscog-p
+  (add-to-list 'load-path "~/siscog/multi-magit"))
+
 ;;;; package.el
 
 (require 'package)
@@ -243,11 +246,14 @@
 (eval-after-load 'paredit
   '(progn
      (define-key paredit-mode-map (kbd "RET") nil)
-     (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)))
+     (define-key lisp-mode-shared-map (kbd "RET") 'paredit-newline)
+     (diminish 'paredit-mode)))
 
 ;;; Elisp
 
 (add-hook 'emacs-lisp-mode-hook (lambda () (eldoc-mode 1)))
+
+(diminish 'eldoc-mode)
 
 (use-package find-func
   :ensure nil
@@ -287,8 +293,9 @@
 
 ;;;; Window number mode
 
-(lbo:ensure-package 'wn-mode)
-(wn-mode)
+(use-package wn-mode
+  :diminish wn-mode
+  :config (wn-mode))
 
 ;;;; Utilities
 
@@ -353,9 +360,9 @@
 (when window-system
   (cond (roster-only-mode-p
          (color-theme-dark-laptop))
-        (org-only-mode-p
-         (lbo:ensure-package 'solarized-theme)
-         (load-theme 'solarized-light t))
+        ;; (siscog-p
+        ;;  (lbo:ensure-package 'spacemacs-theme)
+        ;;  (load-theme 'spacemacs-dark t))
         (t
          (lbo:ensure-package 'zenburn-theme)
          (load-theme 'zenburn t))))
@@ -470,8 +477,19 @@
 
 (use-package magit
   :bind ("C-x g" . magit-status)
-  :init (require 'vc-git) ; for magit-grep
-  :config (global-magit-file-mode))
+  :diminish auto-revert-mode
+  :init (require 'vc-git)		; for magit-grep
+  :config (global-magit-file-mode)
+	  (when siscog-p
+	    (setq magit-repository-directories '("z:/siscog")
+		  magit-repository-directories-depth 1)))
+
+(use-package multi-magit
+  :bind ("C-x G" . multi-magit-status)
+  :ensure nil
+  :config (when siscog-p
+	    (setq multi-magit-selected-repositories
+		  '("z:/siscog/scs-vdev" "z:/siscog/scs-siscog-vdev" "z:/siscog/siscog-util-vdev"))))
 
 ;;;; Git grep
 
@@ -753,6 +771,23 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   (bind-key "C-i" #'helm-execute-persistent-action helm-map)
   (bind-key "C-z" #'helm-select-action helm-map))
 
+;;;; spaceline
+
+;; (use-package spaceline
+;;   :demand t
+;;   :init (setq powerline-default-separator 'arrow-fade
+;; 	      powerline-height 25)
+;;   :config
+;;   (require 'spaceline-config)
+;;   (spaceline-spacemacs-theme))
+
+(use-package powerline
+  :demand t
+  :init (setq powerline-default-separator 'arrow-fade
+	      powerline-height 25)
+  :config
+  (powerline-default-theme))
+
 ;;;; dired
 
 (setq-default dired-listing-switches "-alh")
@@ -824,6 +859,13 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   :init
   (setq wttrin-default-cities '("Lisbon")))
 
+(defun lbo:transparency (value)
+  "Sets the transparency of the frame window. 0=transparent/100=opaque"
+  (interactive (let ((current-alpha (frame-parameter (selected-frame) 'alpha)))
+		 (list (read-number (format "Set frame alpha: " current-alpha)
+				     current-alpha))))
+  (set-frame-parameter (selected-frame) 'alpha value))
+
 ;;;; custom
 
 (custom-set-variables
@@ -842,7 +884,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
  '(cua-read-only-cursor-color "#859900")
  '(custom-safe-themes
    (quote
-    ("0e219d63550634bc5b0c214aced55eb9528640377daf486e13fb18a32bf39856" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "dbb643699e18b5691a8baff34c29d709a3ff9787f09cdae58d3c1bc085b63c25" "75cd4234cc08d4ccf3ddef8fb763b9e145d4e68d3c938a3502d892c72f71e007" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "a25c42c5e2a6a7a3b0331cad124c83406a71bc7e099b60c31dc28a1ff84e8c04" "12b7ed9b0e990f6d41827c343467d2a6c464094cbcc6d0844df32837b50655f9" "708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+    ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "0e219d63550634bc5b0c214aced55eb9528640377daf486e13fb18a32bf39856" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "dbb643699e18b5691a8baff34c29d709a3ff9787f09cdae58d3c1bc085b63c25" "75cd4234cc08d4ccf3ddef8fb763b9e145d4e68d3c938a3502d892c72f71e007" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "a25c42c5e2a6a7a3b0331cad124c83406a71bc7e099b60c31dc28a1ff84e8c04" "12b7ed9b0e990f6d41827c343467d2a6c464094cbcc6d0844df32837b50655f9" "708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(default-input-method "portuguese-prefix")
  '(fci-rule-color "#eee8d5")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
@@ -870,12 +912,14 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
     ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
  '(hl-sexp-background-color "#efebe9")
  '(magit-diff-use-overlays nil)
+ '(magit-pull-arguments nil)
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (wttrin wn-mode white-sand-theme tangotango-theme shorten request-deferred redshank peep-dired parenface org-bullets moe-theme minesweeper meacupla-theme magit-gh-pulls lui lcs langtool jabber htmlize goto-last-change gitignore-mode folding ethan-wspace darkroom crux color-theme-sanityinc-solarized aggressive-indent 2048-game)))
+    (magit-gerrit spaceline spacemacs-theme typescript-mode mo-git-blame magit parinfer dracula-theme wgrep zone-select zone-nyan zones wttrin wn-mode white-sand-theme tangotango-theme shorten request-deferred redshank peep-dired parenface org-bullets moe-theme minesweeper meacupla-theme magit-gh-pulls lui lcs langtool htmlize goto-last-change gitignore-mode folding ethan-wspace darkroom crux color-theme-sanityinc-solarized aggressive-indent 2048-game)))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(safe-local-variable-values
@@ -883,8 +927,8 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
     ((c-style . "stroustrup")
      (org-clock-continuously . t)
      (eval font-lock-add-keywords nil
-      (quote
-       (("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face))))
+	   (quote
+	    (("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face))))
      (c-style . "K&R")
      (intent-tabs-mode)
      (c-style . K&R)
@@ -894,6 +938,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")
  '(vc-annotate-background nil)
+ '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
    (quote
     ((20 . "#dc322f")

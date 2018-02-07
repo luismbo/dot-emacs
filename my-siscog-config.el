@@ -71,6 +71,11 @@
   (sc-set-db-user db-user data-source)
   (sc-set-data-dir data-dir))
 
+;; (lbo:sc (rot13 "fvfpbt009qngnonfr")
+;; 	(rot13 "qo0511TBEN3")
+;; 	(rot13 "h:/hfref/perjf-nz/perjf-fvfpbt/qo")
+;; 	:v9-0-64)
+
 ;;;; Hide Comments
 
 (defvar hs-all-comments-hidden-p nil)
@@ -112,12 +117,12 @@
           (lambda ()
             (hs-minor-mode t)
             ;; (hs-hide-all-comments)
-            ))
+            (diminish 'hs-minor-mode)))
 
 (add-hook 'fi:common-lisp-mode-hook
           (lambda ()
             (hs-minor-mode t)
-            (hs-hide-all-comments)
+            ;; (hs-hide-all-comments)
             (local-set-key (kbd "<backtab>") 'hs-toggle-hiding)
             (local-set-key (kbd "<C-tab>") 'hs-toggle-all-comments)))
 
@@ -158,6 +163,7 @@
            nil))))))
 
 (add-hook 'lisp-mode-hook 'pretty-inner-dots)
+;; (remove-hook 'lisp-mode-hook 'pretty-inner-dots)
 
 ;; enable tabs for code, for HR
 (add-hook 'prog-mode-hook

@@ -77,12 +77,12 @@
             (:connection-type . ssl)))))
     (jabber-connect-all)))
 
-(when siscog-p
-  (global-set-key (kbd "C-z")
-                  (defun my-minimize-window ()
-                    (interactive)
-                    (switch-to-buffer "*scratch*")
-                    (suspend-frame))))
+;; (when siscog-p
+;;   (global-set-key (kbd "C-z")
+;;                   (defun my-minimize-window ()
+;;                     (interactive)
+;;                     (switch-to-buffer "*scratch*")
+;;                     (suspend-frame))))
 
 (defun gtalk-groupchat ()
   (interactive)
