@@ -9,6 +9,7 @@
 	c-electric-semi&comma
 	crux-move-beginning-of-line
 	dabbrev-expand
+	eval-last-sexp
 	forward-sexp
 	indent-for-tab-command
 	indent-pp-sexp
@@ -22,9 +23,11 @@
 	org-delete-char
 	org-end-of-line
 	org-kill-line
+	org-metaright
 	org-self-insert-command
 	org-todo
 	org-yank
+	paredit-backslash
 	paredit-backward
 	paredit-backward-kill-word
 	paredit-backward-up
