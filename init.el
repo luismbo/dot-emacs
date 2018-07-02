@@ -479,20 +479,14 @@
   :bind ("C-x g" . magit-status)
   :diminish auto-revert-mode
   :init (require 'vc-git)		; for magit-grep
-  :config (global-magit-file-mode)
-	  (when siscog-p
-	    (setq magit-repository-directories '("z:/siscog")
-		  magit-repository-directories-depth 1)))
+  :config (global-magit-file-mode))
 
 (use-package multi-magit
   :bind ("C-x G" . multi-magit-status)
   :ensure nil
-  :config (when siscog-p
-	    (setq multi-magit-selected-repositories
-		  '("z:/siscog/scs-vdev/" "z:/siscog/scs-siscog-vdev/" "z:/siscog/siscog-util-vdev/")))
-	   (magit-add-section-hook 'magit-status-sections-hook
-				   'multi-magit-insert-repos-overview
-				   nil t))
+  :config (magit-add-section-hook 'magit-status-sections-hook
+				  'multi-magit-insert-repos-overview
+				  nil t))
 
 ;;;; Git grep
 
@@ -920,7 +914,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (auto-compile magit-gerrit spaceline spacemacs-theme typescript-mode mo-git-blame magit parinfer dracula-theme wgrep zone-select zone-nyan zones wttrin wn-mode white-sand-theme tangotango-theme shorten request-deferred redshank peep-dired parenface org-bullets moe-theme minesweeper meacupla-theme magit-gh-pulls lui lcs langtool htmlize goto-last-change gitignore-mode folding ethan-wspace darkroom crux color-theme-sanityinc-solarized aggressive-indent 2048-game)))
+    (slime auto-compile magit-gerrit spaceline spacemacs-theme typescript-mode mo-git-blame magit parinfer dracula-theme wgrep zone-select zone-nyan zones wttrin wn-mode white-sand-theme tangotango-theme shorten request-deferred redshank peep-dired parenface org-bullets moe-theme minesweeper meacupla-theme magit-gh-pulls lui lcs langtool htmlize goto-last-change gitignore-mode folding ethan-wspace darkroom crux color-theme-sanityinc-solarized aggressive-indent 2048-game)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
