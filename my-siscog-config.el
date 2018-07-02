@@ -21,6 +21,8 @@
 ;; Load SC-EMACS
 (load (format "%s/init.el" (getenv "SISCOG_EMACS_DIR")))
 
+(setq *mod-mail-method* :ascii)
+
 (setq lisp-mode-hook (remove 'set-lisp-paragraph-regexps lisp-mode-hook))
 (setq lisp-mode-hook (remove 'common-lisp-lisp-mode-hook lisp-mode-hook))
 
