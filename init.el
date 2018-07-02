@@ -489,7 +489,10 @@
   :ensure nil
   :config (when siscog-p
 	    (setq multi-magit-selected-repositories
-		  '("z:/siscog/scs-vdev" "z:/siscog/scs-siscog-vdev" "z:/siscog/siscog-util-vdev"))))
+		  '("z:/siscog/scs-vdev/" "z:/siscog/scs-siscog-vdev/" "z:/siscog/siscog-util-vdev/")))
+	   (magit-add-section-hook 'magit-status-sections-hook
+				   'multi-magit-insert-repos-overview
+				   nil t))
 
 ;;;; Git grep
 
