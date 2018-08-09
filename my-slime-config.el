@@ -12,7 +12,7 @@
                                     it
                                     "sbcl"))))
 
-(setq lisp-indent-function 'common-lisp-indent-function)
+;; (setq lisp-indent-function 'common-lisp-indent-function)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
 ;; (setq slime-complete-symbol-function 'slime-complete-symbol*)
 ;;(setq slime-complete-symbol-function 'slime-simple-complete-symbol)
