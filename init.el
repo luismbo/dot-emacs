@@ -62,6 +62,7 @@
 ;;;; use-package
 
 (lbo:ensure-package 'use-package)
+(lbo:ensure-package 'diminish)
 (eval-when-compile
   (require 'use-package)
   (setq use-package-always-ensure t))
