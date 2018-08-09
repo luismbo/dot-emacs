@@ -145,7 +145,7 @@
 ;; disable hs-minor-mode for ediff
 (add-hook 'ediff-prepare-buffer-hook
           (lambda ()
-            (when hs-minor-mode
+            (when (and (boundp 'hs-minor-mode) hs-minor-mode)
               (hs-minor-mode nil))))
 
 ;;;; Pretty Inner Dots
