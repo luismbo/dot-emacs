@@ -260,6 +260,10 @@
   :ensure nil
   :bind (:map emacs-lisp-mode-map ("M-." . find-function-at-point)))
 
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c C-c") 'compile-defun)))
+
 ;;;; Light-grey Parentheses
 
 (use-package paren-face
