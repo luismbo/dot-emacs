@@ -13,6 +13,7 @@
 	forward-sexp
 	indent-for-tab-command
 	indent-pp-sexp
+	indent-sexp
 	kill-region
 	kill-sexp
 	mark-sexp

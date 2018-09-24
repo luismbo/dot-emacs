@@ -919,7 +919,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (doom-modeline slime auto-compile magit-gerrit spaceline spacemacs-theme typescript-mode mo-git-blame parinfer dracula-theme wgrep zone-select zone-nyan zones wttrin wn-mode white-sand-theme tangotango-theme shorten request-deferred redshank peep-dired parenface org-bullets moe-theme minesweeper meacupla-theme lui lcs langtool htmlize goto-last-change gitignore-mode folding ethan-wspace darkroom crux color-theme-sanityinc-solarized aggressive-indent 2048-game)))
+    (rainbow-delimiters doom-modeline slime auto-compile magit-gerrit spaceline spacemacs-theme typescript-mode mo-git-blame parinfer dracula-theme wgrep zone-select zone-nyan zones wttrin wn-mode white-sand-theme tangotango-theme shorten request-deferred redshank peep-dired parenface org-bullets moe-theme minesweeper meacupla-theme lui lcs langtool htmlize goto-last-change gitignore-mode folding ethan-wspace darkroom crux color-theme-sanityinc-solarized aggressive-indent 2048-game)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
@@ -929,8 +929,8 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
      (c-style . "stroustrup")
      (org-clock-continuously . t)
      (eval font-lock-add-keywords nil
-      (quote
-       (("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face))))
+	   (quote
+	    (("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face))))
      (c-style . "K&R")
      (intent-tabs-mode)
      (c-style . K&R)
