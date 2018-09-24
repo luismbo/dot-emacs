@@ -31,9 +31,4 @@
         ("pms.siscog.com" . lbo:browse-url-internet-explorer)
         ("." . browse-url-default-windows-browser)))
 
-(defun explorer ()
-  (interactive)
-  (w32-shell-execute "open" "explorer"
-                     (concat "/e,/select," (convert-standard-filename buffer-file-name))))
-
-(global-set-key [f12] 'explorer)
+(global-set-key [f12] 'scg-open-explorer)
