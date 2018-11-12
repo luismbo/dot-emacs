@@ -503,7 +503,7 @@ else return nil."
         (max 10)
         (found nil))
     (while (and (not found) (> max 0))
-      (if (file-directory-p (concat curdir ".git"))
+      (if (file-exists-p (concat curdir ".git"))
 	  (progn
 	    (setq found t))
 	  (progn
@@ -535,7 +535,8 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
       ((equal current-prefix-arg '(16))
        (list (read-from-minibuffer "Run: " "git grep"
 				   nil nil 'grep-history)
-	     nil))
+	     nil
+	     default-directory))
       (t (let* ((regexp (grep-read-regexp))
 		(files (grep-read-files regexp))
 		(dir (read-directory-name "In directory: "
