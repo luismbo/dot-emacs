@@ -115,6 +115,11 @@
                 (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))))
   (add-hook 'prog-mode-hook 'ethan-wspace-mode))
 
+(defun lbo:scrub-whitespace ()
+  (interactive)
+  (untabify (point-min) (point-max))
+  (delete-trailing-whitespace))
+
 ;;;; Goto Last Change
 
 (use-package goto-last-change
