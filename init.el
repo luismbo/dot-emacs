@@ -100,9 +100,9 @@
 ;;;; Highlight FIXMEs et cetera
 
 (add-hook 'prog-mode-hook
-	  (lambda ()
-	    (font-lock-add-keywords nil '(("\\<\\(FIXME\\|TODO\\|CAUTION\\|XXX\\)"
-					   1 font-lock-warning-face prepend)))))
+          (lambda ()
+            (font-lock-add-keywords nil '(("\\<\\(FIXME\\|TODO\\|CAUTION\\|XXX\\)"
+                                           1 font-lock-warning-face prepend)))))
 
 ;;; ethan-wspace
 
@@ -166,20 +166,20 @@
 (add-hook 'c++-mode-hook 'my-c-mode)
 
 (add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (define-key c-mode-base-map (kbd "C-c C-c") 'compile)))
+          (lambda ()
+            (define-key c-mode-base-map (kbd "C-c C-c") 'compile)))
 
 (when siscog-p
   (defun lbo:inject-mingw64-path (wrapped-function &rest args)
     (let ((exec-path (cl-list* "d:/msys64/mingw64/bin/"
-			       "d:/msys64/usr/bin/"
-			       exec-path))
-	  (restore (getenv "PATH")))
+                               "d:/msys64/usr/bin/"
+                               exec-path))
+          (restore (getenv "PATH")))
       (unwind-protect
-	   (progn
-	     (setenv "PATH" (mapconcat #'identity exec-path ";"))
-	     (apply wrapped-function args))
-	(setenv "PATH" restore))))
+           (progn
+             (setenv "PATH" (mapconcat #'identity exec-path ";"))
+             (apply wrapped-function args))
+        (setenv "PATH" restore))))
 
   (advice-add 'gdb :around 'lbo:inject-mingw64-path)
 
@@ -187,32 +187,32 @@
   (advice-add 'recompile :around 'lbo:inject-mingw64-path)
 
   (advice-add 'compile :around
-	      (lambda (wrapped &rest args)
-		"Use a sane value for `default-directory'."
-		(let* ((default-directory (locate-dominating-file default-directory ".git")))
-		  (apply wrapped args)))
-	      '((name . lbo:default-directory-from-first-dot-git)
-		(depth . 0)))
+              (lambda (wrapped &rest args)
+                "Use a sane value for `default-directory'."
+                (let* ((default-directory (locate-dominating-file default-directory ".git")))
+                  (apply wrapped args)))
+              '((name . lbo:default-directory-from-first-dot-git)
+                (depth . 0)))
 
   (defun lbo:dont-ask-about-saving-outside-project-dir (wrapped &rest args)
     "Use a sane value for `default-directory'."
     (let* ((my-default-directory default-directory)
-	   (compilation-save-buffers-predicate
-	     (lambda () (string-prefix-p
-			 my-default-directory
-			 (file-truename (buffer-file-name))))))
+           (compilation-save-buffers-predicate
+             (lambda () (string-prefix-p
+                         my-default-directory
+                         (file-truename (buffer-file-name))))))
       (apply wrapped args)))
 
   (advice-add 'compile :around
-	      'lbo:dont-ask-about-saving-outside-project-dir
-	      '((depth . 50)))
+              'lbo:dont-ask-about-saving-outside-project-dir
+              '((depth . 50)))
 
   (advice-add 'recompile :around 'lbo:dont-ask-about-saving-outside-project-dir))
 
 (defun lbo:remove-all-advice (symbol)
   (advice-mapc (lambda (ad props)
-		 (advice-remove symbol ad))
-	       symbol))
+                 (advice-remove symbol ad))
+               symbol))
 
 ;;;; Java
 
@@ -266,8 +266,8 @@
   :bind (:map emacs-lisp-mode-map ("M-." . find-function-at-point)))
 
 (add-hook 'emacs-lisp-mode-hook
-	  (lambda ()
-	    (local-set-key (kbd "C-c C-c") 'compile-defun)))
+          (lambda ()
+            (local-set-key (kbd "C-c C-c") 'compile-defun)))
 
 ;;;; Light-grey Parentheses
 
@@ -488,15 +488,15 @@
 (use-package magit
   :bind ("C-x g" . magit-status)
   :diminish auto-revert-mode
-  :init (require 'vc-git)		; for magit-grep
+  :init (require 'vc-git)               ; for magit-grep
   :config (global-magit-file-mode))
 
 (use-package multi-magit
   :bind ("C-x G" . multi-magit-status)
   :ensure nil
   :config (magit-add-section-hook 'magit-status-sections-hook
-				  'multi-magit-insert-repos-overview
-				  nil t))
+                                  'multi-magit-insert-repos-overview
+                                  nil t))
 
 ;;;; Git grep
 
@@ -509,11 +509,11 @@ else return nil."
         (found nil))
     (while (and (not found) (> max 0))
       (if (file-exists-p (concat curdir ".git"))
-	  (progn
-	    (setq found t))
-	  (progn
-	    (setq curdir (concat curdir "../"))
-	    (setq max (- max 1)))))
+          (progn
+            (setq found t))
+          (progn
+            (setq curdir (concat curdir "../"))
+            (setq max (- max 1)))))
     (if found (expand-file-name curdir))))
 
 ;; like vc-git-grep but case insensitive
@@ -539,44 +539,44 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
      (cond
       ((equal current-prefix-arg '(16))
        (list (read-from-minibuffer "Run: " "git grep"
-				   nil nil 'grep-history)
-	     nil
-	     default-directory))
+                                   nil nil 'grep-history)
+             nil
+             default-directory))
       (t (let* ((regexp (grep-read-regexp))
-		(files (grep-read-files regexp))
-		(dir (read-directory-name "In directory: "
-					  nil default-directory t)))
-	   (list regexp files dir))))))
+                (files (grep-read-files regexp))
+                (dir (read-directory-name "In directory: "
+                                          nil default-directory t)))
+           (list regexp files dir))))))
   (require 'grep)
   (when (and (stringp regexp) (> (length regexp) 0))
     (let ((command regexp))
       (if (null files)
-	  (if (string= command "git grep")
-	      (setq command nil))
-	(setq dir (file-name-as-directory (expand-file-name dir)))
-	(setq command
-	      ;; -I means "ignore binaries"
-	      (grep-expand-template "git --no-pager grep -I --no-color --ignore-case -n -e <R> -- <F>"
+          (if (string= command "git grep")
+              (setq command nil))
+        (setq dir (file-name-as-directory (expand-file-name dir)))
+        (setq command
+              ;; -I means "ignore binaries"
+              (grep-expand-template "git --no-pager grep -I --no-color --ignore-case -n -e <R> -- <F>"
                                     regexp files))
-	(when command
-	  (if (equal current-prefix-arg '(4))
-	      (setq command
-		    (read-from-minibuffer "Confirm: "
-					  command nil nil 'grep-history))
-	    (add-to-history 'grep-history command))))
+        (when command
+          (if (equal current-prefix-arg '(4))
+              (setq command
+                    (read-from-minibuffer "Confirm: "
+                                          command nil nil 'grep-history))
+            (add-to-history 'grep-history command))))
       (when command
-	(let ((default-directory dir)
-	      (compilation-environment (cons "PAGER=" compilation-environment)))
-	  ;; Setting process-setup-function makes exit-message-function work
-	  ;; even when async processes aren't supported.
-	  (compilation-start command 'grep-mode))
-	(if (eq next-error-last-buffer (current-buffer))
-	    (setq default-directory dir))))))
+        (let ((default-directory dir)
+              (compilation-environment (cons "PAGER=" compilation-environment)))
+          ;; Setting process-setup-function makes exit-message-function work
+          ;; even when async processes aren't supported.
+          (compilation-start command 'grep-mode))
+        (if (eq next-error-last-buffer (current-buffer))
+            (setq default-directory dir))))))
 
 (defun lbo:git-grep (regexp)
   (interactive (progn
-		 (grep-compute-defaults)
-		 (list (grep-read-regexp))))
+                 (grep-compute-defaults)
+                 (list (grep-read-regexp))))
   (lbo:vc-git-grep regexp "*" (lbo:git-root)))
 
 (global-set-key (kbd "C-c g") 'lbo:git-grep)
@@ -587,8 +587,8 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 ;; (use-package helm-git-grep
 ;;   :bind ("C-c g" . lbo:helm-git-grep-at-point)
 ;;   :config (defun lbo:helm-git-grep-at-point ()
-;; 	    (interactive)
-;; 	    (helm-git-grep-at-point)))
+;;          (interactive)
+;;          (helm-git-grep-at-point)))
 
 ;;;; Input Methods
 
@@ -608,9 +608,9 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 
 (use-package bm
   :bind (("<left-fringe> <wheel-up>" . bm-next-mouse)
-	 ("<left-fringe> <wheel-down>" . bm-previous-mouse)
-	 ("<left-fringe> <mouse-1>" . bm-toggle-mouse)
-	 ("<left-fringe> <mouse-3>" . bm-show-all))
+         ("<left-fringe> <wheel-down>" . bm-previous-mouse)
+         ("<left-fringe> <mouse-1>" . bm-toggle-mouse)
+         ("<left-fringe> <mouse-3>" . bm-show-all))
   :config (setq bm-cycle-all-buffers t))
 
 ;;;; expand-region
@@ -783,7 +783,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 ;; (use-package spaceline
 ;;   :demand t
 ;;   :init (setq powerline-default-separator 'arrow-fade
-;; 	      powerline-height 25)
+;;            powerline-height 25)
 ;;   :config
 ;;   (require 'spaceline-config)
 ;;   (spaceline-spacemacs-theme))
@@ -791,7 +791,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 (use-package powerline
   :demand t
   :init (setq powerline-default-separator 'arrow-fade
-	      powerline-height 25)
+              powerline-height 25)
   :config
   (powerline-default-theme))
 
@@ -869,8 +869,8 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 (defun lbo:transparency (value)
   "Sets the transparency of the frame window. 0=transparent/100=opaque"
   (interactive (let ((current-alpha (frame-parameter (selected-frame) 'alpha)))
-		 (list (read-number (format "Set frame alpha: " current-alpha)
-				     current-alpha))))
+                 (list (read-number (format "Set frame alpha: " current-alpha)
+                                     current-alpha))))
   (set-frame-parameter (selected-frame) 'alpha value))
 
 ;;;; custom
@@ -935,8 +935,8 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
      (c-style . "stroustrup")
      (org-clock-continuously . t)
      (eval font-lock-add-keywords nil
-	   (quote
-	    (("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face))))
+           (quote
+            (("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face))))
      (c-style . "K&R")
      (intent-tabs-mode)
      (c-style . K&R)
