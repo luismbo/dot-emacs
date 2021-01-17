@@ -696,7 +696,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   (setq inhibit-startup-message t)
   (my-open-first-agenda-file))
 
-(load "~/.emacs.d/my-jabber-config.el")
+;; (load "~/.emacs.d/my-jabber-config.el")
 
 (when siscog-p
   (load "~/.emacs.d/siscog/gnus-config.el")
