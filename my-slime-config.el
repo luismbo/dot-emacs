@@ -49,24 +49,25 @@
 
 ;;; Various lisps
 
-(defmacro defslime-start (name lisp &optional coding-system args)
+(defmacro defslime-start (name lisp &rest args)
   `(defun ,name ()
      (interactive)
-     (slime-start :program ,lisp ,@(when args (list :program-args args))
-                  :coding-system (or ',coding-system 'utf-8-unix))))
+     (slime-start :program ,lisp :program-args '(,@args))))
 
 (unless siscog-p
   (defslime-start allegro "/Applications/AllegroCLexpress.app/Contents/Resources/alisp")
   (defslime-start allegro64 "/Applications/AllegroCL64.app/Contents/Resources/alisp")
-  (defslime-start clisp "/usr/local/bin/clisp" utf-8-unix '("-I"))
-  (defslime-start cmucl "~/Software/bin/lisp" iso-latin-1-unix)
-  (defslime-start ccl "~/Software/ccl/scripts/ccl" iso-latin-1-unix)
-  (defslime-start ccl64 "~/Software/ccl/scripts/ccl64" iso-latin-1-unix)
-  (defslime-start sbcl "/usr/local/bin/sbcl" utf-8-unix)
-  (defslime-start ecl "~/Software/bin/ecl" iso-latin-1-unix)
+  (defslime-start clisp "/usr/local/bin/clisp" "-I")
+  (defslime-start cmucl "~/Software/bin/lisp")
+  (defslime-start ccl "~/Software/ccl/scripts/ccl")
+  (defslime-start ccl64 "~/Software/ccl/scripts/ccl64")
+  (defslime-start sbcl "/usr/local/bin/sbcl")
+  (defslime-start ecl "~/Software/bin/ecl")
   (defslime-start lw "~/Software/bin/lw")
-  (defslime-start abcl "java" utf-8-unix
-    '("-jar" "/Users/luis/Software/abcl-bin/abcl.jar")))
+  (defslime-start abcl "java" "-jar" "/Users/luis/Software/abcl-bin/abcl.jar"))
+
+(when win-p
+  (defslime-start acl101b "~/src/start-swank.bat"))
 
 (when siscog-p
   (defslime-start ccl64 "d:/opt/ccl/wx86cl64"))
