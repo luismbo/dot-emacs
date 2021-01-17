@@ -7,6 +7,7 @@
 (defvar mac-p (or (eq window-system 'ns) (eq window-system 'mac)))
 (defvar olpc-p (string-match "olpc" (user-login-name)))
 (defvar siscog-p (string-match "luismbo" (user-login-name)))
+(defvar win-p (eq window-system 'w32))
 
 (setq user-mail-address (rot13 "ybyvirven@pbzzba-yvfc.arg"))
 
@@ -145,7 +146,7 @@
       (cond
         (mac-p "Menlo-11")
         (olpc-p "Monospace-7")
-        (siscog-p "Consolas-10")
+        (win-p "Consolas-10")
         ((> emacs-major-version 22) "Ubuntu Mono 12")
         (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*")))
 
