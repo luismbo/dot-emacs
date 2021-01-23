@@ -718,6 +718,22 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
     (circe-set-display-handler "JOIN" (lambda (&rest ignored) nil))
     (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
     (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))
+    ;; see <https://github.com/jorgenschaefer/circe/issues/340>
+    (setq tls-end-of-info
+	  (concat
+	   "\\("
+	   ;; `openssl s_client' regexp.  See ssl/ssl_txt.c lines 219-220.
+	   ;; According to apps/s_client.c line 1515 `---' is always the last
+	   ;; line that is printed by s_client before the real data.
+	   "^    Verify return code: .+\n\\(\\|^    Extended master secret: .+\n\\)---\n\\|"
+	   ;; `gnutls' regexp. See src/cli.c lines 721-.
+	   "^- Simple Client Mode:\n"
+	   "\\(\n\\|"			; ignore blank lines
+	   ;; According to GnuTLS v2.1.5 src/cli.c lines 640-650 and 705-715
+	   ;; in `main' the handshake will start after this message.  If the
+	   ;; handshake fails, the programs will abort.
+	   "^\\*\\*\\* Starting TLS handshake\n\\)*"
+	   "\\)"))
     (setq circe-network-options '(("kerno"
                                    :tls t
                                    :nick "luis"
