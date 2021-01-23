@@ -858,13 +858,13 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 ;; M-x ispell-buffer
 (when siscog-p
   (eval-after-load 'ispell
-                   `(progn
-                      (add-to-list 'exec-path "d:/opt/hunspell/bin")
-                      (setq ispell-program-name "hunspell")
-                      (setq ispell-library-directory "d:/opt/hunspell/share/hunspell")
-                      (setq ispell-local-dictionary-alist
-                            '(("british" "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_GB") nil iso-8859-1)
-                              ("portugues" "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "pt_PT") nil iso-8859-1))))))
+    `(progn
+       (add-to-list 'exec-path "d:/opt/hunspell/bin")
+       (setq ispell-program-name "hunspell")
+       (setq ispell-library-directory "d:/opt/hunspell/share/hunspell")
+       (setq ispell-local-dictionary-alist
+             '(("british" "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_GB") nil iso-8859-1)
+               ("portugues" "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "pt_PT") nil iso-8859-1))))))
 
 ;;;; grammar checker
 
