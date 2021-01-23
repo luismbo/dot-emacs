@@ -6,7 +6,12 @@
 	ampl-insert-parens
 	ampl-insert-sqbrackets
 	backward-sexp
+	c-electric-lt-gt
+	c-electric-paren
 	c-electric-semi&comma
+	c-electric-slash
+	c-electric-star
+	c-indent-line-or-region
 	crux-move-beginning-of-line
 	dabbrev-expand
 	eval-last-sexp
@@ -14,6 +19,7 @@
 	indent-for-tab-command
 	indent-pp-sexp
 	indent-sexp
+	insert-parentheses
 	kill-region
 	kill-sexp
 	mark-sexp
@@ -50,6 +56,7 @@
 	slime-compile-defun
 	transpose-sexps
 	upcase-region
+	yaml-electric-backspace
 	))
 
 (setq mc/cmds-to-run-once
