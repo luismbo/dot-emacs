@@ -686,9 +686,8 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   ;; `ido-find-file'.
   (setq ido-auto-merge-work-directories-length -1))
 
-
-(autoload 'idomenu "idomenu" nil t)
-(global-set-key (kbd "M-i") 'idomenu)
+;; (autoload 'idomenu "idomenu" nil t)
+;; (global-set-key (kbd "M-i") 'idomenu)
 
 (random t)
 
@@ -822,6 +821,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
           (lambda ()
             (dired-omit-mode)
             (dired-hide-details-mode)))
+
 ;; (setq ls-lisp-use-insert-directory-program t)
 ;; (setq ls-list-verbosity nil)
 
@@ -842,11 +842,26 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 ;;            (substring ad-return-value 10))))) ; 13
 ;; (ad-activate 'ls-lisp-format t)
 
-(use-package dired-narrow
-  :bind (:map dired-mode-map ("/" . dired-narrow)))
+;; (use-package dired-narrow
+;;   :bind (:map dired-mode-map ("/" . dired-narrow)))
 
-(use-package peep-dired
-  :bind (:map dired-mode-map ("P" . peep-dired)))
+;; (use-package peep-dired
+;;   :bind (:map dired-mode-map ("P" . peep-dired)))
+
+;; (setq package-check-signature nil)
+
+;; (use-package dired
+;;   :hook (dired-mode . dired-hide-details-mode)
+;;   :ensure nil
+;;   :config
+;;   ;; Colourful columns.
+;;   (use-package diredfl
+;;     :config
+;;     (diredfl-global-mode 1)))
+
+;; (use-package dired-git-info
+;;   :bind (:map dired-mode-map
+;;               (")" . dired-git-info-mode)))
 
 ;;;; hunspell
 
