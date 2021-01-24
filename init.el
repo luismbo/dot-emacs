@@ -28,8 +28,6 @@
 (defvar gnus-only-mode-p
   (string= "GNUS" (frame-parameter (selected-frame) 'title)))
 
-(require 'cl)
-
 ;;;; Exec Path
 
 (when mac-p
