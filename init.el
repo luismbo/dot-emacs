@@ -37,9 +37,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/lib")
 
-(when siscog-p
-  (add-to-list 'load-path "~/siscog/multi-magit"))
-
 ;;;; package.el
 
 (require 'package)
@@ -487,17 +484,23 @@
 ;;;; Magit
 
 (use-package magit
-  :bind ("C-x g" . magit-status)
+  :bind (("C-x g"   . magit-status)
+         ("C-x M-g" . magit-file-dispatch)
+         ("C-c d"   . magit-dispatch))
   :diminish auto-revert-mode
-  :init (require 'vc-git)               ; for magit-grep
-  :config (global-magit-file-mode))
+  :init (require 'vc-git)) ; for magit-grep
+
+(add-to-list 'load-path "~/src/multi-magit")
 
 (use-package multi-magit
   :bind ("C-x G" . multi-magit-status)
   :ensure nil
-  :config (magit-add-section-hook 'magit-status-sections-hook
-                                  'multi-magit-insert-repos-overview
-                                  nil t))
+  :config (progn
+            (unless magit-repository-directories
+              (setq magit-repository-directories '(("~/src/" . 2))))
+            (magit-add-section-hook 'magit-status-sections-hook
+                                    'multi-magit-insert-repos-overview
+                                    nil t)))
 
 ;;;; Git grep
 
