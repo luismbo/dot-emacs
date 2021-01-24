@@ -38,13 +38,9 @@
 ;(load (format "%s/custom/sc-after.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
 (load "~/.emacs.d/custom/sc-after.el")
 
-;;; SLIME
+;;;
 
-(setq inferior-lisp-program
-      "c:/siscog-dev-tools/Git/bin/bash.exe z:/siscog/sbcl-dev/run-sbcl.sh --dynamic-space-size 10000"
-      ;; "c:/siscog-dev-tools/Git/bin/bash.exe z:/siscog/sbcl-crlf/run-sbcl.sh"
-      ;; "d:/opt/ccl-1.11.5-windowsx86/wx86cl64.exe"
-      )
+(define-key global-map (kbd "C-c a") 'scg-staging-area)
 
 ;;;
 
