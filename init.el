@@ -423,7 +423,7 @@
 
 (setq org-directory
       (if siscog-p
-          "w:/org"
+          "z:/org"
           "~/Dropbox/Documents/org"))
 
 (setq org-agenda-files (list org-directory))
