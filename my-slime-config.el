@@ -18,11 +18,13 @@
 ;; (setq slime-complete-symbol-function 'slime-simple-complete-symbol)
 (push 'slime-fuzzy-complete-symbol slime-completion-at-point-functions)
 
-(setq common-lisp-hyperspec-root
-      (if siscog-p
-          "z:/doc/clhs.chm::/"
-          ; "http://intranet/TechDocs/Lisp/HyperSpec/"
-          "file:///Users/luis/Documents/References/HyperSpec-7-0/HyperSpec/"))
+;;(setq common-lisp-hyperspec-root "http://intranet/TechDocs/Lisp/HyperSpec/")
+
+;; (setq common-lisp-hyperspec-root
+;;       (if siscog-p
+;;           "z:/doc/clhs.chm::/"
+;; 					; "http://intranet/TechDocs/Lisp/HyperSpec/"
+;;         "file:///Users/luis/Documents/References/HyperSpec-7-0/HyperSpec/"))
 
 ;; (setq lisp-simple-loop-indentation 1
 ;;       lisp-loop-keyword-indentation 6

@@ -1,7 +1,11 @@
 ;;;; -*- coding: utf-8 -*-
 
-(add-to-list 'load-path "z:/siscog/org-pms")
-(require 'org-pms)
+(add-to-list 'load-path "z:/siscog/slime")
+(require 'slime)
+(slime-setup '(slime-fancy slime-banner slime-indentation slime-mdot-fu slime-trace))
+
+;; (add-to-list 'load-path "z:/siscog/org-pms")
+;; (require 'org-pms)
 
 (setq pms-effort-file "w:/org/EFFORT.org")
 (setq pms-username "luismbo")
@@ -34,9 +38,19 @@
 ;(load (format "%s/custom/sc-after.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
 (load "~/.emacs.d/custom/sc-after.el")
 
+;;; SLIME
+
+(setq inferior-lisp-program
+      "c:/siscog-dev-tools/Git/bin/bash.exe z:/siscog/sbcl-dev/run-sbcl.sh --dynamic-space-size 10000"
+      ;; "c:/siscog-dev-tools/Git/bin/bash.exe z:/siscog/sbcl-crlf/run-sbcl.sh"
+      ;; "d:/opt/ccl-1.11.5-windowsx86/wx86cl64.exe"
+      )
+
+;;;
+
 (setenv "CYGWIN" "nodosfilewarning")
 
-(setenv "PATH" (format "d:\\opt\\global\\bin;d:\\mingw\\bin\\;d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
+(setenv "PATH" (format "d:\\opt\\global\\bin;d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
                        (getenv "PATH")))
 
 (add-to-list 'exec-path "d:\\opt\\global\\bin")
@@ -45,7 +59,7 @@
 (setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig")
 
 (setq lbo:git-root
-      (cl-find-if #'file-exists-p '("d:/opt/PortableGit" "c:/siscog-dev-tools/Git")))
+      (cl-find-if #'file-exists-p '("d:/opt/PortableGit-2.28" "d:/opt/PortableGit" "c:/siscog-dev-tools/Git")))
 
 (setq ediff-diff-program (cl-find-if #'file-exists-p
                                      (list (concat lbo:git-root "/usr/bin/diff.exe")
@@ -69,9 +83,19 @@
 (defun lbo:sc (db-user data-source data-dir acl-version)
   "SC settings helper."
   (setq *old-products-configuration* (eql acl-version :v8-0))
-  (sc-set-acl-version acl-version t)
+  (if (eq acl-version :sbcl)
+      (setq sc-current-lisp :sbcl)
+    (sc-set-acl-version acl-version t))
   (sc-set-db-user db-user data-source)
   (sc-set-data-dir data-dir))
+
+(add-hook 'sc-startup-hook
+	  (lambda ()
+	    (lbo:sc "siscog009database" "crw_local"
+		    "d:/users/lbo/siscog/data/crw_local/siscog009database"
+		    :sbcl)
+	    (setenv "SCS_NT_SERVICES_HOST" "localhost:20000"))
+	  t)
 
 ;; (lbo:sc (rot13 "fvfpbt009qngnonfr")
 ;; 	(rot13 "qo0511TBEN3")
@@ -178,7 +202,7 @@
 
 ;;;; Hyperspec
 
-(setq common-lisp-hyperspec-root "http://intranet/TechDocs/Lisp/HyperSpec/")
+;; (setq common-lisp-hyperspec-root "http://intranet/TechDocs/Lisp/HyperSpec/")
 
 ;; override global hyperspec.el
 ;; (load "~/src/slime/hyperspec.el")
@@ -264,8 +288,8 @@
                                     allegro-common-lisp-image-name)))
     (allegro)))
 
-(add-to-list 'load-path "~/siscog/sc-extra")
-(require 'sc-extra-autoloads)
+;; (add-to-list 'load-path "~/siscog/sc-extra")
+;; (require 'sc-extra-autoloads)
 
 ;;;; CRM Keybindings
 
@@ -349,3 +373,12 @@ Set up `compilation-exit-message-function' and run `grep-setup-hook'."
 		    (cons msg code)))
 	   (cons msg code))))
   (run-hooks 'grep-setup-hook))
+
+(defvar lbo:fonts '("-outline-Consolas-normal-normal-normal-mono-13-*-*-*-c-*-iso8859-1"
+		    "-outline-Consolas-normal-normal-normal-mono-17-*-*-*-c-*-iso8859-1"
+		    "-outline-Consolas-normal-normal-normal-mono-26-*-*-*-c-*-iso8859-1"))
+
+(defun lbo:cycle-font ()
+  (interactive)
+  (setq lbo:fonts (append (rest lbo:fonts) (list (first lbo:fonts))))
+  (set-frame-font (first lbo:fonts)))
