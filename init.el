@@ -768,31 +768,132 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 
 ;;;; Helm
 
-(use-package helm-config
-  :ensure helm
-  :demand t
-  :bind (("C-c C-/" . helm-occur)
-         ("C-c i"   . helm-imenu)
-         ("C-x f"   . helm-multi-files)
-         ("C-c C-f" . helm-find-files)
-         ("M-H"     . helm-resume)
-         ("M-x"     . helm-M-x))
-  :config
-  (require 'helm-files)
-  (require 'helm-buffers)
-  (use-package helm-mode
-    :ensure nil
-    :diminish helm-mode
-    :init
-    (helm-mode 1))
+;; (use-package helm-config
+;;   :ensure helm
+;;   :demand t
+;;   :bind (("C-c C-/" . helm-occur)
+;;          ("C-c i"   . helm-imenu)
+;;          ("C-x f"   . helm-multi-files)
+;;          ("C-c C-f" . helm-find-files)
+;;          ("M-H"     . helm-resume)
+;;          ("M-x"     . helm-M-x))
+;;   :config
+;;   (require 'helm-files)
+;;   (require 'helm-buffers)
+;;   (use-package helm-mode
+;;     :ensure nil
+;;     :diminish helm-mode
+;;     :init
+;;     (helm-mode 1))
 
-  (require 'helm-multi-match)
+;;   (require 'helm-multi-match)
 
-  (helm-autoresize-mode 1)
+;;   (helm-autoresize-mode 1)
 
-  (bind-key "<tab>" #'helm-execute-persistent-action helm-map)
-  (bind-key "C-i" #'helm-execute-persistent-action helm-map)
-  (bind-key "C-z" #'helm-select-action helm-map))
+;;   (bind-key "<tab>" #'helm-execute-persistent-action helm-map)
+;;   (bind-key "C-i" #'helm-execute-persistent-action helm-map)
+;;   (bind-key "C-z" #'helm-select-action helm-map))
+
+;;;; Ivy / Counsel / Swiper
+
+;; (use-package ivy
+;;   :ensure t
+;;   :config (ivy-mode 1))
+
+;; (use-package counsel
+;;   :ensure t
+;;   :config (counsel-mode 1))
+
+;; (use-package swiper
+;;   :ensure t
+;;   :bind ("C-s" . swiper))
+
+;;;; Selectrum
+
+(use-package selectrum
+  :ensure t
+  :config (selectrum-mode 1))
+
+(use-package selectrum-prescient
+  :ensure t
+  :config (progn
+	    (selectrum-prescient-mode 1)
+	    (prescient-persist-mode 1)))
+
+;;;; Marginalia
+
+(use-package marginalia
+  :ensure t
+  :config (progn
+	    (marginalia-mode)
+	    (marginalia-cycle)))
+
+(use-package embark
+  :ensure t
+  :bind
+  ("C-S-a" . embark-act))              ; pick some comfortable binding
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t ; only necessary if you have the hook below
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook
+  (embark-collect-mode . embark-consult-preview-minor-mode))
+
+(use-package ctrlf
+  :ensure t
+  :config (progn
+	    (setq ctrlf-mode-bindings
+		  '(("C-S-s" . ctrlf-forward-literal)
+		    ("C-S-r" . ctrlf-backward-literal)
+		    ("C-M-S-s" . ctrlf-forward-regexp)
+		    ("C-M-S-r" . ctrlf-backward-regexp)
+		    ("C-c ."   . ctrlf-forward-symbol-at-point)
+		    ("C-c _"   . ctrlf-forward-symbol)))
+	    (setq ctrlf-minibuffer-bindings
+		  `(("<down>" . ctrlf-next-match)
+		    ("<up>"   . ctrlf-previous-match)
+		    ("C-w"    . next-history-element)
+		    ,@ctrlf-minibuffer-bindings))
+	    (ctrlf-mode)))
+
+(define-prefix-command 'lbo:consult-map)
+(global-set-key (kbd "M-c") 'lbo:consult-map)
+
+(use-package consult
+  :bind (;; C-c bindings (mode-specific-map)
+         ("C-c h" . consult-history)
+         ("C-M-x" . consult-mode-command)
+         ;; C-x bindings (ctl-x-map)
+         ("C-x M-:" . consult-complex-command)
+         ("C-x B"   . consult-buffer)
+	 ("M-c b"   . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("C-x r x" . consult-register)
+         ("C-x r b" . consult-bookmark)
+         ;; M-g bindings (goto-map)
+         ("M-g g"   . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
+         ("M-g o" . consult-outline)
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-project-imenu) ;; Alternative: consult-imenu
+         ("M-g e" . consult-error)
+         ;; was: M-s bindings (search-map)
+         ("M-c g" . consult-git-grep)
+         ("M-c f" . consult-find)
+         ("M-c l" . consult-line)
+         ("M-c m" . consult-multi-occur)
+         ("M-c k" . consult-keep-lines)
+         ("M-c u" . consult-focus-lines)
+         ;; Other bindings
+         ("M-y" . consult-yank-pop)
+         ("<help> a" . consult-apropos))
+  :config (setq consult-narrow-key "<"))
 
 ;;;; spaceline
 
