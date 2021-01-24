@@ -11,11 +11,11 @@
 
 (setq user-mail-address (rot13 "ybyvirven@pbzzba-yvfc.arg"))
 
-(defun lbo:imenu-elisp-sections ()
-  (setq imenu-prev-index-position-function nil)
-  (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
+;; (defun lbo:imenu-elisp-sections ()
+;;   (setq imenu-prev-index-position-function nil)
+;;   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
 
-(add-hook 'emacs-lisp-mode-hook 'lbo:imenu-elisp-sections)
+;; (add-hook 'emacs-lisp-mode-hook 'lbo:imenu-elisp-sections)
 
 ;;; emacs ... -T ORG
 (defvar org-only-mode-p
