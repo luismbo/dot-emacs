@@ -911,7 +911,11 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   :init (setq powerline-default-separator 'arrow-fade
               powerline-height 25)
   :config
-  (powerline-default-theme))
+  (powerline-default-theme)
+  (defun lbo:powerline-reset-after (&rest _args)
+    (powerline-reset))
+  (advice-add #'enable-theme :after 'lbo:powerline-reset-after)
+  (advice-add #'disable-theme :after 'lbo:powerline-reset-after))
 
 ;;;; dired
 
@@ -1012,7 +1016,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
    '("cdfc5c44f19211cfff5994221078d7d5549eeb9feda4f595a2fd8ca40467776c" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "0e219d63550634bc5b0c214aced55eb9528640377daf486e13fb18a32bf39856" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "dbb643699e18b5691a8baff34c29d709a3ff9787f09cdae58d3c1bc085b63c25" "75cd4234cc08d4ccf3ddef8fb763b9e145d4e68d3c938a3502d892c72f71e007" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "a25c42c5e2a6a7a3b0331cad124c83406a71bc7e099b60c31dc28a1ff84e8c04" "12b7ed9b0e990f6d41827c343467d2a6c464094cbcc6d0844df32837b50655f9" "708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
  '(default-input-method "portuguese-prefix")
  '(package-selected-packages
-   '(mini-frame which-key marginalia selectrum alert circe dired dired-git-info markdown-mode dockerfile-mode groovy-mode yaml-mode magit macrostep package-lint rainbow-delimiters doom-modeline slime auto-compile magit-gerrit spaceline spacemacs-theme typescript-mode mo-git-blame parinfer dracula-theme wgrep zone-select zone-nyan zones wttrin wn-mode white-sand-theme tangotango-theme shorten request-deferred redshank parenface org-bullets moe-theme minesweeper meacupla-theme lui lcs langtool htmlize goto-last-change gitignore-mode folding ethan-wspace darkroom crux color-theme-sanityinc-solarized aggressive-indent 2048-game))
+   '(doom-themes color-theme-sanityinc-tomorrow monokai-theme solarized-theme mini-frame which-key marginalia selectrum alert circe dired dired-git-info markdown-mode dockerfile-mode groovy-mode yaml-mode magit macrostep package-lint rainbow-delimiters doom-modeline slime auto-compile magit-gerrit spaceline spacemacs-theme typescript-mode mo-git-blame parinfer dracula-theme wgrep zone-select zone-nyan zones wttrin wn-mode white-sand-theme tangotango-theme shorten request-deferred redshank parenface org-bullets moe-theme minesweeper meacupla-theme lui lcs langtool htmlize goto-last-change gitignore-mode folding ethan-wspace darkroom crux color-theme-sanityinc-solarized aggressive-indent 2048-game))
  '(safe-local-variable-values
    '((indent-tabs)
      (org-src-fontify-natively . t)
