@@ -904,13 +904,12 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 ;;   (require 'spaceline-config)
 ;;   (spaceline-spacemacs-theme))
 
-(when window-system
-  (use-package powerline
-    :demand t
-    :init (setq powerline-default-separator 'arrow-fade
-                powerline-height 25)
-    :config
-    (powerline-default-theme)))
+(use-package powerline
+  :demand t
+  :init (setq powerline-default-separator 'arrow-fade
+              powerline-height 25)
+  :config
+  (powerline-default-theme))
 
 ;;;; dired
 
