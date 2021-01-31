@@ -353,6 +353,8 @@
 (when window-system
   (scroll-bar-mode -1))
 (tool-bar-mode -1)
+(unless window-system
+  (xterm-mouse-mode))
 
 (unless mac-p
   (menu-bar-mode 0))
