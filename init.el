@@ -350,7 +350,8 @@
 (setq uniquify-buffer-name-style 'post-forward)
 
 (column-number-mode 1)
-(scroll-bar-mode -1)
+(when window-system
+  (scroll-bar-mode -1))
 (tool-bar-mode -1)
 
 (unless mac-p
@@ -363,15 +364,14 @@
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
 
-(when window-system
-  (cond (roster-only-mode-p
-         (color-theme-dark-laptop))
-        ;; (siscog-p
-        ;;  (lbo:ensure-package 'spacemacs-theme)
-        ;;  (load-theme 'spacemacs-dark t))
-        (t
-         (lbo:ensure-package 'zenburn-theme)
-         (load-theme 'zenburn t))))
+(cond (roster-only-mode-p
+       (color-theme-dark-laptop))
+      ;; (siscog-p
+      ;;  (lbo:ensure-package 'spacemacs-theme)
+      ;;  (load-theme 'spacemacs-dark t))
+      (t
+       (lbo:ensure-package 'zenburn-theme)
+       (load-theme 'zenburn t)))
 
 ;;;; Enable disabled functions
 
@@ -904,12 +904,13 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 ;;   (require 'spaceline-config)
 ;;   (spaceline-spacemacs-theme))
 
-(use-package powerline
-  :demand t
-  :init (setq powerline-default-separator 'arrow-fade
-              powerline-height 25)
-  :config
-  (powerline-default-theme))
+(when window-system
+  (use-package powerline
+    :demand t
+    :init (setq powerline-default-separator 'arrow-fade
+                powerline-height 25)
+    :config
+    (powerline-default-theme)))
 
 ;;;; dired
 
