@@ -894,6 +894,12 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   :diminish which-key-mode
   :config (which-key-mode))
 
+;;;; smartscan
+
+(use-package smartscan
+  :bind (("C-c n" . smartscan-symbol-go-forward)
+	 ("C-c p" . smartscan-symbol-go-backward)))
+
 ;;;; spaceline
 
 ;; (use-package spaceline
