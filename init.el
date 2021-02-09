@@ -906,14 +906,27 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 
 (use-package powerline
   :demand t
-  :init (setq powerline-default-separator 'arrow-fade
-              powerline-height 25)
+  :init (setq powerline-default-separator 'slant
+	      powerline-height 25)
   :config
   (powerline-default-theme)
   (defun lbo:powerline-reset-after (&rest _args)
     (powerline-reset))
   (advice-add #'enable-theme :after 'lbo:powerline-reset-after)
-  (advice-add #'disable-theme :after 'lbo:powerline-reset-after))
+  (advice-add #'disable-theme :after 'lbo:powerline-reset-after)
+
+  ;; adapted from <https://github.com/domtronn/all-the-icons.el/wiki/Mode-Line>
+  (when (fboundp 'all-the-icons-octicon)
+    (defpowerline powerline-vc
+      (when (and (buffer-file-name (current-buffer)) vc-mode)
+	(if (string-match "Git[:-]" vc-mode)
+	    (let ((branch (subseq vc-mode (match-end 0))))
+	      (concat
+	       (propertize (format " %s " (all-the-icons-octicon "git-branch"))
+			   'face `(:height 1.3 :family ,(all-the-icons-octicon-family) :inherit ,face)
+			   'display '(raise -0.15))
+	       branch))
+	  (format-mode-line '(vc-mode vc-mode)))))))
 
 ;;;; dired
 
