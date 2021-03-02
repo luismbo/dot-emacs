@@ -1051,7 +1051,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 			    "\\\\" "://"))
   ;; Enables ligature checks globally in all buffers. You can also do it per
   ;; mode with `ligature-mode'.
-  (global-ligature-mode 1))
+  (global-ligature-mode -1))
 
 ;;;; custom
 
