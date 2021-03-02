@@ -141,7 +141,8 @@
       (cond
         (mac-p "Menlo-11")
         (olpc-p "Monospace-7")
-        (win-p "Consolas-10")
+        ;; (win-p "Consolas-10")
+	(win-p "Cascadia Code PL-10")
         ((> emacs-major-version 22) "Ubuntu Mono 12")
         (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*")))
 
@@ -366,14 +367,11 @@
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
 
-(cond (roster-only-mode-p
-       (color-theme-dark-laptop))
-      ;; (siscog-p
-      ;;  (lbo:ensure-package 'spacemacs-theme)
-      ;;  (load-theme 'spacemacs-dark t))
-      (t
-       (lbo:ensure-package 'zenburn-theme)
-       (load-theme 'zenburn t)))
+(use-package doom-themes
+  :config (load-theme 'doom-dark+))
+
+;; (use-package zenburn-theme
+;;   :config (load-theme 'zenburn))
 
 ;;;; Enable disabled functions
 
@@ -1051,9 +1049,9 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 			    "/*" "/=" "/>" "//" "__" "~~"
 			    ;; "(*" "*)"
 			    "\\\\" "://"))
-  ;; Enables ligature checks globally in all buffers. You can also do it
-  ;; per mode with `ligature-mode'.
-  (global-ligature-mode -1))
+  ;; Enables ligature checks globally in all buffers. You can also do it per
+  ;; mode with `ligature-mode'.
+  (global-ligature-mode 1))
 
 ;;;; custom
 
