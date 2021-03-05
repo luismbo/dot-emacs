@@ -89,16 +89,14 @@
 (defslime-connect clisp-win "virtual" 4002)
 (defslime-connect corman-win "virtual" 4003)
 
-(setq slime-save-buffers nil)
+;; (setq slime-save-buffers nil)
 
 ;; Getting rid of the Fontifying *SLIME
 ;; Compilation*... (regexps......) message.
-(setq font-lock-verbose nil)
+;; (setq font-lock-verbose nil)
 
 ;;;; Keybindings
 
 (global-set-key (kbd "C-c s") 'slime-selector)
-(global-set-key (kbd "C-c h") 'clhs-lookup)
-(global-set-key (kbd "C-c r") 'slime-pop-find-definition-stack)
-
-(setq slime-autodoc-use-multiline-p t)
+;; (global-set-key (kbd "C-c h") 'clhs-lookup)
+;; (global-set-key (kbd "C-c r") 'slime-pop-find-definition-stack)
