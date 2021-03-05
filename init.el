@@ -142,7 +142,7 @@
         (mac-p "Menlo-11")
         (olpc-p "Monospace-7")
         ;; (win-p "Consolas-10")
-	(win-p "Cascadia Code PL-10")
+        (win-p "Cascadia Code PL-10")
         ((> emacs-major-version 22) "Ubuntu Mono 12")
         (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*")))
 
@@ -733,20 +733,20 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
     (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))
     ;; see <https://github.com/jorgenschaefer/circe/issues/340>
     (setq tls-end-of-info
-	  (concat
-	   "\\("
-	   ;; `openssl s_client' regexp.  See ssl/ssl_txt.c lines 219-220.
-	   ;; According to apps/s_client.c line 1515 `---' is always the last
-	   ;; line that is printed by s_client before the real data.
-	   "^    Verify return code: .+\n\\(\\|^    Extended master secret: .+\n\\)---\n\\|"
-	   ;; `gnutls' regexp. See src/cli.c lines 721-.
-	   "^- Simple Client Mode:\n"
-	   "\\(\n\\|"			; ignore blank lines
-	   ;; According to GnuTLS v2.1.5 src/cli.c lines 640-650 and 705-715
-	   ;; in `main' the handshake will start after this message.  If the
-	   ;; handshake fails, the programs will abort.
-	   "^\\*\\*\\* Starting TLS handshake\n\\)*"
-	   "\\)"))
+          (concat
+           "\\("
+           ;; `openssl s_client' regexp.  See ssl/ssl_txt.c lines 219-220.
+           ;; According to apps/s_client.c line 1515 `---' is always the last
+           ;; line that is printed by s_client before the real data.
+           "^    Verify return code: .+\n\\(\\|^    Extended master secret: .+\n\\)---\n\\|"
+           ;; `gnutls' regexp. See src/cli.c lines 721-.
+           "^- Simple Client Mode:\n"
+           "\\(\n\\|"                   ; ignore blank lines
+           ;; According to GnuTLS v2.1.5 src/cli.c lines 640-650 and 705-715
+           ;; in `main' the handshake will start after this message.  If the
+           ;; handshake fails, the programs will abort.
+           "^\\*\\*\\* Starting TLS handshake\n\\)*"
+           "\\)"))
     (setq circe-network-options '(("kerno"
                                    :tls t
                                    :nick "luis"
@@ -826,15 +826,15 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 
 (use-package selectrum-prescient
   :config (progn
-	    (selectrum-prescient-mode 1)
-	    (prescient-persist-mode 1)))
+            (selectrum-prescient-mode 1)
+            (prescient-persist-mode 1)))
 
 ;;;; Marginalia
 
 (use-package marginalia
   :config (progn
-	    (marginalia-mode)
-	    (marginalia-cycle)))
+            (marginalia-mode)
+            (marginalia-cycle)))
 
 (use-package embark
   :bind
@@ -851,19 +851,19 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 
 (use-package ctrlf
   :config (progn
-	    (setq ctrlf-mode-bindings
-		  '(("C-S-s" . ctrlf-forward-literal)
-		    ("C-S-r" . ctrlf-backward-literal)
-		    ("C-M-S-s" . ctrlf-forward-regexp)
-		    ("C-M-S-r" . ctrlf-backward-regexp)
-		    ("C-c ."   . ctrlf-forward-symbol-at-point)
-		    ("C-c _"   . ctrlf-forward-symbol)))
-	    (setq ctrlf-minibuffer-bindings
-		  `(("<down>" . ctrlf-next-match)
-		    ("<up>"   . ctrlf-previous-match)
-		    ("C-w"    . next-history-element)
-		    ,@ctrlf-minibuffer-bindings))
-	    (ctrlf-mode)))
+            (setq ctrlf-mode-bindings
+                  '(("C-S-s" . ctrlf-forward-literal)
+                    ("C-S-r" . ctrlf-backward-literal)
+                    ("C-M-S-s" . ctrlf-forward-regexp)
+                    ("C-M-S-r" . ctrlf-backward-regexp)
+                    ("C-c ."   . ctrlf-forward-symbol-at-point)
+                    ("C-c _"   . ctrlf-forward-symbol)))
+            (setq ctrlf-minibuffer-bindings
+                  `(("<down>" . ctrlf-next-match)
+                    ("<up>"   . ctrlf-previous-match)
+                    ("C-w"    . next-history-element)
+                    ,@ctrlf-minibuffer-bindings))
+            (ctrlf-mode)))
 
 (define-prefix-command 'lbo:consult-map)
 (global-set-key (kbd "M-c") 'lbo:consult-map)
@@ -876,17 +876,17 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
          ("M-g k" . consult-global-mark)
          ("M-g e" . consult-error)
          ;; M-c
-	 ("M-c 4 b" . consult-buffer-other-window)
+         ("M-c 4 b" . consult-buffer-other-window)
          ("M-c 5 b" . consult-buffer-other-frame)
-	 ("M-c b"   . consult-buffer)
-	 ("M-c B"   . consult-bookmark)
-	 ("M-c f" . consult-find)
-	 ("M-c h" . consult-history)
-	 ("M-c i" . consult-imenu)
-	 ("M-c o" . consult-outline)
-	 ("M-c p" . consult-project-imenu)
-	 ("M-c r" . consult-register)
-	 ("M-c s" . consult-line)
+         ("M-c b"   . consult-buffer)
+         ("M-c B"   . consult-bookmark)
+         ("M-c f" . consult-find)
+         ("M-c h" . consult-history)
+         ("M-c i" . consult-imenu)
+         ("M-c o" . consult-outline)
+         ("M-c p" . consult-project-imenu)
+         ("M-c r" . consult-register)
+         ("M-c s" . consult-line)
          ("M-c G" . consult-grep)
          ("M-c g" . consult-git-grep)
          ("M-c k" . consult-keep-lines)
@@ -907,7 +907,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 
 (use-package smartscan
   :bind (("C-c n" . smartscan-symbol-go-forward)
-	 ("C-c p" . smartscan-symbol-go-backward)))
+         ("C-c p" . smartscan-symbol-go-backward)))
 
 ;;;; spaceline
 
@@ -922,7 +922,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 (use-package powerline
   :demand t
   :init (setq powerline-default-separator 'slant
-	      powerline-height 25)
+              powerline-height 25)
   :config
   (powerline-default-theme)
   (defun lbo:powerline-reset-after (&rest _args)
@@ -934,14 +934,14 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   (when (fboundp 'all-the-icons-octicon)
     (defpowerline powerline-vc
       (when (and (buffer-file-name (current-buffer)) vc-mode)
-	(if (string-match "Git[:-]" vc-mode)
-	    (let ((branch (subseq vc-mode (match-end 0))))
-	      (concat
-	       (propertize (format " %s " (all-the-icons-octicon "git-branch"))
-			   'face `(:height 1.3 :family ,(all-the-icons-octicon-family) :inherit ,face)
-			   'display '(raise -0.15))
-	       branch))
-	  (format-mode-line '(vc-mode vc-mode)))))))
+        (if (string-match "Git[:-]" vc-mode)
+            (let ((branch (subseq vc-mode (match-end 0))))
+              (concat
+               (propertize (format " %s " (all-the-icons-octicon "git-branch"))
+                           'face `(:height 1.3 :family ,(all-the-icons-octicon-family) :inherit ,face)
+                           'display '(raise -0.15))
+               branch))
+          (format-mode-line '(vc-mode vc-mode)))))))
 
 ;;;; dired
 
@@ -1041,25 +1041,25 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
   ;; Enable all Cascadia Code ligatures in programming modes
   (ligature-set-ligatures t ;; '(prog-mode slime-editing-mode)
-			  '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-			    ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-			    "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-			    "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-			    "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-			    "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-			    "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-			    "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-			    ;; ">="
-			    ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-			    "<$"
-			    ;; "<="
-			    "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-			    "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-			    "?=" "?." "??"
-			    ;; ";;"
-			    "/*" "/=" "/>" "//" "__" "~~"
-			    ;; "(*" "*)"
-			    "\\\\" "://"))
+                          '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                            ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                            "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                            "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                            "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                            "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                            "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                            "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                            ;; ">="
+                            ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                            "<$"
+                            ;; "<="
+                            "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                            "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                            "?=" "?." "??"
+                            ;; ";;"
+                            "/*" "/=" "/>" "//" "__" "~~"
+                            ;; "(*" "*)"
+                            "\\\\" "://"))
   ;; Enables ligature checks globally in all buffers. You can also do it per
   ;; mode with `ligature-mode'.
   (global-ligature-mode -1))
@@ -1084,7 +1084,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
      (c-style . "stroustrup")
      (org-clock-continuously . t)
      (eval font-lock-add-keywords nil
-	   '(("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face)))
+           '(("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face)))
      (c-style . "K&R")
      (intent-tabs-mode)
      (c-style . K&R)
