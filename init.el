@@ -520,11 +520,9 @@ else return nil."
         (found nil))
     (while (and (not found) (> max 0))
       (if (file-exists-p (concat curdir ".git"))
-          (progn
-            (setq found t))
-          (progn
-            (setq curdir (concat curdir "../"))
-            (setq max (- max 1)))))
+          (setq found t)
+        (setq curdir (concat curdir "../"))
+        (setq max (- max 1))))
     (if found (expand-file-name curdir))))
 
 ;; like vc-git-grep but case insensitive
