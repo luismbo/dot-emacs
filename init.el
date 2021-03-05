@@ -368,10 +368,12 @@
 (setq ring-bell-function 'ignore)
 
 (use-package doom-themes
-  :config (load-theme 'doom-dark+))
+  :config
+  ;; (load-theme 'doom-dark+ t)
+  (load-theme 'doom-gruvbox t))
 
 ;; (use-package zenburn-theme
-;;   :config (load-theme 'zenburn))
+;;   :config (load-theme 'zenburn t))
 
 ;;;; Enable disabled functions
 
