@@ -605,13 +605,19 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 (setq default-input-method 'portuguese-prefix)
 
 (global-set-key (kbd "C-c k p")
-                (lambda () (interactive) (set-input-method 'portuguese-prefix)))
+                (defun lbo:portuguese-input ()
+                  (interactive)
+                  (set-input-method 'portuguese-prefix)))
 
 (global-set-key (kbd "C-c k e")
-                (lambda () (interactive) (set-input-method 'esperanto-postfix)))
+                (defun lbo:esperanto-input ()
+                  (interactive)
+                  (set-input-method 'esperanto-postfix)))
 
 (global-set-key (kbd "C-c k l")
-                (lambda () (interactive) (set-input-method 'TeX)))
+                (defun lbo:tex-input ()
+                  (interactive)
+                  (set-input-method 'TeX)))
 
 ;;;; bm
 
