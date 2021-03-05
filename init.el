@@ -504,6 +504,11 @@
                                     'multi-magit-insert-repos-overview
                                     nil t)))
 
+;; git >= 2.25 follows network/subst mapped drives which is annoying.
+;; Thankfully `magit-toplevel' mostly handles this when
+;; `find-file-visit-truename' is false.
+(setq find-file-visit-truename nil)
+
 ;;;; Git grep
 
 ;; from https://gist.github.com/scottjacobsen/4693356
