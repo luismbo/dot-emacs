@@ -150,7 +150,7 @@
 
 
 ;; Shift+TAB toggles block visibility.
-(define-key lisp-mode-shared-map (kbd "<backtab>") 'hs-toggle-hiding)
+(define-key lisp-mode-shared-map (kbd "C-=") 'hs-toggle-hiding)
 
 (defun hs-toggle-all-comments ()
   (interactive)
