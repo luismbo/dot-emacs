@@ -712,11 +712,11 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 
 ;; (load "~/.emacs.d/my-jabber-config.el")
 
-(when siscog-p
-  (load "~/.emacs.d/siscog/gnus-config.el")
-  (when gnus-only-mode-p
-    (setq inhibit-startup-message t)
-    (gnus)))
+;; (when siscog-p
+;;   (load "~/.emacs.d/siscog/gnus-config.el")
+;;   (when gnus-only-mode-p
+;;     (setq inhibit-startup-message t)
+;;     (gnus)))
 
 (when roster-only-mode-p
   (setq inhibit-startup-message t)
