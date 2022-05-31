@@ -352,7 +352,8 @@
 
 (column-number-mode 1)
 (when window-system
-  (scroll-bar-mode -1))
+  (scroll-bar-mode -1)
+  (tooltip-mode -1))
 (tool-bar-mode -1)
 (unless window-system
   (xterm-mouse-mode))
