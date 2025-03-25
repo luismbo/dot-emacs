@@ -870,20 +870,30 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
   (embark-collect-mode . embark-consult-preview-minor-mode))
 
 (use-package ctrlf
-  :config (progn
-            (setq ctrlf-mode-bindings
-                  '(("C-S-s" . ctrlf-forward-literal)
-                    ("C-S-r" . ctrlf-backward-literal)
-                    ("C-M-S-s" . ctrlf-forward-regexp)
-                    ("C-M-S-r" . ctrlf-backward-regexp)
-                    ("C-c ."   . ctrlf-forward-symbol-at-point)
-                    ("C-c _"   . ctrlf-forward-symbol)))
-            (setq ctrlf-minibuffer-bindings
-                  `(("<down>" . ctrlf-next-match)
-                    ("<up>"   . ctrlf-previous-match)
-                    ("C-w"    . next-history-element)
-                    ,@ctrlf-minibuffer-bindings))
-            (ctrlf-mode)))
+  :bind (:map ctrlf-minibuffer-mode-map
+         ("<down>" . ctrlf-next-match)
+	 ("<up>"   . ctrlf-previous-match)
+	 ("C-w"    . ctrlf-yank-word-or-char)
+	 :map ctrlf-mode-map
+	 ("C-S-s"   . ctrlf-forward-literal)
+	 ("C-S-r"   . ctrlf-backward-literal)
+	 ("C-M-S-s" . ctrlf-forward-regexp)
+	 ("C-M-S-r" . ctrlf-backward-regexp)
+	 ("C-c ."   . ctrlf-forward-symbol-at-point)
+	 ("C-c _"   . ctrlf-forward-symbol))
+  :config (defun ctrlf-yank-word-or-char ()
+	    (interactive)
+	    (let ((input (field-string (point-max))) yank)
+	      (when (or ctrlf--match-bounds (= (length input) 0))
+		(with-current-buffer (window-buffer (minibuffer-selected-window))
+		  (setq yank (buffer-substring-no-properties
+			      (or (and ctrlf--match-bounds
+				       (cdr ctrlf--match-bounds))
+				  ctrlf--current-starting-point)
+			      (progn (forward-word) (point)))))
+		(goto-char (field-end (point-max)))
+		(insert yank))))
+  (ctrlf-mode))
 
 (define-prefix-command 'lbo:consult-map)
 (global-set-key (kbd "M-c") 'lbo:consult-map)
