@@ -852,9 +852,7 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
 ;;;; Marginalia
 
 (use-package marginalia
-  :config (progn
-            (marginalia-mode)
-            (marginalia-cycle)))
+  :config (marginalia-mode))
 
 (use-package embark
   :bind
