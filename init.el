@@ -696,6 +696,18 @@ This command shares argument histories with \\[rgrep] and \\[grep]."
                                                     (region-end)))
         (transient-mark-mode (if transient-mark-mode-enabled 1 -1))))))
 
+;;;; copy & untabify
+
+;; FIXME: use untabify and temp buffer instead.
+(defun lbo:copy-and-untabify (start end)
+  (interactive "r")
+  (kill-new
+   (replace-regexp-in-string
+    "^\t+"
+    (lambda (substring)
+      (make-string (* (length substring) tab-width) ?\s))
+    (buffer-substring start end))))
+
 ;;;; The End
 
 (setq auto-save-list-file-prefix "~/.asl-emacs/saves-")
