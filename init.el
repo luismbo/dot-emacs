@@ -403,7 +403,7 @@
 
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (lbo:ensure-package 'org)
-(require 'org-install)
+;; (require 'org-install)
 
 (setq org-hide-leading-stars t)
 (setq org-odd-levels-only t)
@@ -411,24 +411,29 @@
 (setq org-src-fontify-natively t)
 
 (when siscog-p
-  (setq org-agenda-start-with-log-mode nil)
+  (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-start-with-clockreport-mode t))
 
 (setq org-agenda-custom-commands
       '(("n" "Agenda and NEXT tasks"
-         ((tags-todo "next")
+         ((todo "NEXT")
+	  (todo "WIP")
           (agenda "")))))
 
-;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
+;;(add-hook 'org-agenda-mode-hook (lambda () (org-agenda-day-view)))
 
 (setq org-directory
       (if siscog-p
           "z:/org"
-          "~/Dropbox/Documents/org"))
-
-(setq org-agenda-files (list org-directory))
+        "~/Dropbox/Documents/org"))
 
 (setq org-default-notes-file (concat org-directory "/WORK.org"))
+
+(setq org-agenda-files
+      (if siscog-p
+	  (list org-default-notes-file)
+	  (list org-directory)))
+
 (define-key global-map (kbd "C-c o c") 'org-capture)
 
 (setq org-capture-templates
@@ -441,18 +446,20 @@
 ;; state.  S-<Right> and S-<Left> cycle through all of these states.
 (setq org-todo-keywords
       '(;(sequence "TODO(t)" "|" "DONE(d)")
-        (sequence "TODO(t)" "MAYBE(m)" "WAITING(w)" "|" "DONE(d)")
-        (sequence "|" "CANCELLED(c)")
-        (sequence "OPEN(o)" "STARTED(s)" "VERIFICATION(v)" "|" "DELEGATED(l)" "RESOLVED(r)")
-        (sequence "REVIEW(R)" "|" "REVIEWED(D)")))
+        (sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "WIP(s)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
+        ;; (sequence "|" "CANCELLED(c)")
+        ;; (sequence "OPEN(o)" "STARTED(s)" "VERIFICATION(v)" "|" "DELEGATED(l)" "RESOLVED(r)")
+        ;; (sequence "REVIEW(R)" "|" "REVIEWED(D)")
+	))
 
 (setq org-todo-keyword-faces
       '(("CANCELLED" . shadow)
         ("WAITING" . (:foreground "orange"))
         ("MAYBE" . (:foreground "orange"))
         ("WIP" . (:foreground "orange"))
-        ("STARTED" . (:foreground "orange"))
-        ("SEP" . (:foreground "orange"))))
+        ;; ("STARTED" . (:foreground "orange"))
+        ;; ("SEP" . (:foreground "orange"))
+	))
 
 ;; The default was '(closed clock), show state changes as well.
 (setq org-agenda-log-mode-items '(closed clock state))
@@ -470,7 +477,7 @@
 
 (when siscog-p
   (global-set-key (kbd "C-c o e")
-                  '(lambda () (interactive) (find-file (concat org-directory "/EFFORT.org")))))
+                  (lambda () (interactive) (find-file (concat org-directory "/EFFORT.org")))))
 
 (setq org-agenda-span 'day)
 
