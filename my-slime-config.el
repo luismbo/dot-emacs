@@ -6,7 +6,7 @@
   (require 'slime-autoloads)
   (setq slime-contribs
         '(slime-fancy slime-asdf slime-indentation slime-banner
-          slime-tramp slime-mdot-fu slime-quicklisp))
+          slime-tramp slime-mdot-fu slime-quicklisp slime-sprof))
   (setq inferior-lisp-program (let ((it "/usr/local/bin/sbcl"))
                                 (if (file-exists-p it)
                                     it

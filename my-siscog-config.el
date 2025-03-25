@@ -1,13 +1,13 @@
 ;;;; -*- coding: utf-8 -*-
 
-(add-to-list 'load-path "z:/siscog/slime")
-(require 'slime)
-(slime-setup '(slime-fancy slime-banner slime-indentation slime-mdot-fu slime-trace))
+;; (add-to-list 'load-path "z:/siscog/slime")
+;; (require 'slime)
+;; (slime-setup '(slime-fancy slime-banner slime-indentation slime-mdot-fu slime-trace slime-sprof))
 
-;; (add-to-list 'load-path "z:/siscog/org-pms")
-;; (require 'org-pms)
+(add-to-list 'load-path "z:/siscog/org-pms")
+(require 'org-pms)
 
-(setq pms-effort-file "w:/org/EFFORT.org")
+(setq pms-effort-file "z:/org/WORK.org")
 (setq pms-username "luismbo")
 (setq pms-visible-name "Luís B. Oliveira")
 
@@ -62,9 +62,9 @@
                                            (concat lbo:git-root "/bin/diff.exe"))))
 (setq diff-command ediff-diff-program)
 
-;(setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
+(setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
 ;(setq ediff-diff3-program "d:/opt/PortableGit-2.7.0/usr/bin/diff3.exe")
-(setq ediff-diff3-program "d:/cygwin64/bin/diff3.exe")
+;(setq ediff-diff3-program "d:/cygwin64/bin/diff3.exe")
 
 ;;;; magit
 
