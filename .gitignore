@@ -1,5 +1,6 @@
 *~
 *.elc
+/eln-cache
 /url
 /bookmarks
 /.org-id-locations
