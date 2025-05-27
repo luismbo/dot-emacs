@@ -137,16 +137,12 @@
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier nil))
 
-(setq *default-font*
-      (cond
-        (mac-p "Menlo-11")
-        (olpc-p "Monospace-7")
-        ;; (win-p "Consolas-10")
-        (win-p "Cascadia Code PL-10")
-        ((> emacs-major-version 22) "Ubuntu Mono 12")
-        (t "-*-*-*-*-*-*-13-*-*-*-*-*-*-*")))
-
-(set-frame-font *default-font* t t)
+(let ((font (cond
+             (mac-p "Menlo-11")
+             (olpc-p "Monospace-7")
+             ;; (win-p "Consolas-10")
+             (win-p "Cascadia Code PL-10"))))
+  (set-frame-font font t t))
 
 (global-set-key [C-M-wheel-up] 'text-scale-increase)
 (global-set-key [C-M-wheel-down] 'text-scale-decrease)
