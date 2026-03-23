@@ -7,13 +7,46 @@
 (add-to-list 'load-path "z:/siscog/org-pms")
 (require 'org-pms)
 
-(setq pms-effort-file "z:/org/WORK.org")
+(setq pms-effort-file '("z:/org/WORK.org" "z:/org/WORK.org_archive"))
 (setq pms-username "luismbo")
 (setq pms-visible-name "Luís B. Oliveira")
 
 (defvar *use-slime* t)
 
-;;;; Siscog Stuff
+;;;; PATHs and Git
+
+(setenv "CYGWIN" "nodosfilewarning")
+
+(setenv "PATH" (format "d:\\opt\\global\\bin;d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
+                       (getenv "PATH")))
+
+(add-to-list 'exec-path "d:\\opt\\global\\bin")
+
+;; for mingw pkgconfig
+(setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig")
+
+(setq lbo:git-root
+      (cl-find-if #'file-exists-p '("d:/opt/PortableGit" "c:/siscog-dev-tools/Git")))
+
+(setenv "PATH" (format "%s/bin;%s" lbo:git-root (getenv "PATH")))
+
+(setq ediff-diff-program (cl-find-if #'file-exists-p
+                                     (list (concat lbo:git-root "/usr/bin/diff.exe")
+                                           (concat lbo:git-root "/bin/diff.exe"))))
+(setq diff-command ediff-diff-program)
+
+(setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
+;(setq ediff-diff3-program "d:/opt/PortableGit-2.7.0/usr/bin/diff3.exe")
+;(setq ediff-diff3-program "d:/cygwin64/bin/diff3.exe")
+
+;; pointing magit and vc to git.exe rather than git.cmd is
+;; significantly faster for magit-status.
+(defvar magit-git-executable (concat lbo:git-root "/bin/git.exe"))
+
+(setq vc-git-program magit-git-executable)
+
+
+;;;; SISCOG Stuff
 
 (setq sc-legacy-mode nil)
 ;(load (format "%s/custom/sc-before.el" (getenv "SISCOG_EMACS_DIR_LOCAL")))
@@ -23,7 +56,9 @@
 (defvar *new-odbc-names* t)
 
 ;; Load SC-EMACS
-(load (format "%s/init.el" (getenv "SISCOG_EMACS_DIR")))
+;; (load (format "%s/init.el" (getenv "SISCOG_EMACS_DIR")))
+(setenv "SISCOG_EMACS_DIR" "z:/siscog/sc-emacs")
+(load "z:/siscog/sc-emacs/init.el")
 
 (setq *mod-mail-method* :ascii)
 
@@ -42,56 +77,26 @@
 
 (define-key global-map (kbd "C-c a") 'scg-staging-area)
 
-;;;
-
-(setenv "CYGWIN" "nodosfilewarning")
-
-(setenv "PATH" (format "d:\\opt\\global\\bin;d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
-                       (getenv "PATH")))
-
-(add-to-list 'exec-path "d:\\opt\\global\\bin")
-
-;; for mingw pkgconfig
-(setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig")
-
-(setq lbo:git-root
-      (cl-find-if #'file-exists-p '("d:/opt/PortableGit-2.28" "d:/opt/PortableGit" "c:/siscog-dev-tools/Git")))
-
-(setq ediff-diff-program (cl-find-if #'file-exists-p
-                                     (list (concat lbo:git-root "/usr/bin/diff.exe")
-                                           (concat lbo:git-root "/bin/diff.exe"))))
-(setq diff-command ediff-diff-program)
-
-(setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
-;(setq ediff-diff3-program "d:/opt/PortableGit-2.7.0/usr/bin/diff3.exe")
-;(setq ediff-diff3-program "d:/cygwin64/bin/diff3.exe")
-
 ;;;; magit
-
-;; pointing magit and vc to git.exe rather than git.cmd is
-;; significantly faster for magit-status.
-(setq magit-git-executable (concat lbo:git-root "/bin/git.exe"))
-
-(setq vc-git-program magit-git-executable)
 
 ;(setenv "CREWS_VDEV_DIR" "y:/git/crews-vdev")
 
-(defun lbo:sc (db-user data-source data-dir acl-version)
+(defun lbo:sc (db-user data-source data-dir local-or-remote)
   "SC settings helper."
-  (setq *old-products-configuration* (eql acl-version :v8-0))
-  (if (eq acl-version :sbcl)
-      (setq sc-current-lisp :sbcl)
-    (sc-set-acl-version acl-version t))
   (sc-set-db-user db-user data-source)
-  (sc-set-data-dir data-dir))
+  (sc-set-data-dir data-dir)
+  (setenv "SCS_NT_SERVICES_HOST"
+          (pcase-exhaustive local-or-remote
+            (:local "localhost:20000")
+            (:remote "unips.lisboa.siscog"))))
 
 (add-hook 'sc-startup-hook
 	  (lambda ()
 	    (lbo:sc "siscog009database" "crw_local"
 		    "d:/users/lbo/siscog/data/crw_local/siscog009database"
-		    :sbcl)
-	    (setenv "SCS_NT_SERVICES_HOST" "localhost:20000"))
-	  t)
+		    :local)
+            (sc-set-sbcl-version "2.0.2.sc.85"))
+	  91)
 
 ;; (lbo:sc (rot13 "fvfpbt009qngnonfr")
 ;; 	(rot13 "qo0511TBEN3")
@@ -378,3 +383,16 @@ Set up `compilation-exit-message-function' and run `grep-setup-hook'."
   (interactive)
   (setq lbo:fonts (append (rest lbo:fonts) (list (first lbo:fonts))))
   (set-frame-font (first lbo:fonts)))
+
+(setq-default gnus-init-file "~/.emacs.d/siscog/gnus.el")
+
+(setq gptel-default-mode 'org-mode)
+
+(setq gptel-model 'claude-opus-4.6
+      gptel-backend (gptel-make-gh-copilot "Copilot"))
+
+;; (setq gptel-model 'phi4-mini:latest
+;;       gptel-backend (gptel-make-ollama "Ollama"
+;;                       :host "localhost:11434"
+;;                       :stream t
+;;                       :models '(phi4-mini:latest)))
