@@ -886,3 +886,6 @@
 
 (setq user-mail-address "lbo@siscog.pt")
 (setq user-full-name "Luís Borges de Oliveira")
+
+;; S-TAB not working on the Kinesis for some reason.
+(define-key org-mode-map (kbd "C-<tab>") 'org-shifttab)
