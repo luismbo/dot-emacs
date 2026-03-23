@@ -21,3 +21,6 @@
 /var/
 /transient/
 /network-security.data
+.cache/
+/ielm-history.eld
+/tramp

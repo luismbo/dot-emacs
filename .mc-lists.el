@@ -54,6 +54,7 @@
 	query-replace
 	slime-autodoc-space
 	slime-compile-defun
+	slime-trace-clear-buffer
 	transpose-sexps
 	upcase-region
 	yaml-electric-backspace
@@ -62,6 +63,8 @@
 (setq mc/cmds-to-run-once
       '(
 	completion-at-point
+	dired-next-line
 	helm-M-x
 	mouse-drag-mode-line
+	wdired-finish-edit
 	))
