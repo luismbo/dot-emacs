@@ -6,8 +6,10 @@
 (defvar x11-p (eq window-system 'x))
 (defvar mac-p (or (eq window-system 'ns) (eq window-system 'mac)))
 (defvar olpc-p (string-match "olpc" (user-login-name)))
-(defvar siscog-p (string-match "luismbo" (user-login-name)))
+(defvar siscog-p (file-exists-p "~/siscog"))
 (defvar win-p (eq window-system 'w32))
+(defvar linux-p (eq system-type 'gnu/linux))
+(defvar wsl-p (and (executable-find "wslpath") t))
 
 (setq user-mail-address (rot13 "ybyvirven@pbzzba-yvfc.arg"))
 
@@ -142,7 +144,7 @@
              (mac-p "Menlo-11")
              (olpc-p "Monospace-7")
              ;; (win-p "Consolas-10")
-             (win-p "Cascadia Code PL-10"))))
+             ((or siscog-p win-p) "Cascadia Code PL-10"))))
   (set-frame-font font t t))
 
 (global-set-key [C-M-wheel-up] 'text-scale-increase)
@@ -365,6 +367,8 @@
 ;(invert-face 'default)
 (setq ring-bell-function 'ignore)
 
+(setq sentence-end-double-space nil)
+
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-dark+ t)
@@ -505,9 +509,10 @@
   :config (progn
             (unless magit-repository-directories
               (setq magit-repository-directories '(("~/src/" . 2))))
-            (magit-add-section-hook 'magit-status-sections-hook
-                                    'multi-magit-insert-repos-overview
-                                    nil t)))
+            ;; (magit-add-section-hook 'magit-status-sections-hook
+            ;;                         'multi-magit-insert-repos-overview
+            ;;                         nil t)
+            ))
 
 ;; git >= 2.25 follows network/subst mapped drives which is annoying.
 ;; Thankfully `magit-toplevel' mostly handles this when
@@ -916,15 +921,16 @@ else return nil."
 ;; 	  (format-mode-line '(vc-mode vc-mode)))))))
 
 ;; setup: nerd-icons-install-fonts and Install fonts via Explorer on Windows.
-(use-package doom-modeline
-  :demand t
-  :config
-  (setq doom-modeline-buffer-file-name-style 'buffer-name)
-  (setq doom-modeline-height 30)
-  (setq doom-modeline-bar-width 6)
-  (setq doom-modeline-enable-word-count t)
-  (setq doom-modeline-indent-info nil)
-  (doom-modeline-mode 1))
+(when window-system
+  (use-package doom-modeline
+    :demand t
+    :config
+    (setq doom-modeline-buffer-file-name-style 'buffer-name)
+    (setq doom-modeline-height 30)
+    (setq doom-modeline-bar-width 6)
+    (setq doom-modeline-enable-word-count t)
+    (setq doom-modeline-indent-info nil)
+    (doom-modeline-mode 1)))
 
 ;;;; dired
 
@@ -1003,13 +1009,17 @@ else return nil."
                    `(progn
                       (setq langtool-language-tool-jar "d:/opt/LanguageTool/languagetool-commandline.jar"))))
 
+(when wsl-p
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "explorer.exe"))
+
 ;;;; transparency
 
 (defun lbo:transparency (value)
   "Sets the transparency of the frame window. 0=transparent/100=opaque"
   (interactive (let ((current-alpha (frame-parameter (selected-frame) 'alpha)))
                  (list (read-number (format "Set frame alpha: " current-alpha)
-                                     current-alpha))))
+                                    current-alpha))))
   (set-frame-parameter (selected-frame) 'alpha value))
 
 ;;;; Ligatures
@@ -1057,22 +1067,36 @@ else return nil."
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(custom-safe-themes
-   '("524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441" "cdfc5c44f19211cfff5994221078d7d5549eeb9feda4f595a2fd8ca40467776c" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "0e219d63550634bc5b0c214aced55eb9528640377daf486e13fb18a32bf39856" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "dbb643699e18b5691a8baff34c29d709a3ff9787f09cdae58d3c1bc085b63c25" "75cd4234cc08d4ccf3ddef8fb763b9e145d4e68d3c938a3502d892c72f71e007" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "a25c42c5e2a6a7a3b0331cad124c83406a71bc7e099b60c31dc28a1ff84e8c04" "12b7ed9b0e990f6d41827c343467d2a6c464094cbcc6d0844df32837b50655f9" "708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
+   '("524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307"
+     "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441"
+     "cdfc5c44f19211cfff5994221078d7d5549eeb9feda4f595a2fd8ca40467776c"
+     "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088"
+     "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
+     "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb"
+     "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
+     "0e219d63550634bc5b0c214aced55eb9528640377daf486e13fb18a32bf39856"
+     "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476"
+     "dbb643699e18b5691a8baff34c29d709a3ff9787f09cdae58d3c1bc085b63c25"
+     "75cd4234cc08d4ccf3ddef8fb763b9e145d4e68d3c938a3502d892c72f71e007"
+     "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328"
+     "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4"
+     "a25c42c5e2a6a7a3b0331cad124c83406a71bc7e099b60c31dc28a1ff84e8c04"
+     "12b7ed9b0e990f6d41827c343467d2a6c464094cbcc6d0844df32837b50655f9"
+     "708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1"
+     "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0"
+     "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
  '(default-input-method "portuguese-prefix")
  '(package-selected-packages
-   '(gptel-commit gptel-agent gptel magit magit-p4 auth-source-xoauth2 wn-mode smartscan peep-dired goto-last-change command-log-mode aio))
+   '(aio auth-source-xoauth2 command-log-mode goto-last-change gptel gptel-agent
+         gptel-commit magit magit-p4 peep-dired smartscan wn-mode))
  '(safe-local-variable-values
-   '((indent-tabs)
-     (org-src-fontify-natively . t)
-     (c-style . "stroustrup")
+   '((indent-tabs) (org-src-fontify-natively . t) (c-style . "stroustrup")
      (org-clock-continuously . t)
      (eval font-lock-add-keywords nil
-           '(("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1 font-lock-keyword-face)))
-     (c-style . "K&R")
-     (intent-tabs-mode)
-     (c-style . K&R)
-     (encoding . latin-1-dos)
-     (org-clock-into-drawer)))
+           '(("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1
+              font-lock-keyword-face)))
+     (c-style . "K&R") (intent-tabs-mode) (c-style . K&R)
+     (encoding . latin-1-dos) (org-clock-into-drawer)))
  '(warning-suppress-types '((browse-url))))
 
 (custom-set-faces

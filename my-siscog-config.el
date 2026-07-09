@@ -4,8 +4,9 @@
 ;; (require 'slime)
 ;; (slime-setup '(slime-fancy slime-banner slime-indentation slime-mdot-fu slime-trace slime-sprof))
 
-(add-to-list 'load-path "z:/siscog/org-pms")
-(require 'org-pms)
+(unless (eq system-type 'gnu/linux)
+  (add-to-list 'load-path "z:/siscog/org-pms")
+  (require 'org-pms))
 
 (setq pms-effort-file '("z:/org/WORK.org" "z:/org/WORK.org_archive"))
 (setq pms-username "luismbo")
@@ -15,35 +16,36 @@
 
 ;;;; PATHs and Git
 
-(setenv "CYGWIN" "nodosfilewarning")
+(when (eq system-type 'windows-nt)
+  (setenv "CYGWIN" "nodosfilewarning")
 
-(setenv "PATH" (format "d:\\opt\\global\\bin;d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
-                       (getenv "PATH")))
+  (setenv "PATH" (format "d:\\opt\\global\\bin;d:\\cygwin64\\bin;d:\\cygwin64\\usr\\bin;%s"
+                         (getenv "PATH")))
 
-(add-to-list 'exec-path "d:\\opt\\global\\bin")
+  (add-to-list 'exec-path "d:\\opt\\global\\bin")
 
-;; for mingw pkgconfig
-(setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig")
+  ;; for mingw pkgconfig
+  (setenv "PKG_CONFIG_PATH" "/usr/local/lib/pkgconfig")
 
-(setq lbo:git-root
-      (cl-find-if #'file-exists-p '("d:/opt/PortableGit" "c:/siscog-dev-tools/Git")))
+  (setq lbo:git-root
+        (cl-find-if #'file-exists-p '("d:/opt/PortableGit" "c:/siscog-dev-tools/Git")))
 
-(setenv "PATH" (format "%s/bin;%s" lbo:git-root (getenv "PATH")))
+  (setenv "PATH" (format "%s/bin;%s" lbo:git-root (getenv "PATH")))
 
-(setq ediff-diff-program (cl-find-if #'file-exists-p
-                                     (list (concat lbo:git-root "/usr/bin/diff.exe")
-                                           (concat lbo:git-root "/bin/diff.exe"))))
-(setq diff-command ediff-diff-program)
+  (setq ediff-diff-program (cl-find-if #'file-exists-p
+                                       (list (concat lbo:git-root "/usr/bin/diff.exe")
+                                             (concat lbo:git-root "/bin/diff.exe"))))
+  (setq diff-command ediff-diff-program)
 
-(setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
-;(setq ediff-diff3-program "d:/opt/PortableGit-2.7.0/usr/bin/diff3.exe")
-;(setq ediff-diff3-program "d:/cygwin64/bin/diff3.exe")
+  (setq ediff-diff3-program (concat lbo:git-root "/usr/bin/diff3.exe"))
+                                        ;(setq ediff-diff3-program "d:/opt/PortableGit-2.7.0/usr/bin/diff3.exe")
+                                        ;(setq ediff-diff3-program "d:/cygwin64/bin/diff3.exe")
 
-;; pointing magit and vc to git.exe rather than git.cmd is
-;; significantly faster for magit-status.
-(defvar magit-git-executable (concat lbo:git-root "/bin/git.exe"))
+  ;; pointing magit and vc to git.exe rather than git.cmd is
+  ;; significantly faster for magit-status.
+  (defvar magit-git-executable (concat lbo:git-root "/bin/git.exe"))
 
-(setq vc-git-program magit-git-executable)
+  (setq vc-git-program magit-git-executable))
 
 
 ;;;; SISCOG Stuff
@@ -57,8 +59,8 @@
 
 ;; Load SC-EMACS
 ;; (load (format "%s/init.el" (getenv "SISCOG_EMACS_DIR")))
-(setenv "SISCOG_EMACS_DIR" "z:/siscog/sc-emacs")
-(load "z:/siscog/sc-emacs/init.el")
+(setenv "SISCOG_EMACS_DIR" (expand-file-name "~/siscog/sc-emacs"))
+(load "~/siscog/sc-emacs/init.el")
 
 (setq *mod-mail-method* :ascii)
 
