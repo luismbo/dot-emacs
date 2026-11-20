@@ -56,6 +56,7 @@
 	slime-compile-defun
 	slime-trace-clear-buffer
 	transpose-sexps
+	transpose-words
 	upcase-region
 	yaml-electric-backspace
 	))

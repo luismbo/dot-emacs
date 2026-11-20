@@ -1087,7 +1087,9 @@ else return nil."
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(custom-safe-themes
-   '("524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307"
+   '("f1e8339b04aef8f145dd4782d03499d9d716fdc0361319411ac2efc603249326"
+     "b7a09eb77a1e9b98cafba8ef1bd58871f91958538f6671b22976ea38c2580755"
+     "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307"
      "d6603a129c32b716b3d3541fc0b6bfe83d0e07f1954ee64517aa62c9405a3441"
      "cdfc5c44f19211cfff5994221078d7d5549eeb9feda4f595a2fd8ca40467776c"
      "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088"
