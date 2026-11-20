@@ -1,4 +1,4 @@
-;;;; -*- coding: utf-8 -*-
+;;;; -*- coding: utf-8; lexical-binding: t; -*-
 
 ;; (add-to-list 'load-path "z:/siscog/slime")
 ;; (require 'slime)

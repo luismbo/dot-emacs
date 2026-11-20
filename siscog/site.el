@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'tramp)
 (setq grep-find-use-xargs 'gnu)
 

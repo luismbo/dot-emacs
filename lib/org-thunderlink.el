@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'org)
 
 (setq org-thunderlink-thunderbird-path "c:/Program Files (x86)/Mozilla Thunderbird/thunderbird.exe")

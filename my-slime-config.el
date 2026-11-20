@@ -1,4 +1,4 @@
-;;;; SLIME
+;;;; SLIME  -*- lexical-binding: t; -*-
 
 (when (and (not siscog-p) (file-exists-p "~/src/slime"))
   ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'org-thunderlink)
 
 (setq org-export-html-style
