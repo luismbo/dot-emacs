@@ -1057,6 +1057,11 @@ else return nil."
 ;;   ;; mode with `ligature-mode'.
 ;;   (global-ligature-mode -1))
 
+;; (use-package gptel
+;;   :custom
+;;   (gptel-model 'claude-sonnet-4.5)
+;;   (gptel-backend (gptel-make-gh-copilot "Copilot")))
+
 ;;;; custom
 
 (custom-set-variables
@@ -1087,8 +1092,11 @@ else return nil."
      "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
  '(default-input-method "portuguese-prefix")
  '(package-selected-packages
-   '(aio auth-source-xoauth2 command-log-mode goto-last-change gptel gptel-agent
-         gptel-commit magit magit-p4 peep-dired smartscan wn-mode))
+   '(ai-code avy bm cider circe claude-code crux ctrlf diminish
+             doom-modeline doom-themes embark-consult ethan-wspace
+             expand-region goto-last-change gptel helm-gtags htmlize
+             magit marginalia multiple-cursors paredit paren-face
+             powerline selectrum-prescient wn-mode))
  '(safe-local-variable-values
    '((indent-tabs) (org-src-fontify-natively . t) (c-style . "stroustrup")
      (org-clock-continuously . t)
