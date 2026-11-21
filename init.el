@@ -1083,6 +1083,7 @@ else return nil."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ai-code-onboarding-seen t)
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(custom-safe-themes
@@ -1103,7 +1104,8 @@ else return nil."
      "12b7ed9b0e990f6d41827c343467d2a6c464094cbcc6d0844df32837b50655f9"
      "708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1"
      "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0"
-     "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
+     "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879"
+     default))
  '(default-input-method "portuguese-prefix")
  '(package-selected-packages
    '(ai-code avy bm cider circe claude-code crux ctrlf diminish
@@ -1112,11 +1114,11 @@ else return nil."
              magit marginalia multiple-cursors paredit paren-face
              powerline selectrum-prescient wn-mode))
  '(safe-local-variable-values
-   '((indent-tabs) (org-src-fontify-natively . t) (c-style . "stroustrup")
-     (org-clock-continuously . t)
+   '((indent-tabs) (org-src-fontify-natively . t)
+     (c-style . "stroustrup") (org-clock-continuously . t)
      (eval font-lock-add-keywords nil
-           '(("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) " 1
-              font-lock-keyword-face)))
+           '(("(\\(dvar\\|maximize\\|minimize\\|s.t.\\|for\\|where\\|sum\\) "
+              1 font-lock-keyword-face)))
      (c-style . "K&R") (intent-tabs-mode) (c-style . K&R)
      (encoding . latin-1-dos) (org-clock-into-drawer)))
  '(warning-suppress-types '((browse-url))))
