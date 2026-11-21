@@ -1,16 +1,16 @@
 ;;;; SLIME
 
-(when (and (not siscog-p) (file-exists-p "~/src/lisp/slime"))
+(when (and (not siscog-p) (file-exists-p "~/src/slime"))
   ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  (add-to-list 'load-path "~/src/lisp/slime/")
+  (add-to-list 'load-path "~/src/slime/")
   (require 'slime-autoloads)
   (setq slime-contribs
         '(slime-fancy slime-asdf slime-indentation slime-banner
           slime-tramp slime-mdot-fu slime-quicklisp slime-sprof))
-  (setq inferior-lisp-program (let ((it "/usr/local/bin/sbcl"))
-                                (if (file-exists-p it)
-                                    it
-                                    "sbcl"))))
+  (setq slime-lisp-implementations
+      '((sbcl-git ("~/src/sbcl/run-sbcl.sh"))
+        (sbcl-local ("/usr/local/bin/sbcl"))
+        (sbcl-system ("sbcl")))))
 
 ;; (setq lisp-indent-function 'common-lisp-indent-function)
 ;; (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
