@@ -77,7 +77,9 @@
 
 ;;;
 
-(define-key global-map (kbd "C-c a") 'scg-staging-area)
+(define-key global-map (kbd "C-c a")
+            ;; 'scg-staging-area
+            'magit-status)
 
 ;;;; magit
 
