@@ -1069,13 +1069,23 @@ else return nil."
 ;;; use it offers to download its prebuilt native module.
 (use-package ghostel)
 
-(use-package claude-code-ide
-  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-  :bind ("C-c C-'" . claude-code-ide-menu)
-  :custom
-  (claude-code-ide-terminal-backend 'ghostel)
+;; (use-package claude-code-ide
+;;   :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+;;   :bind ("C-c C-'" . claude-code-ide-menu)
+;;   :custom
+;;   (claude-code-ide-terminal-backend 'ghostel)
+;;   :config
+;;   (claude-code-ide-emacs-tools-setup))
+
+(use-package ai-code
   :config
-  (claude-code-ide-emacs-tools-setup))
+  (ai-code-set-backend (if siscog-p 'github-copilot-cli 'claude-code))
+  (setq ai-code-backends-infra-terminal-backend 'ghostel)
+  ;; Optional: use a narrower transient menu on smaller frames
+  (setq ai-code-menu-layout 'two-columns)
+  (global-set-key (kbd "C-c c") #'ai-code-menu)
+  (with-eval-after-load 'magit
+    (ai-code-magit-setup-transients)))
 
 ;;;; custom
 
